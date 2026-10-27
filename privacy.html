@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script>
+/* Same choice as the main page: the saved setting, else the phone's. */
+(function () {
+  try {
+    var m = null;
+    try { m = localStorage.getItem('cropOracle.theme'); } catch (e) {}
+    if (m !== 'light' && m !== 'dark') m = (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', m);
+  } catch (e) {}
+})();
+</script>
+<title>Privacy – Crop Oracle</title>
+<style>
+  :root { color-scheme:light; --bg:#f6f4ee; --fg:#1d2a1f; --muted:#56635a; --card:#fff; --line:#dcd8cb; --accent:#2f6b3a; --btn:#2f6b3a; --warn-bg:#fff3d6; --warn-fg:#6b4a00; }
+  :root[data-theme="dark"] { color-scheme:dark; --bg:#0e1511; --fg:#e8f0e9; --muted:#9fb3a5; --card:#141e18; --line:#2c3d32; --accent:#92dc9c; --btn:#2f8038; --warn-bg:#34290c; --warn-fg:#f4d684; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme]) { color-scheme:dark; --bg:#0e1511; --fg:#e8f0e9; --muted:#9fb3a5; --card:#141e18; --line:#2c3d32; --accent:#92dc9c; --btn:#2f8038; --warn-bg:#34290c; --warn-fg:#f4d684; } }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.6 system-ui,"Noto Sans Kannada","Noto Sans Devanagari",sans-serif; }
+  main { max-width:44rem; margin:0 auto; padding:20px 16px 48px; }
+  h1 { font-size:1.6rem; margin:.2em 0 .4em; }
+  h2 { font-size:1.15rem; margin:1.6em 0 .4em; }
+  a { color:var(--accent); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin:14px 0; }
+  .warn { background:var(--warn-bg); color:var(--warn-fg); border-radius:10px; padding:10px 14px; margin:14px 0; }
+  ul { padding-left:1.2em; } li { margin:.3em 0; }
+  .muted { color:var(--muted); font-size:.92rem; }
+  label { display:block; margin:.6em 0 .2em; font-weight:600; }
+  input { width:100%; padding:10px; border:1px solid var(--line); border-radius:8px; background:var(--bg); color:var(--fg); font:inherit; }
+  button { margin-top:12px; padding:10px 18px; border:0; border-radius:8px; background:var(--btn); color:#fff; font:inherit; font-weight:600; cursor:pointer; }
+  #delmsg { margin-top:10px; font-weight:600; }
+</style>
+</head>
+<body>
+<main>
+  <p><a href="/">← Back to Crop Oracle</a></p>
+  <h1>Privacy</h1>
+
+  <div class="card" lang="kn">
+    <strong>ಸಂಕ್ಷಿಪ್ತವಾಗಿ:</strong> ನೀವು ಅನುಮತಿ ನೀಡದ ಹೊರತು ನಿಮ್ಮ ಫೋಟೋವನ್ನು ನಾವು ಉಳಿಸಿಕೊಳ್ಳುವುದಿಲ್ಲ. ಅನುಮತಿ ನೀಡಿದರೆ ಫೋಟೋ ಮತ್ತು ಸ್ಥೂಲ ಸ್ಥಳ (ಸುಮಾರು 11 ಕಿ.ಮೀ. ನಿಖರತೆ) ಮಾತ್ರ ಉಳಿಯುತ್ತದೆ. ನಿಮ್ಮ ಹೆಸರು, ಫೋನ್ ನಂಬರ್ ಕೇಳುವುದಿಲ್ಲ. ನೀವು ಯಾವಾಗ ಬೇಕಾದರೂ ಅಳಿಸಬಹುದು.
+  </div>
+  <div class="card" lang="hi">
+    <strong>संक्षेप में:</strong> आपकी अनुमति के बिना हम आपकी फ़ोटो नहीं रखते। अनुमति देने पर सिर्फ़ फ़ोटो और मोटा स्थान (लगभग 11 कि.मी. की सटीकता) रखा जाता है। हम आपका नाम या फ़ोन नंबर नहीं माँगते। आप कभी भी इसे मिटा सकते हैं।
+  </div>
+  <div class="card" lang="en">
+    <strong>In short:</strong> We do not keep your photo unless you tick the box that allows it. If you do, we keep the photo and a rough location (accurate to about 11 km). We never ask for your name or phone number. You can delete it at any time.
+  </div>
+
+  <h2>What happens when you analyse a photo</h2>
+  <ul>
+    <li>Your photo is sent to our server, measured, and then thrown away. It is <strong>not saved</strong> unless you allow it (see below).</li>
+    <li>The place you choose (or your phone's location, if you allow it) is used to look up the weather. The page sends it to <em>Open-Meteo</em> and <em>BigDataCloud</em>, and our server sends the same coordinates to them as well.</li>
+    {{KINDWISE_ITEM}}
+    <li>What you type in the symptoms box is used only for that analysis and is not stored.</li>
+    <li>The page loads fonts from Google Fonts, so Google sees that your device opened the page.</li>
+    <li>Reading the advice aloud uses the voices installed on your own phone; nothing is sent for that.</li>
+  </ul>
+
+  <h2>"Was this right?" answers</h2>
+  <p>After a result you can tell us whether it was right. This always stores: your answer, what the app said, the crop, the language, the app version, the photo-quality warnings and the date.</p>
+  <p>Only if you tick <em>"You may keep my photo and rough location to improve this app"</em> we also store the photo (shrunk, and with the camera's hidden data such as GPS removed) and your location rounded to about 11 km.</p>
+  <p>We do not store your name, phone number or IP address with the answer.</p>
+  <p>The stored photos are used only to check and improve disease recognition for crops in Karnataka, for example by agricultural experts labelling them. They are not sold or published.</p>
+
+  <h2>How long we keep it</h2>
+  <p>Answers and photos are deleted automatically after <strong>{{RETENTION_DAYS}} days</strong> (0 means they are kept until you or we delete them).</p>
+
+  <h2>Delete your answer and photo</h2>
+  <p>After you send an answer, the app shows you a <strong>record number and a delete code</strong>. Enter both here to delete that answer and its photo.</p>
+  <div class="card">
+    <label for="delid">Record number</label>
+    <input id="delid" autocomplete="off" autocapitalize="off" spellcheck="false">
+    <label for="deltoken">Delete code</label>
+    <input id="deltoken" autocomplete="off" autocapitalize="off" spellcheck="false">
+    <button id="delbtn" type="button">Delete</button>
+    <div id="delmsg" role="status"></div>
+  </div>
+  <p class="muted">If you lost the code, write to us (below) and describe roughly when you sent the answer. Because we do not keep your name or phone number, we may not be able to find it.</p>
+
+  <h2>Who runs this</h2>
+  {{CONTACT_BLOCK}}
+
+  <p class="muted">Crop Oracle gives general guidance and can be wrong. Before you spray anything, confirm with your nearest Krishi Vigyan Kendra or the Kisan Call Centre (1800-180-1551).</p>
+</main>
+<script>
+document.getElementById('delbtn').addEventListener('click', async function () {
+  var id = document.getElementById('delid').value.trim();
+  var tok = document.getElementById('deltoken').value.trim();
+  var msg = document.getElementById('delmsg');
+  if (!id || !tok) { msg.textContent = 'Please fill in both boxes.'; return; }
+  msg.textContent = '…';
+  try {
+    var r = await fetch('/api/feedback/' + encodeURIComponent(id), { method: 'DELETE', headers: { 'X-Delete-Token': tok } });
+    msg.textContent = r.ok ? 'Deleted.' : (r.status === 429 ? 'Too many tries. Please wait a minute.' : 'No record found with that number and code.');
+  } catch (e) { msg.textContent = 'Could not reach the server. Check your internet and try again.'; }
+});
+</script>
+</body>
+</html>

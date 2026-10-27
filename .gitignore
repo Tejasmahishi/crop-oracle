@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+venv/
+.venv/
+env/
+.env
+
+# Data & Models
+plantvillage/
+plantvillage_stats.json
+data/
+debug_masks/
+*.zip
+
+# OS / IDE
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

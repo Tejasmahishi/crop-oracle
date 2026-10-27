@@ -1,0 +1,638 @@
+{
+  "_comment": "Contacts shown when the app is unsure. Two lists were merged on 19 Oct 2026: the ICAR-ATARI Bengaluru KVK page (collected 15 Oct) and the directory the site owner supplied. For each centre the owner's number comes first and the other list's number follows it; a third number, if any, is kept in 'more_phones' (the page shows two). Many numbers differ between the two lists, so NOBODY HAS PHONED THEM YET. Use kvk_call_sheet.csv: call each number once, then keep only the ones that work.",
+  "retrieved": "2026-10-19",
+  "verified": false,
+  "sources": [
+    {
+      "title": "ICAR-ATARI Bengaluru: KVK contact list",
+      "url": "https://ataribengaluru.icar.gov.in/KVK.html"
+    },
+    {
+      "title": "ICAR: Krishi Vigyan Kendras, addresses",
+      "url": "https://icar.org.in/en/node/15049"
+    },
+    {
+      "title": "mKisan: Kisan Call Centre",
+      "url": "https://mkisan.gov.in/Home/AboutKCC"
+    }
+  ],
+  "directory_url": "https://ataribengaluru.icar.gov.in/KVK.html",
+  "national": {
+    "kisan_call_centre": {
+      "phone": "1800-180-1551",
+      "hours": {
+        "en": "Every day, 6 am to 10 pm",
+        "hi": "हर दिन, सुबह 6 से रात 10 बजे तक",
+        "kn": "ಪ್ರತಿದಿನ, ಬೆಳಿಗ್ಗೆ 6 ರಿಂದ ರಾತ್ರಿ 10 ರವರೆಗೆ"
+      },
+      "note": {
+        "en": "Free call. Answers in 22 Indian languages.",
+        "hi": "निःशुल्क कॉल। 22 भारतीय भाषाओं में जवाब।",
+        "kn": "ಉಚಿತ ಕರೆ. 22 ಭಾರತೀಯ ಭಾಷೆಗಳಲ್ಲಿ ಉತ್ತರ."
+      }
+    }
+  },
+  "districts": {
+    "bagalkot": {
+      "name": {
+        "en": "Bagalkote",
+        "kn": "ಬಾಗಲಕೋಟೆ"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Bagalkote",
+          "phones": [
+            "08354-222568",
+            "08354295543"
+          ],
+          "website": "www.bagalkot.com",
+          "address": "ICAR-KVK, Agricultural Research Station Campus, Jamkhandi Road, Bagalkote – 587101",
+          "email": "kvkbgk@rediffmail.com"
+        }
+      ]
+    },
+    "ballari": {
+      "name": {
+        "en": "Ballari",
+        "kn": "ಬಳ್ಳಾರಿ"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Hagari, Ballari",
+          "phones": [
+            "08392-265080",
+            "9480696317"
+          ],
+          "website": "www.kvkballari.org",
+          "address": "ICAR-KVK, Agricultural Research Station, Hagari, Ballari – 583138",
+          "email": "kvk.ballari@icar.gov.in"
+        }
+      ]
+    },
+    "belagavi": {
+      "name": {
+        "en": "Belagavi",
+        "kn": "ಬೆಳಗಾವಿ"
+      },
+      "kvks": [
+        {
+          "name": "ICAR-BIRDS KVK, Tukkanatti (Gokak)",
+          "phones": [
+            "08332-228705",
+            "09480751345"
+          ],
+          "website": "www.icar-birds-kvk.org",
+          "address": "ICAR-KVK, BIRDS Campus, Naganur, Bailhongal, Belagavi – 591102",
+          "email": "kvk_birds@naganur.com"
+        },
+        {
+          "name": "ICAR-KLE Krishi Vigyan Kendra, Mattikopp (Bailhongal)",
+          "phones": [
+            "9535604747"
+          ],
+          "website": "www.klekvk.org",
+          "address": "ICAR-KVK, KLE Society, Mattikoppa, Bailhongal Taluk, Belagavi – 591102",
+          "email": "kvk.Belagavi2@icar.gov.in"
+        }
+      ]
+    },
+    "bengaluru_rural": {
+      "name": {
+        "en": "Bengaluru Rural",
+        "kn": "ಬೆಂಗಳೂರು ಗ್ರಾಮಾಂತರ"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Hadonahalli (Doddaballapur)",
+          "phones": [
+            "080-27632120",
+            "9449866928"
+          ],
+          "website": "www.kvkbrd.in",
+          "more_phones": [
+            "9900584815"
+          ],
+          "address": "ICAR-KVK, Hadonahalli, Doddaballapura Taluk, Bengaluru Rural – 561203",
+          "email": "kvkbengaluru@gmail.com"
+        }
+      ]
+    },
+    "bengaluru_urban": {
+      "name": {
+        "en": "Bengaluru Urban",
+        "kn": "ಬೆಂಗಳೂರು ನಗರ"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, GKVK (Bengaluru)",
+          "phones": [
+            "080-23418833"
+          ],
+          "website": "",
+          "address": "ICAR-KVK, UAS Campus, GKVK, Bengaluru – 560065",
+          "email": "kvkgkvk@gmail.com"
+        }
+      ],
+      "note": "No KVK of its own in the lists used. The two nearest districts are suggested; this is our own suggestion, not from the source."
+    },
+    "bidar": {
+      "name": {
+        "en": "Bidar",
+        "kn": "ಬೀದರ್"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Bidar",
+          "phones": [
+            "08482-244178",
+            "9480696318"
+          ],
+          "website": "www.kvkbidar.in",
+          "address": "ICAR-KVK, Agricultural Research Station Campus, Janwada Road, Bidar – 585401",
+          "email": "kvkbidar@rediffmail.com"
+        }
+      ]
+    },
+    "chamarajanagar": {
+      "name": {
+        "en": "Chamarajanagara",
+        "kn": "ಚಾಮರಾಜನಗರ"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Hardanahally (Chamarajanagara)",
+          "phones": [
+            "08226-222271",
+            "08226-297050"
+          ],
+          "website": "www.kvkchamarajanagar.com",
+          "more_phones": [
+            "09449866933"
+          ],
+          "address": "ICAR-KVK, Hardanahalli Farm, Chamarajanagara – 571313",
+          "email": "kvkchamarajanagara@gmail.com"
+        }
+      ]
+    },
+    "chikkamagaluru": {
+      "name": {
+        "en": "Chikkamagaluru",
+        "kn": "ಚಿಕ್ಕಮಗಳೂರು"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Mudigere (Chikkamagaluru)",
+          "phones": [
+            "08263-228198",
+            "9480838203"
+          ],
+          "website": "https://kvkckuahs.edu.in",
+          "address": "ICAR-KVK, Zonal Agricultural Research Station, Mudigere, Chikkamagaluru – 577132",
+          "email": "kvkmudigere@gmail.com"
+        }
+      ]
+    },
+    "chikkaballapur": {
+      "name": {
+        "en": "Chikkaballapura",
+        "kn": "ಚಿಕ್ಕಬಳ್ಳಾಪುರ"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Chintamani (Chikkaballapura)",
+          "phones": [
+            "08154-252118",
+            "9449866930"
+          ],
+          "website": "www.kvkcbpura.in",
+          "address": "ICAR-KVK, Kuruburu Farm, ARS Chintamani, Chikkaballapura – 563125",
+          "email": "kvkchintamani@gmail.com"
+        }
+      ]
+    },
+    "chitradurga": {
+      "name": {
+        "en": "Chitradurga",
+        "kn": "ಚಿತ್ರದುರ್ಗ"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Hiriyur (Chitradurga)",
+          "phones": [
+            "08194-284300",
+            "9480838201"
+          ],
+          "website": "kvkct.uahs.edu.in",
+          "address": "ICAR-KVK, Babbur Farm, Hiriyur, Chitradurga – 577598",
+          "email": "kvkhiriyur@gmail.com"
+        }
+      ]
+    },
+    "dakshina_kannada": {
+      "name": {
+        "en": "Dakshina Kannada",
+        "kn": "ದಕ್ಷಿಣ ಕನ್ನಡ"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Kankanady (Mangaluru)",
+          "phones": [
+            "0824-2431872"
+          ],
+          "website": "www.kvkdk.org",
+          "address": "ICAR-KVK, Agricultural Research Station, Kankanady, Mangaluru – 575002",
+          "email": "kvkdk@rediffmail.com"
+        }
+      ]
+    },
+    "davanagere": {
+      "name": {
+        "en": "Davanagere",
+        "kn": "ದಾವಣಗೆರೆ"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Taralabalu Krishi Vigyan Kendra, Davanagere",
+          "phones": [
+            "08192-294568",
+            "08192-263462"
+          ],
+          "website": "www.taralabalukvk.com",
+          "address": "Taralabalu KVK, Kadalivana, Tholahunse, Davanagere – 577002",
+          "email": "tkvk@taralabalu.org"
+        }
+      ]
+    },
+    "dharwad": {
+      "name": {
+        "en": "Dharwad",
+        "kn": "ಧಾರವಾಡ"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Saidapur Farm (Dharwad)",
+          "phones": [
+            "0836-2484411",
+            "0836-2970246"
+          ],
+          "website": "www.kvkdharwad.org",
+          "address": "ICAR-KVK, Saidapur Farm, UAS Campus, Dharwad – 580005",
+          "email": "kvkdwd@uasd.in"
+        }
+      ]
+    },
+    "gadag": {
+      "name": {
+        "en": "Gadag",
+        "kn": "ಗದಗ"
+      },
+      "kvks": [
+        {
+          "name": "ICAR-K.H. Patil Krishi Vigyan Kendra, Hulkoti (Gadag)",
+          "phones": [
+            "08372-289069",
+            "08372-289325"
+          ],
+          "website": "www.khpkvk.org",
+          "more_phones": [
+            "9448358772"
+          ],
+          "address": "K.H. Patil ICAR-KVK, Hulkoti, Gadag – 582205",
+          "email": "khpatil_kvk_hulkoti@yahoo.com"
+        }
+      ]
+    },
+    "hassan": {
+      "name": {
+        "en": "Hassan",
+        "kn": "ಹಾಸನ"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Kandali (Hassan)",
+          "phones": [
+            "08172-256092",
+            "9449866932"
+          ],
+          "website": "www.kvkhassan.com",
+          "address": "ICAR-KVK, Agricultural Research Station, Kandali, Hassan – 573217",
+          "email": "kvkhassan@gmail.com"
+        }
+      ]
+    },
+    "haveri": {
+      "name": {
+        "en": "Haveri",
+        "kn": "ಹಾವೇರಿ"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Hanumanamatti (Ranebennur, Haveri)",
+          "phones": [
+            "08373-253524",
+            "9448495338"
+          ],
+          "website": "www.kvkhaveri.org",
+          "address": "ICAR-KVK, Hanumanamatti, Ranebennur Taluk, Haveri – 581115",
+          "email": "kvk_haveri@rediffmail.com"
+        }
+      ]
+    },
+    "kalaburagi": {
+      "name": {
+        "en": "Kalaburagi",
+        "kn": "ಕಲಬುರಗಿ"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Kalaburagi",
+          "phones": [
+            "08472-241766",
+            "08472-274596"
+          ],
+          "website": "www.kvkgulbarga.com",
+          "address": "ICAR-KVK, Agricultural Research Station, Aland Road, Kalaburagi – 585101",
+          "email": "kvkglb.in@rediffmail.com"
+        }
+      ]
+    },
+    "kodagu": {
+      "name": {
+        "en": "Kodagu",
+        "kn": "ಕೊಡಗು"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Gonikoppal (Kodagu)",
+          "phones": [
+            "08274-247274"
+          ],
+          "website": "https://kvkkodagu.iihr.res.in/",
+          "address": "ICAR-KVK, Gonikoppal, South Kodagu – 571213",
+          "email": "iihrkvkgk@yahoo.co.in"
+        }
+      ]
+    },
+    "kolar": {
+      "name": {
+        "en": "Kolar",
+        "kn": "ಕೋಲಾರ"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Tamaka (Kolar)",
+          "phones": [
+            "08152-240033",
+            "08152-243099"
+          ],
+          "website": "www.kvkkolar.in",
+          "address": "ICAR-KVK, Vadagani, ARS Campus, Kolar – 563101",
+          "email": "kvkkolar@gmail.com"
+        }
+      ]
+    },
+    "koppal": {
+      "name": {
+        "en": "Koppal",
+        "kn": "ಕೊಪ್ಪಳ"
+      },
+      "kvks": [
+        {
+          "name": "Krishi Vigyan Kendra, ARS Campus, Gangavati (Koppal)",
+          "phones": [
+            "08533-272518"
+          ],
+          "website": "",
+          "note": "Listed in the ICAR address table; no phone number found in the lists used.",
+          "address": "ICAR-KVK, Agricultural Research Station, Gangavathi, Koppal – 583227",
+          "email": "kvkg2004@yahoo.co.in"
+        }
+      ]
+    },
+    "mandya": {
+      "name": {
+        "en": "Mandya",
+        "kn": "ಮಂಡ್ಯ"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, VC Farm (Mandya)",
+          "phones": [
+            "08232-277456",
+            "9449864250"
+          ],
+          "website": "www.icarkvkmandya.com",
+          "address": "ICAR-KVK, Zonal Agricultural Research Station, V.C. Farm, Mandya – 571405",
+          "email": "kvkmandya@gmail.com"
+        }
+      ]
+    },
+    "mysuru": {
+      "name": {
+        "en": "Mysuru",
+        "kn": "ಮೈಸೂರು"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Suttur (Nanjangud, Mysuru)",
+          "phones": [
+            "08221-232218",
+            "08221-295035"
+          ],
+          "website": "www.jsskvk.in",
+          "address": "JSS ICAR-KVK, Suttur, Nanjangud Taluk, Mysuru – 571282",
+          "email": "jsskvk_1994@rediffmail.com"
+        }
+      ]
+    },
+    "raichur": {
+      "name": {
+        "en": "Raichur",
+        "kn": "ರಾಯಚೂರು"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Raichur",
+          "phones": [
+            "08532-220196"
+          ],
+          "website": "www.kvkraichur.org",
+          "address": "ICAR-KVK, Main Agricultural Research Station, UAS Campus, Raichur – 584104",
+          "email": "kvkraichur@yahoo.com"
+        }
+      ]
+    },
+    "ramanagara": {
+      "name": {
+        "en": "Ramanagara",
+        "kn": "ರಾಮನಗರ"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Chandurayanahalli (Ramanagara)",
+          "phones": [
+            "08113-206584"
+          ],
+          "website": "http://kvkramanagara.org",
+          "note": "The number in the source list looked malformed, so it was left out.",
+          "address": "ICAR-KVK, Chandurayanahalli, Magadi Taluk, Ramanagara – 562120",
+          "email": "kvkramanagara@gmail.com"
+        }
+      ]
+    },
+    "shivamogga": {
+      "name": {
+        "en": "Shivamogga",
+        "kn": "ಶಿವಮೊಗ್ಗ"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Navile (Shivamogga)",
+          "phones": [
+            "08182-227946",
+            "08182-267017"
+          ],
+          "website": "http://kvksh.uahs.edu.in",
+          "address": "ICAR-KVK, Zonal Agricultural & Horticultural Research Station, Navile, Shivamogga – 577204",
+          "email": "kvkshimoga@rediffmail.com"
+        }
+      ]
+    },
+    "tumakuru": {
+      "name": {
+        "en": "Tumakuru",
+        "kn": "ತುಮಕೂರು"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Konehalli (Tiptur, Tumakuru)",
+          "phones": [
+            "08134-294771",
+            "08134-298955"
+          ],
+          "website": "http://www.kvktumkur.org",
+          "address": "ICAR-KVK, Konehally, Tiptur Taluk, Tumakuru – 572201",
+          "email": "kvktiptur@gmail.com"
+        },
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Hirehalli (Tumakuru)",
+          "phones": [
+            "0816-2243175",
+            "0816-2243177"
+          ],
+          "website": "www.iihrkvk.org",
+          "address": "ICAR-KVK, National Highway 4, Hirehalli, Tumakuru – 572168",
+          "email": "kvkhirehalli@gmail.com"
+        }
+      ]
+    },
+    "udupi": {
+      "name": {
+        "en": "Udupi",
+        "kn": "ಉಡುಪಿ"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Brahmavar (Udupi)",
+          "phones": [
+            "0820-2563923"
+          ],
+          "website": "http://kvkud.uahs.edu.in",
+          "address": "ICAR-KVK, Zonal Agricultural Research Station, Brahmavar, Udupi – 576213",
+          "email": "kvkudupi@gmail.com"
+        }
+      ]
+    },
+    "uttara_kannada": {
+      "name": {
+        "en": "Uttara Kannada",
+        "kn": "ಉತ್ತರ ಕನ್ನಡ"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Banavasi Road, Sirsi (Uttara Kannada)",
+          "phones": [
+            "08384-228411"
+          ],
+          "website": "",
+          "note": "The source list shows Ballari's number for this KVK, which is a copy error, so it was left out.",
+          "address": "ICAR-KVK, Banavasi Road, Sirsi, Uttara Kannada – 581401",
+          "email": "kvksirsi@sancharnet.in"
+        }
+      ]
+    },
+    "vijayanagara": {
+      "name": {
+        "en": "Vijayanagara",
+        "kn": "ವಿಜಯನಗರ"
+      },
+      "kvks": [
+        {
+          "name": "ICAR-MYRADA Krishi Vigyan Kendra, Vyasanakere (Hospet)",
+          "phones": [
+            "08394-228100"
+          ],
+          "website": "",
+          "address": "ICAR-KVK, Vyasanakere, Hospet, Vijayanagara (Ballari) – 583222",
+          "email": "kvksundur@gmail.com"
+        }
+      ],
+      "note": "No KVK of its own in the lists used. Ballari, the district it was separated from, is suggested; this is our own suggestion, not from the source."
+    },
+    "vijayapura": {
+      "name": {
+        "en": "Vijayapura",
+        "kn": "ವಿಜಯಪುರ"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Vijayapura",
+          "phones": [
+            "08352-230758",
+            "9448495346"
+          ],
+          "website": "www.kvkvijayapura.org",
+          "more_phones": [
+            "9481503971"
+          ],
+          "address": "ICAR-KVK, Regional Agricultural Research Station, Hitnalli Farm, Vijayapura – 586101",
+          "email": "kvkbijapur@rediffmail.com"
+        },
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Indi (Vijayapura)",
+          "phones": [
+            "08539-295705",
+            "9448495320"
+          ],
+          "website": "www.indikvk.org"
+        }
+      ]
+    },
+    "yadgir": {
+      "name": {
+        "en": "Yadgir",
+        "kn": "ಯಾದಗಿರಿ"
+      },
+      "kvks": [
+        {
+          "name": "ICAR Krishi Vigyan Kendra, Yadgir",
+          "phones": [
+            "08479-202280"
+          ],
+          "website": "www.kvkyadgir.com",
+          "note": "The number in the source list had the wrong number of digits, so it was left out.",
+          "address": "ICAR-KVK, Kawdimatti, Surpur Taluk, Yadgir – 585224",
+          "email": "kvkyadgir@gmail.com"
+        }
+      ]
+    }
+  },
+  "nodal": {
+    "name": "ICAR-ATARI Zone XI, Bengaluru",
+    "address": "MRS, HA Farm Post, Hebbal, Bengaluru – 560024",
+    "phone": "080-23410614",
+    "email": "atari.bengaluru@icar.gov.in",
+    "note": "Oversees all Karnataka KVKs. For when a centre cannot be reached."
+  },
+  "supplied_by_owner": "2026-10-19"
+}

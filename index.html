@@ -1,0 +1,3120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1d5522" id="metaTheme">
+<script>
+/* Pick the theme before the page is painted, so a dark-mode phone never flashes white. */
+(function () {
+  try {
+    var m = null;
+    try { m = localStorage.getItem('cropOracle.theme'); } catch (e) {}
+    if (m !== 'light' && m !== 'dark') m = (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', m);
+    var c = document.getElementById('metaTheme'); if (c) c.setAttribute('content', m === 'dark' ? '#0e1511' : '#1d5522');
+  } catch (e) {}
+})();
+</script>
+<meta name="description" content="Crop Oracle Karnataka: photo-based crop disease advice for Karnataka farmers, in English, Kannada and Hindi.">
+<title>Crop Oracle Karnataka · ಕರ್ನಾಟಕ ರೈತನ ಸಂಗಾತಿ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@400;600;700&amp;family=Noto+Sans+Devanagari:wght@400;600;700&amp;display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f4f7ef; --bg-2:#eaf1e3; --card:#ffffff; --raise:#ffffff;
+  --line:#d7e2cf; --line-soft:#e9f0e3;
+  --txt:#14231a; --txt-2:#384a3d; --mut:#55695b;
+  --accent:#2c7a31; --accent-d:#1d5522; --accent-soft:#e6f3df;
+  --fill:#2c7a31; --fill-d:#1d5522;              /* solid green behind white text */
+  --gold:#f2b705; --gold-soft:#fff6d6; --gold-ink:#6b4c0a; --gold-line:#f0d78a;
+  --red:#b3321f; --red-soft:#fbe8e4; --red-ink:#8f2415; --red-line:#efb9b0;
+  --blue:#1f5f99; --blue-soft:#e8f1fa; --blue-ink:#16476f; --blue-line:#b9d4ec;
+  --purple:#5b3fb0; --purple-soft:#efe9fa;
+  --field:#ffffff; --field-line:#7f9a74;
+  --hdr-bg:rgba(255,255,255,.94); --bg-0:rgba(244,247,239,0);
+  --track:rgba(20,35,26,.09); --amber:#b27a0a;
+  --bd-high:#dcefd2; --bd-high-t:#1d5522; --bd-mod:#fdeec3; --bd-mod-t:#6b4c0a; --bd-low:#fbdcd6; --bd-low-t:#8f2415;
+  --ok-a:#eef8e8; --ok-b:#f8fcf5; --ok-line:#c9e2bb;
+  --info-a:#e6f1fb; --info-b:#f5f9fd; --info-line:#bfd9ee;
+  --warn-a:#fff6d6; --warn-b:#fffbee; --warn-line:#efd68a;
+  --ai-a:#f6fcf2; --ai-b:#ffffff; --ai-line:#d5ead0;
+  --drop-a:#fbfdf9; --drop-b:#f3f8ee; --guide-bg:#fbfdf9;
+  --hero:#eef2e8; --run:#f1f8ec;
+  --toast-bg:#14231a; --focus:#1a6fd1;
+  --r-sm:10px; --r:14px; --r-lg:20px;
+  --sh-1:0 1px 2px rgba(20,40,20,.05),0 1px 3px rgba(20,40,20,.06);
+  --sh-2:0 2px 4px rgba(20,40,20,.05),0 10px 28px rgba(20,40,20,.08);
+  --max:760px; --pad:18px; --tap:48px;
+  --lh:1.55;
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans","Noto Sans Kannada","Noto Sans Devanagari","Nirmala UI","Kannada Sangam MN","Kohinoor Devanagari","Helvetica Neue",Arial,sans-serif;
+}
+@media (max-width:600px){:root{--pad:14px}}
+
+/* Dark theme: the same green identity on a deep forest background. Chosen by the phone's setting,
+   or by the moon/sun button in the header (the choice is remembered). */
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0e1511; --bg-2:#18241d; --card:#141e18; --raise:#25362b;
+  --line:#2c3d32; --line-soft:#223027;
+  --txt:#e8f0e9; --txt-2:#c5d4c9; --mut:#9fb3a5;
+  --accent:#6cc377; --accent-d:#92dc9c; --accent-soft:#1b3324;
+  --fill:#2f8038; --fill-d:#22642b;
+  --gold-soft:#34290c; --gold-ink:#f4d684; --gold-line:#5a4716;
+  --red:#e5675a; --red-soft:#3a1915; --red-ink:#ffb7ab; --red-line:#6a2e27;
+  --blue:#6cb0ea; --blue-soft:#12293b; --blue-ink:#acd3f4; --blue-line:#24506f;
+  --purple:#b8a3f7; --purple-soft:#2a2245;
+  --field:#0f1914; --field-line:#587a66;
+  --hdr-bg:rgba(14,21,17,.9); --bg-0:rgba(14,21,17,0);
+  --track:rgba(255,255,255,.13); --amber:#e3a824;
+  --bd-high:#1f4a2b; --bd-high-t:#a6e6af; --bd-mod:#4a3a10; --bd-mod-t:#f6dc92; --bd-low:#5a2520; --bd-low-t:#ffc0b5;
+  --ok-a:#153021; --ok-b:#112619; --ok-line:#2a5a3a;
+  --info-a:#102a3e; --info-b:#0f2231; --info-line:#24506f;
+  --warn-a:#3a2e0e; --warn-b:#2f260c; --warn-line:#5f4b16;
+  --ai-a:#13281c; --ai-b:#0f1d16; --ai-line:#24412f;
+  --drop-a:#111b15; --drop-b:#16231b; --guide-bg:#111b15;
+  --hero:#18241d; --run:#183020;
+  --toast-bg:#2b4033; --focus:#7dbdf2;
+  --sh-1:0 1px 2px rgba(0,0,0,.4),0 1px 3px rgba(0,0,0,.3);
+  --sh-2:0 2px 4px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.45);
+}
+
+/* Kannada and Hindi need taller lines and no letter-spacing, or conjuncts collide */
+html[lang="kn"],html[lang="hi"]{--lh:1.75}
+html[lang="kn"] *,html[lang="hi"] *{letter-spacing:0!important}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--txt);
+  font:16px/var(--lh) var(--font);
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+h1,h2,h3{font-weight:700;line-height:1.25}
+a{color:var(--accent-d);text-underline-offset:2px}
+a:hover{text-decoration:underline}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+.visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:6px}
+.skip{position:absolute;left:12px;top:-60px;background:var(--fill-d);color:#fff;padding:10px 14px;border-radius:8px;z-index:200}
+.skip:focus{top:10px}
+
+/* ---------- header ---------- */
+.hdr{position:sticky;top:0;z-index:60;background:var(--hdr-bg);backdrop-filter:saturate(160%) blur(10px);-webkit-backdrop-filter:saturate(160%) blur(10px);border-bottom:1px solid var(--line)}
+.hdr-in{max-width:var(--max);margin:0 auto;padding:10px var(--pad);display:flex;align-items:center;justify-content:space-between;gap:10px 14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.logo{width:40px;height:40px;flex:0 0 40px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:linear-gradient(135deg,#f2b705 0%,#2c7a31 70%);box-shadow:0 3px 10px rgba(44,122,49,.25)}
+.brand .meta{display:flex;flex-direction:column;min-width:0;line-height:1.25}
+.brand .meta b{font-size:17px}
+.brand .meta small{font-size:12.5px;color:var(--mut)}
+.theme-btn{width:44px;height:44px;flex:0 0 44px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);display:grid;place-items:center;font-size:19px;line-height:1;padding:0;transition:border-color .15s,background .15s}
+.theme-btn:hover{border-color:var(--accent)}
+.theme-btn .sun{display:none}
+:root[data-theme="dark"] .theme-btn .moon{display:none}
+:root[data-theme="dark"] .theme-btn .sun{display:inline}
+.hdr-in .langpick{margin-left:auto}
+.stripe{height:4px;background:linear-gradient(90deg,#f2b705 0 50%,#c8321f 50% 100%)}
+.langpick{display:flex;gap:2px;background:var(--bg-2);border-radius:12px;padding:3px}
+.langpick button{border:0;background:transparent;color:var(--txt-2);min-height:44px;padding:0 14px;border-radius:9px;font-weight:600;font-size:14px;transition:background .15s,color .15s}
+.langpick button[aria-pressed="true"]{background:var(--raise);color:var(--accent-d);box-shadow:var(--sh-1)}
+.langpick button:hover:not([aria-pressed="true"]){color:var(--accent-d)}
+
+/* ---------- stepper ---------- */
+.stepper{max-width:var(--max);margin:0 auto;padding:14px var(--pad) 0}
+.stepper ol{list-style:none;display:flex;align-items:center}
+.step{display:flex;align-items:center;gap:8px;color:var(--mut);font-size:13.5px;font-weight:600;flex:0 0 auto}
+.step .dot{width:28px;height:28px;border-radius:50%;background:var(--card);border:2px solid var(--line);display:grid;place-items:center;font-size:13px;font-weight:700;transition:all .2s}
+.step.done .dot{background:var(--fill);border-color:var(--fill);color:#fff}
+.step.current .dot{border-color:var(--accent);color:var(--accent-d);box-shadow:0 0 0 4px rgba(44,122,49,.15)}
+.step.current,.step.done{color:var(--txt)}
+.step-line{flex:1 1 12px;height:2px;background:var(--line);margin:0 8px;min-width:12px}
+.step-line.done{background:var(--accent)}
+@media (max-width:640px){.hdr{position:static}.brand{flex:1}.theme-btn{order:1}.hdr-in .langpick{order:2;flex:1 1 100%;margin-left:0}.langpick button{flex:1;padding:0 8px}.step .lbl{display:none}.step.current .lbl{display:inline}.step-line{margin:0 5px}}
+
+/* ---------- layout ---------- */
+main{max-width:var(--max);margin:0 auto;padding:18px var(--pad) 40px}
+.screen{display:none}
+.screen.active{display:block;animation:screenIn .3s ease-out}
+@keyframes screenIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.screen-head{margin-bottom:18px}
+.screen-head h1{font-size:clamp(24px,4.2vw,30px);margin-bottom:6px;outline:none}
+.lead{color:var(--txt-2);max-width:62ch}
+.flag-strip{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:99px;background:var(--gold-soft);color:var(--gold-ink);font-size:13px;font-weight:600;margin-bottom:10px}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;box-shadow:var(--sh-1);margin-bottom:14px}
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.card-title{font-size:17px;display:flex;align-items:center;gap:8px}
+.card-head .card-title{margin:0;min-width:0}
+.card-head .btn{flex:0 0 auto;white-space:nowrap}
+.card > .card-title{margin-bottom:14px}
+.hint{color:var(--mut);font-size:14px;margin-top:10px}
+@media (max-width:600px){.card{padding:16px}.card-head,.card > .card-title{margin-bottom:10px}.screen-head{margin-bottom:12px}}
+.muted{color:var(--mut);font-size:14px}
+.field{margin-top:16px}
+.field:first-child{margin-top:0}
+label.fl{display:block;font-weight:650;font-size:15px;margin-bottom:6px}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:var(--tap);padding:0 18px;border-radius:12px;font-weight:650;font-size:16px;border:1.5px solid var(--line);background:var(--card);color:var(--txt);transition:background .15s,border-color .15s,box-shadow .15s}
+.btn:hover{border-color:var(--accent);color:var(--accent-d)}
+.btn.pri{background:linear-gradient(135deg,var(--fill-d),var(--fill));border-color:var(--fill-d);color:#fff;box-shadow:0 6px 16px rgba(29,85,34,.25)}
+.btn.pri:hover{color:#fff;box-shadow:0 10px 22px rgba(29,85,34,.32)}
+.btn.ghost{background:transparent}
+.btn.big{width:100%;min-height:54px;font-size:17px}
+.btn.sm{min-height:44px;padding:0 14px;font-size:14.5px}
+.btn:disabled,.btn[aria-disabled="true"]{opacity:.55;cursor:not-allowed;box-shadow:none}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+.cta-bar{position:sticky;bottom:0;z-index:30;margin:18px calc(var(--pad) * -1) 0;padding:12px var(--pad) calc(12px + env(safe-area-inset-bottom));background:linear-gradient(180deg,var(--bg-0),var(--bg) 28%);display:flex;gap:10px}
+.cta-bar .btn.big{flex:1}
+
+/* ---------- photo ---------- */
+.drop{border:2px dashed var(--line);border-radius:var(--r);background:linear-gradient(180deg,var(--drop-a),var(--drop-b));padding:18px 14px;text-align:center;transition:border-color .15s,background .15s}
+.drop.over{border-color:var(--accent);background:var(--accent-soft)}
+.drop.has{border-style:solid;border-color:var(--accent);padding:12px;background:var(--card)}
+.drop .ico{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:13px;font-size:22px;background:var(--accent-soft);margin-bottom:6px}
+.drop .t{font-weight:700;font-size:17px}
+.drop .s{color:var(--mut);font-size:14.5px;margin:2px 0 12px}
+.photo-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.photo-actions .btn{white-space:normal;line-height:1.25;flex-direction:column;gap:2px;padding:8px;min-height:68px}
+.photo-actions #btnGuided{grid-column:1/-1;flex-direction:row;gap:8px;min-height:44px}
+.drop canvas{max-width:100%;max-height:300px;border-radius:12px;display:block;margin:0 auto 12px}
+.samples-box{margin-top:0}
+.samples-box summary{cursor:pointer;font-weight:650;min-height:var(--tap);display:flex;align-items:center;gap:8px;list-style:none}
+.samples-box summary::-webkit-details-marker{display:none}
+.samples-box summary::before{content:"▸";display:inline-block;transition:transform .15s;color:var(--mut)}
+.samples-box[open] summary::before{transform:rotate(90deg)}
+.fold-row{display:grid;grid-template-columns:1fr 1fr;gap:0 12px;margin-top:10px;border-top:1px solid var(--line-soft)}
+.fold-row details{margin:0;min-width:0}
+.fold-row details[open]{grid-column:1/-1}
+.fold-row summary{font-size:14.5px;line-height:1.3;padding:4px 0}
+.sample-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:8px;margin-top:10px}
+.sample{display:flex;align-items:center;gap:9px;min-height:var(--tap);padding:8px 11px;border-radius:var(--r-sm);border:1.5px solid var(--line);background:var(--card);font-size:14.5px;font-weight:600;color:var(--txt-2);text-align:left}
+.sample:hover{border-color:var(--accent)}
+.sample[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-d)}
+.sample .emo{font-size:18px}
+.sample .nm{flex:1;min-width:0;line-height:1.3}
+
+/* ---------- form controls ---------- */
+select,textarea,.inp{width:100%;min-height:var(--tap);padding:11px 14px;border-radius:12px;border:1.5px solid var(--field-line);background:var(--field);color:var(--txt);font-size:16px;line-height:1.4}
+select{appearance:none;-webkit-appearance:none;padding-right:38px;background-image:linear-gradient(45deg,transparent 50%,var(--mut) 50%),linear-gradient(135deg,var(--mut) 50%,transparent 50%);background-position:calc(100% - 20px) 55%,calc(100% - 14px) 55%;background-size:6px 6px;background-repeat:no-repeat}
+textarea{resize:vertical;min-height:76px}
+select:focus,textarea:focus,.inp:focus{border-color:var(--accent);outline:3px solid rgba(26,111,209,.35);outline-offset:0}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:560px){.field-grid{grid-template-columns:1fr}}
+details.more{margin-top:16px;border-top:1px dashed var(--line);padding-top:6px}
+details.more summary{cursor:pointer;font-weight:650;min-height:var(--tap);display:flex;align-items:center;gap:8px;list-style:none}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::before{content:"▸";transition:transform .15s;color:var(--mut)}
+details.more[open] summary::before{transform:rotate(90deg)}
+details.loc-more{margin-top:0;border-top:0;padding-top:0;flex:1 1 auto}
+.loc-row{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;margin-top:8px}
+.loc-row details.loc-more[open]{flex-basis:100%}
+
+/* ---------- location ---------- */
+.loc-summary{display:flex;align-items:center;gap:12px;margin-top:12px;padding:8px 12px;border-radius:var(--r);background:var(--bg);border:1px solid var(--line-soft)}
+.loc-summary .pin{width:34px;height:34px;flex:0 0 34px;border-radius:11px;display:grid;place-items:center;background:var(--gold-soft);font-size:18px}
+.loc-summary .name{font-weight:700;overflow-wrap:anywhere}
+.loc-summary .coords{color:var(--mut);font-size:13.5px;font-variant-numeric:tabular-nums}
+.loc-tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.loc-panel{margin-top:12px;padding:14px;border-radius:var(--r);border:1px solid var(--line);background:var(--bg-2)}
+.loc-results{margin-top:8px;max-height:280px;overflow-y:auto;border-radius:12px;border:1px solid var(--line);background:var(--card)}
+.loc-result{display:block;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line-soft);background:var(--card);padding:11px 14px;min-height:var(--tap)}
+.loc-result:last-child{border-bottom:0}
+.loc-result:hover,.loc-result:focus-visible{background:var(--accent-soft)}
+.loc-result .r-name{font-weight:650}
+.loc-result .r-meta{font-size:13.5px;color:var(--mut)}
+.loc-empty{padding:14px;text-align:center;color:var(--mut)}
+.loc-manual{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end}
+.loc-manual label{font-size:14px;font-weight:600;display:block;margin-bottom:4px}
+@media (max-width:520px){.loc-manual{grid-template-columns:1fr 1fr}.loc-manual .btn{grid-column:1/-1}}
+
+.banner{display:flex;gap:10px;padding:12px 14px;border-radius:12px;font-size:15px;margin-top:12px;line-height:1.5}
+.banner .ic{flex:0 0 auto}
+.banner.warn{background:var(--gold-soft);color:var(--gold-ink);border:1px solid var(--gold-line)}
+.banner.info{background:var(--blue-soft);color:var(--blue-ink);border:1px solid var(--blue-line)}
+
+/* ---------- voice ---------- */
+.voice-row{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
+.voice-btn.rec{background:var(--red-soft);border-color:var(--red);color:var(--red-ink);animation:pulse 1.4s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(179,50,31,.12)}}
+
+/* ---------- confirm ---------- */
+.preview{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-1);overflow:hidden;margin-bottom:14px}
+.preview-hero{background:var(--hero);padding:16px;display:grid;place-items:center}
+.preview-hero canvas{max-width:100%;max-height:300px;border-radius:12px;display:block}
+.meta-list{padding:4px 20px 12px}
+.meta-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:13px 0;border-bottom:1px solid var(--line-soft)}
+.meta-row:last-child{border-bottom:0}
+.meta-row .k{color:var(--mut)}
+.meta-row .v{font-weight:650;text-align:right;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+
+/* ---------- pipeline ---------- */
+.pipeline{list-style:none;display:flex;flex-direction:column;gap:2px}
+.pipeline li{display:flex;gap:12px;padding:11px 12px;border-radius:12px;opacity:.55;transition:opacity .25s,background .25s}
+.pipeline li.run{opacity:1;background:var(--run)}
+.pipeline li.done{opacity:1}
+.pipeline .ic{width:28px;height:28px;flex:0 0 28px;border-radius:50%;display:grid;place-items:center;background:var(--bg-2);color:var(--mut);font-size:13px;font-weight:700;margin-top:1px}
+.pipeline li.run .ic{background:transparent;border:3px solid var(--accent-soft);border-top-color:var(--accent);animation:spin .8s linear infinite;font-size:0}
+.pipeline li.done .ic{background:var(--fill);color:#fff}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pipeline .lbl{font-weight:650}
+.pipeline .dt{color:var(--mut);font-size:14px;margin-top:2px;overflow-wrap:anywhere}
+
+/* ---------- results ---------- */
+.cand-tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:16px}
+.cand-tab{display:flex;flex-direction:column;gap:3px;padding:12px 14px;border-radius:14px;background:var(--card);border:2px solid var(--line);text-align:left}
+.cand-tab .tab-rank{font-size:13px;color:var(--mut);font-weight:600}
+.cand-tab .tab-name{font-weight:700}
+.cand-tab .tab-score{font-weight:700;color:var(--accent-d)}
+.cand-tab[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+
+.diag{padding:16px;border-radius:var(--r-lg);background:linear-gradient(135deg,var(--ok-a),var(--ok-b));border:1px solid var(--ok-line)}
+.diag.healthy{background:linear-gradient(135deg,var(--info-a),var(--info-b));border-color:var(--info-line)}
+.diag.uncertain{background:linear-gradient(135deg,var(--warn-a),var(--warn-b));border-color:var(--warn-line)}
+.diag-top{display:flex;align-items:flex-start;gap:16px}
+.diag-top > div:first-child{flex:1 1 0;min-width:0}
+.diag .name{font-size:clamp(22px,4vw,26px);font-weight:800;line-height:1.2;overflow-wrap:anywhere}
+.diag .path{font-size:14.5px;color:var(--mut);font-style:italic;margin-top:4px}
+.diag .score{text-align:right;margin-left:auto;flex:0 0 auto}
+.diag .num{font-size:38px;font-weight:800;line-height:1;color:var(--accent-d);font-variant-numeric:tabular-nums}
+.diag .lab{font-size:13.5px;color:var(--mut);margin-top:6px}
+.badge{display:inline-block;font-size:13.5px;font-weight:700;padding:5px 11px;border-radius:99px}
+.badge.high{background:var(--bd-high);color:var(--bd-high-t)}
+.badge.mod{background:var(--bd-mod);color:var(--bd-mod-t)}
+.badge.low{background:var(--bd-low);color:var(--bd-low-t)}
+.badge.neutral{background:var(--bg-2);color:var(--txt-2)}
+.diag-bars{display:flex;flex-direction:column;gap:10px;margin:0 0 16px}
+.diag-bar{display:grid;grid-template-columns:minmax(96px,130px) 1fr 44px;gap:10px;align-items:center;font-size:14.5px}
+.diag-bar .lb{color:var(--txt-2);font-weight:600}
+.bar{height:8px;background:var(--track);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px}
+.bar i.v{background:var(--accent)} .bar i.w{background:var(--blue)} .bar i.s{background:var(--amber)}
+.diag-bar .pct{font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.note-box{margin-top:10px;padding:10px 12px;background:var(--gold-soft);border-radius:12px;color:var(--gold-ink);font-size:14.5px}
+
+.ai-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(210px,.8fr);gap:12px}
+@media (max-width:720px){.ai-grid{grid-template-columns:1fr}}
+.ai-reason{padding:18px;border-radius:var(--r);background:linear-gradient(135deg,var(--ai-a),var(--ai-b));border:1px solid var(--ai-line)}
+.ai-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ai-head b{font-size:15px}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:99px;background:var(--accent-soft);color:var(--accent-d)}
+.chip.fallback{background:var(--bd-mod);color:var(--bd-mod-t)}
+.ai-headline{font-size:18px;font-weight:700;line-height:1.35;margin:10px 0 6px}
+.ai-explain{color:var(--txt-2)}
+.factor{padding:10px 0;border-top:1px solid var(--line-soft);display:grid;grid-template-columns:minmax(90px,130px) 1fr 44px;gap:4px 10px;align-items:center;font-size:14.5px}
+.factor:first-of-type{margin-top:12px}
+.factor b{font-weight:650}
+.factor .fd{grid-column:1/-1;color:var(--mut);font-size:13.5px;overflow-wrap:anywhere}
+.factor .fbar{height:6px;background:var(--bg-2);border-radius:99px;overflow:hidden}
+.factor .fbar i{display:block;height:100%;background:var(--accent)}
+.factor .fp{font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.ai-caution{margin-top:12px;padding:11px 13px;background:var(--gold-soft);border-radius:10px;color:var(--gold-ink);font-size:14.5px}
+
+.health-card{display:flex;flex-direction:column;justify-content:center;padding:18px;border-radius:var(--r);background:linear-gradient(160deg,#1a2e20,#14231a 70%);color:#fff}
+.health-card .ey{font-size:13px;font-weight:600;color:#cfe0d3}
+.health-card .hs{font-size:48px;font-weight:800;line-height:1;margin:10px 0 2px;font-variant-numeric:tabular-nums}
+.health-card .hs small{font-size:16px;font-weight:600;color:#cfe0d3}
+.health-card .hl{font-weight:700}
+.health-meter{height:8px;background:rgba(255,255,255,.18);border-radius:99px;overflow:hidden;margin-top:12px}
+.health-meter i{display:block;height:100%;background:#8ee04a;border-radius:99px}
+.health-meter i.warn{background:#ffd166}
+.health-meter i.bad{background:#ff7b6b}
+.health-card .hn{font-size:13px;color:#cfe0d3;margin-top:12px}
+:root[data-theme="dark"] .health-card{border:1px solid var(--line)}
+
+.wgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:10px}
+.wcell{padding:13px;border-radius:12px;background:var(--bg);border:1px solid var(--line-soft)}
+.wcell .k{font-size:13.5px;color:var(--mut);margin-bottom:4px}
+.wcell .v{font-size:22px;font-weight:750;line-height:1.15;font-variant-numeric:tabular-nums}
+.wcell .v small{font-size:13px;font-weight:600;color:var(--mut)}
+
+.conf{display:flex;gap:11px;padding:12px 14px;border-radius:12px;margin-bottom:10px;font-size:15.5px}
+.conf:last-child{margin-bottom:0}
+.conf.warning,.conf.warn{background:var(--gold-soft);border-left:4px solid var(--gold)}
+.conf.alert{background:var(--red-soft);border-left:4px solid var(--red)}
+.conf.info{background:var(--blue-soft);border-left:4px solid var(--blue)}
+.conf .ic{flex:0 0 22px}
+
+.ev{display:flex;gap:13px;padding:14px 0;border-bottom:1px solid var(--line-soft);align-items:flex-start}
+.ev:first-child{padding-top:0}.ev:last-child{border-bottom:0;padding-bottom:0}
+.ev .ico{flex:0 0 40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:19px;background:var(--accent-soft)}
+.ev .body{flex:1;min-width:0}
+.ev .body b{display:block;margin-bottom:2px}
+.ev .body p{color:var(--txt-2)}
+
+.cit{padding:13px 0;border-bottom:1px solid var(--line-soft)}
+.cit:first-child{padding-top:0}.cit:last-child{border-bottom:0;padding-bottom:0}
+.cit .kind{display:inline-block;font-size:12.5px;font-weight:700;padding:3px 9px;border-radius:99px;background:var(--blue-soft);color:var(--blue);margin-right:8px}
+.cit .kind.pm{background:var(--purple-soft);color:var(--purple)}
+.cit .kind.in{background:var(--gold-soft);color:var(--gold-ink)}
+.cit .t{font-weight:650;overflow-wrap:anywhere}
+.cit .m{color:var(--mut);font-size:14px;margin-top:3px;overflow-wrap:anywhere}
+.cit .link{display:inline-flex;align-items:center;min-height:44px;margin-top:2px;font-weight:650;font-size:14.5px}
+
+.remedy dl{display:grid;gap:10px}
+.remedy dt{font-weight:700;font-size:14.5px;color:var(--mut)}
+.remedy dd{margin:0;overflow-wrap:anywhere}
+
+/* ---------- plan ---------- */
+.summary-hero{position:relative;overflow:hidden;padding:22px;border-radius:var(--r-lg);background:linear-gradient(135deg,#1d5522 0%,#2c7a31 60%,#5aa23a 130%);color:#fff;margin-bottom:16px;box-shadow:0 14px 34px rgba(44,122,49,.25)}
+.summary-hero.healthy{background:linear-gradient(135deg,#123a63,#1f5f99 70%,#4d8fc7 130%);box-shadow:0 14px 34px rgba(31,95,153,.25)}
+.hero-label{font-size:14px;font-weight:600;opacity:.92;margin-bottom:6px}
+.hero-disease{font-size:clamp(25px,4.6vw,32px);font-weight:800;line-height:1.15;overflow-wrap:anywhere}
+.hero-pathogen{font-size:15px;font-style:italic;opacity:.92;margin:4px 0 14px}
+.hero-conf{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.hero-conf .pct{font-size:30px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.hero-conf .conf-bar{flex:1;min-width:110px;max-width:280px;height:9px;background:rgba(255,255,255,.28);border-radius:99px;overflow:hidden}
+.hero-conf .conf-bar i{display:block;height:100%;background:#fff;border-radius:99px}
+.hero-conf .conf-note{width:100%;font-size:14.5px;opacity:.95}
+
+.bucket{margin-bottom:22px}.bucket:last-child{margin-bottom:0}.banner+.bucket{margin-top:20px}
+.bucket-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;padding-bottom:10px;border-bottom:2px solid var(--line)}
+.b-icon{width:38px;height:38px;flex:0 0 38px;border-radius:11px;display:grid;place-items:center;font-size:18px}
+.b-title{font-size:17px;font-weight:750}
+.b-sub{font-size:14px;color:var(--mut)}
+.bucket[data-bucket="right_now"] .b-icon{background:var(--red-soft)} .bucket[data-bucket="right_now"] .b-title{color:var(--red-ink)}
+.bucket[data-bucket="today"] .b-icon{background:var(--gold-soft)} .bucket[data-bucket="today"] .b-title{color:var(--gold-ink)}
+.bucket[data-bucket="next_3_days"] .b-icon{background:var(--blue-soft)} .bucket[data-bucket="next_3_days"] .b-title{color:var(--blue-ink)}
+.bucket[data-bucket="important"] .b-icon,.bucket[data-bucket="keep"] .b-icon{background:var(--accent-soft)} .bucket[data-bucket="important"] .b-title,.bucket[data-bucket="keep"] .b-title{color:var(--accent-d)}
+.step-card{display:flex;gap:13px;padding:14px 16px;background:var(--card);border:1px solid var(--line);border-radius:13px;margin-bottom:8px}
+.step-card:last-child{margin-bottom:0}
+.s-icon{flex:0 0 40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:19px;background:var(--accent-soft)}
+.s-body{flex:1;min-width:0}
+.s-text{font-size:16px}
+.s-refs{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
+.s-refs a{display:inline-flex;align-items:center;gap:6px;min-height:44px;font-size:13.5px;font-weight:600;padding:5px 10px;border-radius:8px;background:var(--bg-2);color:var(--txt-2);border:1px solid var(--line-soft);max-width:100%;text-decoration:none;line-height:1.4}
+.s-refs a:hover{color:var(--accent-d);border-color:var(--accent);text-decoration:none}
+
+.disclaimer{margin-top:16px;padding:14px 16px;background:var(--gold-soft);border:1px solid var(--gold-line);border-radius:12px;font-size:15px;color:var(--gold-ink)}
+.plan-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft)}
+
+/* ---------- toast ---------- */
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translate(-50%,20px);z-index:300;max-width:min(92vw,520px);padding:13px 18px;border-radius:12px;background:var(--toast-bg);color:#fff;font-size:15.5px;box-shadow:var(--sh-2);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.error{background:#8f2415}
+
+.spin{width:16px;height:16px;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;display:inline-block}
+.busy-veil{opacity:.55;pointer-events:none;transition:opacity .2s}
+noscript{display:block;padding:20px;text-align:center}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+}
+/* ---------- calmer result screen ---------- */
+.more-card{padding:0;overflow:hidden}
+.more-card summary{list-style:none;display:flex;align-items:center;gap:12px;padding:14px 20px;min-height:var(--tap);cursor:pointer}
+.more-card summary::-webkit-details-marker{display:none}
+.more-card summary::after{content:"▸";margin-left:auto;color:var(--mut);transition:transform .15s}
+.more-card[open] summary::after{transform:rotate(90deg)}
+.more-card summary:hover{background:var(--bg)}
+.mc-ico{font-size:20px}
+.mc-text{display:flex;flex-direction:column;line-height:1.3;min-width:0}
+.mc-text b{font-size:17px}
+.mc-text small{color:var(--mut);font-size:13.5px}
+.mc-body{padding:4px 20px 20px;display:grid;gap:20px}
+.mc-weather .card-head{margin-bottom:10px}
+.mc-weather .card-title{font-size:16px}
+.result-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px}
+.result-links .btn{flex:1 1 150px}
+#results3 .cta-bar{margin-top:10px}
+/* ---------- v3.6: photo guide, photo checks, marks, help, feedback, camera ---------- */
+.banner.bad{background:var(--red-soft);color:var(--red-ink);border:1px solid var(--red-line)}
+.pq-list{margin:6px 0 0 1.1em;display:grid;gap:4px}
+.guide{margin-top:6px}
+.guide summary{cursor:pointer;font-weight:650;min-height:var(--tap);display:flex;align-items:center;gap:8px;list-style:none}
+.guide summary::-webkit-details-marker{display:none}
+.guide summary::before{content:"▸";transition:transform .15s;color:var(--mut)}
+.guide[open] summary::before{transform:rotate(90deg)}
+.guide-body{display:grid;grid-template-columns:110px 1fr;gap:14px;padding:14px;margin-bottom:6px;border:1px solid var(--line);border-radius:var(--r);background:var(--guide-bg);align-items:start}
+.guide-body svg{width:100%;height:auto;max-width:130px}
+.g-frame{fill:var(--bg);stroke:var(--accent)}
+.guide-body ul{list-style:none;display:grid;gap:8px;font-size:15px}
+.guide-body li{display:flex;gap:8px}
+@media (max-width:520px){.guide-body{grid-template-columns:1fr}.guide-body svg{max-width:100px;margin:0 auto}}
+.ovwrap{display:grid;grid-template-columns:minmax(0,150px) 1fr;gap:6px 16px;align-items:start}
+.ovwrap .ovfig{margin:0;width:100%;cursor:zoom-in}
+.ovwrap.zoom{grid-template-columns:1fr}
+.ovwrap.zoom .ovfig{max-width:380px;margin:0 auto;cursor:zoom-out}
+.ovfig:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:12px}
+.zoom-cue{position:absolute;right:6px;bottom:6px;width:28px;height:28px;border-radius:8px;background:rgba(0,0,0,.55);color:#fff;display:grid;place-items:center;font-size:15px;pointer-events:none}
+.ovside .ovleg{flex-direction:column;justify-content:flex-start;gap:4px;margin-top:0}
+.ovwrap.zoom .ovside .ovleg{flex-direction:row;flex-wrap:wrap;gap:6px 16px}
+.ovside .hint{margin-top:8px;font-size:13px}
+@media (min-width:700px){.ovwrap:not(.zoom){grid-template-columns:minmax(0,220px) 1fr}}
+.ovfig{position:relative;max-width:380px;margin:4px auto 0}
+.ovfig img{display:block;width:100%;height:auto;border-radius:12px}
+.ovfig img.ov{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
+.ovleg{display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:center;margin-top:10px;font-size:14px}
+.ovleg .sw{display:inline-block;width:14px;height:14px;border-radius:4px;margin-right:6px;vertical-align:-2px;border:1px solid rgba(0,0,0,.25)}
+.sw.red{background:#e6281e}.sw.yel{background:#ffd600}
+.kcc{display:grid;grid-template-columns:1fr auto;gap:6px 12px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--accent-soft)}
+.kcc .muted{font-size:13px;grid-column:1/-1}
+#helpBox .field{margin-top:10px}
+#kvkList{margin-top:2px}
+#kvkList > .muted{margin:10px 0 2px}
+.kvk-item{padding:10px 0;border-top:1px solid var(--line-soft)}
+.kvk-item:first-child{border-top:0}
+.kvk-item .nm{font-weight:650;line-height:1.35}
+.kvk-item .muted{margin-top:4px}
+.kvk-calls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.kvk-web{margin-left:auto;font-size:14px;font-weight:600;white-space:nowrap}
+.fb-choices{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+@media (max-width:340px){.fb-choices{grid-template-columns:1fr}}
+.fb-choice{min-height:var(--tap);padding:8px 6px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);text-align:center;font-weight:650;font-size:14px;line-height:1.25}
+.fb-choice[aria-pressed="true"]{border-color:var(--accent-d);background:var(--accent-soft)}
+.fb-consent{display:flex;gap:10px;align-items:flex-start;margin-top:12px;font-size:14px}
+.fb-consent input{width:22px;height:22px;flex:0 0 22px;margin-top:2px}
+.fb-code{margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--bg-2);font-size:15px;word-break:break-all}
+.fb-code code{font-weight:700}
+.diag .eyebrow{font-size:13.5px;font-weight:700;color:var(--gold-ink);margin-bottom:4px}
+.cam{position:fixed;inset:0;z-index:300;background:#000;color:#fff;display:flex;flex-direction:column}
+.cam-top{padding:14px var(--pad);font-weight:700;text-align:center}
+.cam-stage{position:relative;flex:1;min-height:0;overflow:hidden}
+.cam-stage video{width:100%;height:100%;object-fit:cover;display:block}
+.cam-frame{position:absolute;left:50%;top:50%;height:78%;aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none}
+.cam-hint{text-align:center;font-size:14.5px;padding:10px var(--pad) 0;color:#e8f1e3}
+.cam-bar{display:flex;gap:12px;justify-content:center;padding:14px var(--pad) 6px}
+.cam-native{align-self:center;background:none;border:0;color:#cfe3c6;text-decoration:underline;padding:8px 14px 18px;font-size:14.5px}
+body.cam-open{overflow:hidden}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main" data-i18n="a11y.skip">Skip to content</a>
+
+<header class="hdr">
+  <div class="hdr-in">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">🌾</span>
+      <span class="meta">
+        <b data-i18n="brand.name">Crop Oracle Karnataka</b>
+        <small data-i18n="brand.tag">AI crop-disease advisor</small>
+      </span>
+    </div>
+    <div class="langpick" id="langpick" role="group" aria-label="Language / ಭಾಷೆ / भाषा">
+      <button type="button" data-l="en" lang="en" aria-pressed="true">English</button>
+      <button type="button" data-l="kn" lang="kn" aria-pressed="false">ಕನ್ನಡ</button>
+      <button type="button" data-l="hi" lang="hi" aria-pressed="false">हिन्दी</button>
+    </div>
+    <button type="button" class="theme-btn" id="themeBtn" aria-pressed="false" aria-label="Dark mode" title="Dark mode"><span class="moon" aria-hidden="true">🌙</span><span class="sun" aria-hidden="true">☀️</span></button>
+  </div>
+  <div class="stripe" aria-hidden="true"></div>
+</header>
+
+<nav class="stepper" aria-label="Progress">
+  <ol id="stepper">
+    <li class="step" data-s="1"><span class="dot">1</span><span class="lbl" data-i18n="step.1">Photo</span></li>
+    <li class="step-line" aria-hidden="true"></li>
+    <li class="step" data-s="2"><span class="dot">2</span><span class="lbl" data-i18n="step.2">Confirm</span></li>
+    <li class="step-line" aria-hidden="true"></li>
+    <li class="step" data-s="3"><span class="dot">3</span><span class="lbl" data-i18n="step.3">Analysis</span></li>
+    <li class="step-line" aria-hidden="true"></li>
+    <li class="step" data-s="4"><span class="dot">4</span><span class="lbl" data-i18n="step.4">Evidence</span></li>
+    <li class="step-line" aria-hidden="true"></li>
+    <li class="step" data-s="5"><span class="dot">5</span><span class="lbl" data-i18n="step.5">Plan</span></li>
+  </ol>
+</nav>
+
+<main id="main">
+<noscript>This app needs JavaScript. Please turn it on in your browser.</noscript>
+
+  <!-- ============ 1. PHOTO ============ -->
+  <section class="screen active" id="s1" aria-labelledby="h-s1">
+    <div class="screen-head">
+      <p class="flag-strip"><span aria-hidden="true">🌾</span><span data-i18n="brand.flag">Made for Karnataka farmers</span></p>
+      <h1 id="h-s1" tabindex="-1" data-i18n="s1.title">Tell us about your crop</h1>
+      <p class="lead" data-i18n="s1.sub">Add a clear photo of an affected leaf and check your field location.</p>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title"><span aria-hidden="true">📷</span><span data-i18n="s1.photo">Crop photo</span></h2>
+
+      <div class="drop" id="drop">
+        <div id="dropEmpty">
+          <span class="ico" aria-hidden="true">🌿</span>
+          <p class="t" data-i18n="s1.drop.t">Add a leaf photo</p>
+          <p class="s" data-i18n="s1.drop.s">Tap a button below, or drag a photo here</p>
+          <div class="photo-actions">
+            <button type="button" class="btn pri" id="btnCamera"><span aria-hidden="true">📷</span><span data-i18n="s1.camera">Take photo</span></button>
+            <button type="button" class="btn" id="btnGallery"><span aria-hidden="true">🖼️</span><span data-i18n="s1.gallery">Choose from gallery</span></button>
+            <button type="button" class="btn hidden" id="btnGuided"><span aria-hidden="true">📐</span><span data-i18n="s1.camera.guided">Camera with guide</span></button>
+          </div>
+        </div>
+        <div id="dropHas" class="hidden">
+          <canvas id="canvasPreview" role="img" aria-label="Leaf photo"></canvas>
+          <button type="button" class="btn sm" id="btnChangePhoto" data-i18n="s1.change.photo">Change photo</button>
+        </div>
+        <input type="file" id="fileCam" accept="image/*" capture="environment" class="hidden" tabindex="-1">
+        <input type="file" id="fileIn" accept="image/*" class="hidden" tabindex="-1">
+      </div>
+      <div class="banner warn hidden" id="photoCheck" role="status"></div>
+      <div class="fold-row">
+      <details class="guide" id="photoGuide">
+        <summary data-i18n="guide.title">How to take a good photo</summary>
+        <div class="guide-body">
+          <svg viewBox="0 0 120 160" aria-hidden="true" focusable="false">
+            <rect class="g-frame" x="6" y="6" width="108" height="148" rx="12" stroke-width="3" stroke-dasharray="8 6"/>
+            <path d="M60 22 C98 48 100 100 60 140 C20 100 22 48 60 22 Z" fill="#6fae52" stroke="#1d5522" stroke-width="2.5"/>
+            <path d="M60 30 L60 136" stroke="#1d5522" stroke-width="2" fill="none"/>
+            <circle cx="47" cy="70" r="5" fill="#8a5a2b"/><circle cx="73" cy="92" r="6" fill="#8a5a2b"/><circle cx="55" cy="110" r="4" fill="#8a5a2b"/>
+          </svg>
+          <ul>
+            <li><span aria-hidden="true">☀️</span><span data-i18n="guide.1">Use daylight. Do not use the flash.</span></li>
+            <li><span aria-hidden="true">🍃</span><span data-i18n="guide.2">Fill the frame with one leaf that shows the spots.</span></li>
+            <li><span aria-hidden="true">🎯</span><span data-i18n="guide.3">Hold the phone steady and tap the leaf so it is in focus.</span></li>
+            <li><span aria-hidden="true">🖐️</span><span data-i18n="guide.4">Keep your shadow and your fingers off the leaf.</span></li>
+            <li><span aria-hidden="true">🔄</span><span data-i18n="guide.5">If you can, take a second photo of the underside of the leaf.</span></li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="samples-box">
+        <summary data-i18n="s1.samples">No photo? Try a demo leaf</summary>
+        <p class="hint" data-i18n="s1.samples.note">Demo leaves are drawings. They are only for trying out the app.</p>
+        <div class="sample-grid" id="samples"></div>
+      </details>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title"><span aria-hidden="true">📍</span><span data-i18n="s1.location">Field location</span></h2>
+
+      <div class="field-grid">
+        <div class="field">
+          <label class="fl" for="district" data-i18n="s1.district">District</label>
+          <select id="district"></select>
+        </div>
+        <div class="field">
+          <label class="fl" for="crop" data-i18n="s1.crop">Crop</label>
+          <select id="crop"></select>
+        </div>
+      </div>
+
+      <div class="loc-summary" aria-live="polite">
+        <span class="pin" aria-hidden="true">📍</span>
+        <div>
+          <div class="name" id="locName">—</div>
+          <div class="coords" id="locCoords">—</div>
+        </div>
+      </div>
+      <div class="banner warn hidden" id="outsideBanner" role="status"><span class="ic" aria-hidden="true">⚠️</span><span data-i18n="loc.outside">This location is outside Karnataka.</span></div>
+
+      <div class="loc-row">
+      <button type="button" class="btn sm" id="btnGeo"><span aria-hidden="true">🎯</span><span data-i18n="s1.gps">Use my location</span></button>
+      <details class="more loc-more">
+        <summary data-i18n="s1.loc.change">Change place</summary>
+        <div class="loc-tools">
+          <button type="button" class="btn sm" id="btnSearchToggle" aria-expanded="false" aria-controls="locSearchPanel"><span aria-hidden="true">🔍</span><span data-i18n="s1.search.btn">Search village or town</span></button>
+          <button type="button" class="btn sm" id="btnManual" aria-expanded="false" aria-controls="locManual"><span aria-hidden="true">⌨️</span><span data-i18n="s1.manual">Enter coordinates</span></button>
+        </div>
+
+      <div class="loc-panel hidden" id="locSearchPanel">
+        <label class="fl" for="locSearch" data-i18n="s1.search.label">Village or town in Karnataka</label>
+        <input class="inp" type="search" id="locSearch" autocomplete="off" data-i18n-placeholder="s1.loc.search" placeholder="Type a name…">
+        <div class="loc-results hidden" id="locResults" role="listbox"></div>
+      </div>
+
+      <div class="loc-panel hidden" id="locManual">
+        <div class="loc-manual">
+          <div><label for="lat" data-i18n="s1.lat">Latitude</label><input class="inp" type="number" inputmode="decimal" id="lat" step="0.0001" min="-90" max="90"></div>
+          <div><label for="lon" data-i18n="s1.lon">Longitude</label><input class="inp" type="number" inputmode="decimal" id="lon" step="0.0001" min="-180" max="180"></div>
+          <button type="button" class="btn pri" id="btnManualApply" data-i18n="s1.manual.apply">Apply</button>
+        </div>
+      </div>
+      </details>
+      </div>
+
+      <div class="field">
+        <label class="fl" for="symptoms" data-i18n="s1.symptoms">What do you see? (optional)</label>
+        <textarea id="symptoms" rows="2" maxlength="1000" data-i18n-placeholder="s1.symptoms.ph" placeholder="For example: brown spots with yellow rings, after rain"></textarea>
+        <div class="voice-row">
+          <button type="button" class="btn sm voice-btn" id="btnVoiceInput"><span aria-hidden="true">🎙️</span><span id="micLabel" data-i18n="s1.mic">Speak instead</span></button>
+          <span class="muted" id="micHint" data-i18n="s1.mic.hint">Uses your microphone · English (India)</span>
+        </div>
+      </div>
+
+      <details class="more">
+        <summary data-i18n="s1.more">More options</summary>
+        <div class="field">
+          <label class="fl" for="region" data-i18n="s1.rules">Pesticide rules</label>
+          <select id="region"></select>
+          <p class="hint" data-i18n="s1.rules.note">Rule sets are demo data. Always follow the label of a product registered in India.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="cta-bar">
+      <button type="button" class="btn pri big" id="btnAnalyze1"><span data-i18n="s1.cta">Analyse crop</span><span aria-hidden="true">→</span></button>
+    </div>
+  </section>
+
+  <!-- ============ 2. CONFIRM ============ -->
+  <section class="screen" id="s2" aria-labelledby="h-s2">
+    <div class="screen-head">
+      <h1 id="h-s2" tabindex="-1" data-i18n="s2.title">Confirm your field</h1>
+      <p class="lead" data-i18n="s2.sub">We will fetch today's local weather before analysing.</p>
+    </div>
+
+    <div class="preview">
+      <div class="preview-hero"><canvas id="canvasPreview2" role="img" aria-label="Leaf photo"></canvas></div>
+      <div class="meta-list">
+        <div class="meta-row"><span class="k" data-i18n="s2.crop">Crop</span><span class="v" id="mCrop">—</span></div>
+        <div class="meta-row"><span class="k" data-i18n="s2.location">Location</span><span class="v" id="mLoc">—</span></div>
+        <div class="meta-row"><span class="k" data-i18n="s2.coords">Coordinates</span><span class="v" id="mCoords">—</span></div>
+        <div class="meta-row"><span class="k" data-i18n="s2.rain">Rain (last 48 h)</span><span class="v" id="mRain">…</span></div>
+        <div class="meta-row"><span class="k" data-i18n="s2.temp">Temperature</span><span class="v" id="mTemp">…</span></div>
+        <div class="meta-row"><span class="k" data-i18n="s2.hum">Humidity</span><span class="v" id="mHum">…</span></div>
+        <div class="meta-row hidden" id="mNotesRow"><span class="k" data-i18n="s2.notes">Your notes</span><span class="v" id="mNotes"></span></div>
+      </div>
+    </div>
+    <div class="banner warn hidden" id="outsideBanner2" role="status"><span class="ic" aria-hidden="true">⚠️</span><span data-i18n="loc.outside">This location is outside Karnataka.</span></div>
+
+    <div class="cta-bar">
+      <button type="button" class="btn ghost" id="btnBack1"><span aria-hidden="true">←</span><span data-i18n="s2.back">Back</span></button>
+      <button type="button" class="btn pri big" id="btnAnalyze2"><span id="analyze2Label" data-i18n="s2.cta">Analyse crop</span></button>
+    </div>
+  </section>
+
+  <!-- ============ 3. ANALYSIS ============ -->
+  <section class="screen" id="s3" aria-labelledby="h-s3">
+    <div class="screen-head">
+      <h1 id="h-s3" tabindex="-1" data-i18n="s3.title">Analysing your crop…</h1>
+      <p class="lead" id="h3sub" data-i18n="s3.sub">Our agents are checking your leaf, the weather and local evidence.</p>
+    </div>
+
+    <div class="card" id="pipelineCard">
+      <div class="card-head"><h2 class="card-title"><span aria-hidden="true">⚙️</span><span data-i18n="s3.pipeline">Analysis steps</span></h2></div>
+      <ol class="pipeline" id="pipeline" aria-live="polite"></ol>
+    </div>
+
+    <div id="results3" class="hidden">
+      <div id="qualityBox"></div>
+      <div class="cand-tabs" id="candTabs"></div>
+
+      <div class="card">
+        <div class="card-head"><h2 class="card-title"><span aria-hidden="true">🔬</span><span data-i18n="s3.diagnosis">Diagnosis</span></h2></div>
+        <div id="diagBox"></div>
+      </div>
+
+      <div id="helpBox"></div>
+      <div id="confBox"></div>
+      <div class="card hidden" id="ovCard"></div>
+
+      <details class="card more-card" id="moreDetails">
+        <summary>
+          <span class="mc-ico" aria-hidden="true">🧠</span>
+          <span class="mc-text"><b data-i18n="s3.decision">How we decided</b><small data-i18n="s3.more.sub">Reasoning, health signal and weather</small></span>
+        </summary>
+        <div class="mc-body">
+          <div id="diagBars"></div>
+          <div id="decisionCard">
+            <div class="ai-grid">
+              <div id="slmReason" class="ai-reason"></div>
+              <div id="healthScore" class="health-card"></div>
+            </div>
+          </div>
+          <div class="mc-weather">
+            <div class="card-head">
+              <h3 class="card-title"><span aria-hidden="true">🌦️</span><span data-i18n="s3.conditions">Local conditions</span></h3>
+              <span class="badge neutral" id="wxLive"></span>
+            </div>
+            <div class="wgrid" id="wgrid"></div>
+            <div class="banner warn hidden" id="wxOffline" role="status"><span class="ic" aria-hidden="true">⚠️</span><span data-i18n="wx.offline.note">Live weather could not be loaded.</span></div>
+          </div>
+        </div>
+      </details>
+
+      <div class="card hidden" id="feedbackBox"></div>
+
+      <div class="result-links">
+        <button type="button" class="btn ghost sm" id="btnViewEvidence" data-i18n="s3.cta_evidence">See the evidence</button>
+        <button type="button" class="btn ghost sm" id="btnRedo" data-i18n="s3.cta_redo">Analyse another photo</button>
+      </div>
+      <div class="cta-bar">
+        <button type="button" class="btn pri big" id="btnGoSolution"><span id="goSolutionLabel" data-i18n="s3.cta_solution">See the action plan</span><span aria-hidden="true">→</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4. EVIDENCE ============ -->
+  <section class="screen" id="s4" aria-labelledby="h-s4">
+    <div class="screen-head">
+      <h1 id="h-s4" tabindex="-1" data-i18n="s4.title">Why this result</h1>
+      <p class="lead" data-i18n="s4.sub">Here is the evidence behind the diagnosis.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h2 class="card-title"><span aria-hidden="true">🔎</span><span data-i18n="s4.evidence">Evidence</span></h2></div>
+      <div id="evidence"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h2 class="card-title"><span aria-hidden="true">📚</span><span data-i18n="s4.sources">Sources</span></h2>
+        <span class="badge neutral" id="citCount">0</span>
+      </div>
+      <div id="citations"></div>
+    </div>
+
+    <div class="cta-bar">
+      <button type="button" class="btn ghost" id="btnBack3"><span aria-hidden="true">←</span><span data-i18n="s2.back">Back</span></button>
+      <button type="button" class="btn pri big" id="btnNext5"><span data-i18n="s4.next">See the action plan</span><span aria-hidden="true">→</span></button>
+    </div>
+  </section>
+
+  <!-- ============ 5. PLAN ============ -->
+  <section class="screen" id="s5" aria-labelledby="h-s5">
+    <div class="screen-head">
+      <h1 id="h-s5" tabindex="-1" data-i18n="s5.title">Your action plan</h1>
+      <p class="lead" data-i18n="s5.sub">What to do now and over the next 3 days.</p>
+    </div>
+
+    <div class="cand-tabs" id="candTabsPlan"></div>
+    <div id="summaryHero"></div>
+
+    <div class="card">
+      <div id="plan"></div>
+      <div class="disclaimer">
+        <b data-i18n="s5.disclaimer.title">Important:</b>
+        <span data-i18n="s5.disclaimer.body">Check the dose and waiting period on the product label.</span>
+      </div>
+      <div class="plan-actions">
+        <button type="button" class="btn pri" id="btnSpeak"><span aria-hidden="true">🔊</span><span id="speakLabel" data-i18n="s5.listen">Listen to the plan</span></button>
+        <button type="button" class="btn" id="btnBack4" data-i18n="s5.back_result">Back to result</button>
+        <button type="button" class="btn" id="btnRestart" data-i18n="s5.restart">Start a new analysis</button>
+      </div>
+    </div>
+
+    <div class="card remedy hidden" id="remedyCard"></div>
+  </section>
+
+</main>
+
+<div id="cam" class="cam hidden" role="dialog" aria-modal="true" aria-labelledby="camTitle">
+  <div class="cam-top" id="camTitle" data-i18n="cam.title">Fit one leaf inside the outline</div>
+  <div class="cam-stage">
+    <video id="camVideo" playsinline muted autoplay></video>
+    <svg class="cam-frame" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+      <path d="M50 8 C86 30 88 70 50 94 C12 70 14 30 50 8 Z" fill="none" stroke="#fff" stroke-width="1.6" stroke-dasharray="5 4" opacity=".9"/>
+      <path d="M50 14 L50 90" stroke="#fff" stroke-width=".8" opacity=".5" fill="none"/>
+    </svg>
+  </div>
+  <p class="cam-hint" data-i18n="cam.hint">Daylight, no flash. Hold steady and tap Capture.</p>
+  <div class="cam-bar">
+    <button type="button" class="btn" id="camCancel" data-i18n="cam.cancel">Cancel</button>
+    <button type="button" class="btn pri big" id="camShot" data-i18n="cam.capture">Capture</button>
+  </div>
+  <button type="button" class="cam-native" id="camNative" data-i18n="cam.native">Use the phone camera app instead</button>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ============================================================
+   i18n  (English uses Indian/British spelling: analyse, fertiliser, colour)
+   ============================================================ */
+const I18N = {
+  en: {
+    'a11y.skip': 'Skip to content',
+    'brand.name': 'Crop Oracle Karnataka',
+    'brand.tag': 'AI crop-disease advisor',
+    'brand.flag': 'Made for Karnataka farmers',
+    'step.1': 'Photo', 'step.2': 'Confirm', 'step.3': 'Analysis', 'step.4': 'Evidence', 'step.5': 'Plan',
+
+    's1.title': 'Tell us about your crop',
+    's1.sub': 'Add a clear photo of an affected leaf and check your field location.',
+    's1.photo': 'Crop photo',
+    's1.drop.t': 'Add a leaf photo',
+    's1.drop.s': 'Tap a button below, or drag a photo here',
+    's1.camera': 'Take photo',
+    's1.gallery': 'Choose from gallery',
+    's1.change.photo': 'Change photo',
+    's1.photo.alt': 'Photo of the leaf you added',
+    's1.samples': 'No photo? Try a demo leaf',
+    's1.samples.note': 'Demo leaves are drawings. They are only for trying out the app.',
+    's1.confirm.replace': 'Replace your photo with a demo leaf?',
+    's1.location': 'Field location',
+    's1.district': 'District',
+    's1.district.custom': 'Custom location',
+    's1.gps': 'Use my location',
+    's1.search.btn': 'Search village or town',
+    's1.search.label': 'Village or town in Karnataka',
+    's1.loc.search': 'Type a name…',
+    's1.loc.noresults': 'No places found in Karnataka.',
+    's1.loc.error': 'Could not search right now. Please check your internet connection.',
+    's1.manual': 'Enter coordinates',
+    's1.lat': 'Latitude',
+    's1.lon': 'Longitude',
+    's1.manual.apply': 'Apply',
+    's1.gps.locating': 'Finding your location…',
+    's1.gps.denied': 'Location permission was denied. Please choose your district instead.',
+    's1.gps.unavailable': 'Your location is not available right now.',
+    's1.gps.timeout': 'Finding your location took too long. Please try again.',
+    's1.gps.unsupported': 'This browser cannot find your location.',
+    's1.invalid.coords': 'Enter a valid latitude (−90 to 90) and longitude (−180 to 180).',
+    'loc.outside': 'This location is outside Karnataka. The app is built for Karnataka crops and weather, so results may be less reliable.',
+    's1.no.image': 'Please add a leaf photo first.',
+    's1.crop': 'Crop',
+    's1.symptoms': 'What do you see? (optional)',
+    's1.symptoms.ph': 'For example: brown spots with yellow rings, after rain',
+    's1.mic': 'Speak instead',
+    's1.mic.stop': 'Stop',
+    's1.mic.hint': 'Uses your microphone · English (India)',
+    's1.mic.unsupported': 'Voice input is not supported in this browser.',
+    's1.mic.denied': 'Microphone access was denied.',
+    's1.mic.network': 'Voice input needs an internet connection.',
+    's1.more': 'More options',
+    's1.rules': 'Pesticide rules',
+    's1.rules.note': 'Rule sets are demo data. Always follow the label of a product registered in India.',
+    's1.cta': 'Analyse crop',
+
+    'crop.rice': '🌾 Rice (paddy)', 'crop.ragi': '🌾 Ragi (finger millet)', 'crop.sugarcane': '🎋 Sugarcane',
+    'crop.arecanut': '🌴 Arecanut', 'crop.cotton': '🌱 Cotton', 'crop.groundnut': '🥜 Groundnut',
+    'crop.chickpea': '🫘 Chickpea (kadale)', 'crop.wheat': '🌾 Wheat', 'crop.tomato': '🍅 Tomato',
+    'crop.potato': '🥔 Potato', 'crop.pepper': '🌶️ Chilli / capsicum', 'crop.grape': '🍇 Grape',
+    'region.ka': 'Karnataka / India (default)',
+    'region.eu': 'European Union (export check)',
+    'region.us': 'United States (export check)',
+
+    'sample.rice_blast': 'Rice blast',
+    'sample.rice_blb': 'Rice bacterial blight',
+    'sample.ragi_blast': 'Ragi blast',
+    'sample.ragi_leaf_blight': 'Ragi leaf blight',
+    'sample.sugarcane_red_rot': 'Sugarcane red rot',
+    'sample.arecanut_banded_leaf_spot': 'Arecanut leaf spot',
+    'sample.cotton_leaf_curl': 'Cotton leaf curl',
+    'sample.groundnut_tikka': 'Groundnut tikka',
+    'sample.chickpea_wilt': 'Chickpea wilt',
+    'sample.early_blight': 'Tomato early blight',
+    'sample.powdery_mildew': 'Powdery mildew',
+    'sample.healthy': 'Healthy leaf',
+
+    's2.title': 'Confirm your field',
+    's2.sub': "We will fetch today's local weather before analysing.",
+    's2.crop': 'Crop', 's2.location': 'Location', 's2.coords': 'Coordinates',
+    's2.rain': 'Rain (last 48 h)', 's2.temp': 'Temperature', 's2.hum': 'Humidity', 's2.notes': 'Your notes',
+    's2.back': 'Back', 's2.cta': 'Analyse crop',
+
+    's3.title': 'Analysing your crop…',
+    's3.sub': 'Our agents are checking your leaf, the weather and local evidence.',
+    's3.pipeline': 'Analysis steps',
+    'theme.dark': 'Dark mode',
+    's3.more.sub': 'Reasoning, leaf damage and weather',
+    's1.loc.change': 'Change place',
+    's3.diagnosis': 'Diagnosis',
+    's3.decision': 'How we decided',
+    's3.conditions': 'Local conditions',
+    's3.done_title_ok': 'No active disease detected',
+    's3.done_title': 'Analysis complete',
+    's3.done_sub': 'Finished in {s} seconds.',
+    's3.cta_solution': 'See the action plan',
+    's3.cta_healthy': 'See care tips',
+    's3.cta_evidence': 'See the evidence',
+    's3.cta_redo': 'Analyse another photo',
+    'agent.vision': 'Vision agent', 'agent.weather': 'Weather agent', 'agent.location': 'Location agent',
+    'agent.knowledge': 'Knowledge agent', 'agent.regulatory': 'Rules agent', 'agent.slm': 'Decision agent',
+    'agent.farmer': 'Farmer advisor', 'agent.waiting': 'waiting…', 'agent.running': 'working…',
+
+    'tab.top': 'Best match', 'tab.alt': 'Alternative',
+    'diag.conf': 'Confidence',
+    'diag.score': 'Diagnosis score',
+    'uncertain.body': 'We cannot be sure from this photo alone.',
+    'unsure.alike': '{a} and {b} look almost the same in a photo, so we cannot tell which one it is.',
+    'unsure.weak': 'This leaf does not clearly match any disease we know for this crop.',
+    'unsure.model': 'Our trained leaf model points to a different disease, so we are not sure which is right.',
+    'unsure.photo': 'The photo is too unclear to be sure. Retake it in daylight with one leaf filling the frame.',
+    'ov.zoom': 'Tap the photo to enlarge or shrink it',
+
+    's4.title': 'Why this result',
+    's4.sub': 'Here is the evidence behind the diagnosis.',
+    's4.evidence': 'Evidence',
+    's4.sources': 'Sources',
+    's4.next': 'See the action plan',
+
+    's5.title': 'Your action plan',
+    's5.sub': 'What to do now and over the next 3 days.',
+    's5.sub.healthy': 'Your crop looks healthy. Here is how to keep it that way.',
+    's5.disclaimer.title': 'Important:',
+    's5.disclaimer.body': 'Check the dose, crop suitability and waiting period before harvest on the label of a product registered in India. For help, contact your nearest Krishi Vigyan Kendra (KVK) or Raita Samparka Kendra. This app supports decisions; it is not a substitute for expert advice.',
+    's5.listen': 'Listen to the plan', 's5.stop': 'Stop listening',
+    's5.back_result': 'Back to result',
+    's5.restart': 'Start a new analysis',
+    's5.keep': 'Keep monitoring', 's5.keep.sub': 'Check again in 5–7 days',
+    's5.keep.text': 'Take a fresh photo of the lower leaves in soft daylight and analyse again.',
+    'tts.unavailable': 'No {lang} voice was found on this device.',
+    'tts.unsupported': 'Speech is not supported in this browser.',
+    'lang.name.en': 'English', 'lang.name.kn': 'Kannada', 'lang.name.hi': 'Hindi',
+
+    'bucket.right_now.sub': 'Do this first',
+    'bucket.today.sub': 'In the next few hours',
+    'bucket.next_3_days.sub': 'Your priority for the next 3 days',
+    'bucket.important.sub': 'Prevention for the longer term',
+
+    'ev.image': 'Leaf image', 'ev.weather': 'Weather', 'ev.knowledge': 'Research and advisories',
+    'ev.model': 'Image model', 'ev.kindwise': 'Kindwise identification', 'ev.regulatory': 'Pesticide rules',
+    'ev.image.healthy': 'No spots or yellowing strong enough to suggest disease.',
+    'ev.image.body': ({count, pct, chlor}) =>
+      `Found ${count} spot cluster${count === 1 ? '' : 's'} covering ${pct}% of the leaf, with ${chlor}% yellowing.`,
+    'ev.weather.body': ({t, rh, rain}) =>
+      `Local weather: ${t} °C, ${rh}% humidity and ${rain} mm of rain in the last 48 hours.`,
+    'ev.weather.est': ' These are estimated values because live weather was unavailable.',
+    'ev.knowledge.healthy': 'Not needed because the leaf looks healthy.',
+    'ev.knowledge.body': ({total, live}) =>
+      `${total} source${total === 1 ? '' : 's'} found (${live} from PubMed, the rest from agricultural university and government advisories).`,
+    'ev.model.body': ({cls, pct}) => `The image model suggests “${cls}” (${pct}% confidence).`,
+    'ev.kindwise.body': ({name, pct}) => `Kindwise identified “${name}” with ${pct}% confidence.`,
+    'ev.regulatory.body': ({n, region}) => `${n} product${n === 1 ? ' was' : 's were'} replaced to follow ${region} rules.`,
+    'ev.regulatory.ok': ({region}) => `No product needed replacing under ${region} rules.`,
+
+    'remedy.title': 'Verified treatment notes',
+    'remedy.note': 'These notes are available in English only.',
+    'remedy.symptoms': 'Symptoms', 'remedy.treatment': 'Treatment', 'remedy.source': 'Source',
+
+    'slm.chip.rule': 'Rule-based',
+    'slm.default.headline': 'Evidence summary',
+    'slm.default.explain': 'The specialist agents produced the evidence shown in these cards.',
+    'slm.alt': ({name}) => `${name} is another possibility supported by the evidence.`,
+    'health.eyebrow': 'Leaf damage (estimate)', 'health.default': 'Damage level',
+    'health.note': 'The share of the leaf in the photo covered by spots, dead patches or yellowing. A rough estimate from the picture, not a laboratory measurement.',
+
+    'hero.label': 'Most likely diagnosis', 'hero.healthy.label': 'Result',
+    'hero.healthy': 'No active disease detected',
+    'hero.high': 'High likelihood', 'hero.moderate': 'Moderate likelihood', 'hero.low': 'Possible: please verify',
+    'hero.note': 'from the leaf image, local weather and your symptoms',
+
+    'metric.vision': 'Leaf image', 'metric.weather': 'Weather fit', 'metric.symptoms': 'Symptom match',
+    'wx.temp': 'Temperature', 'wx.hum': 'Humidity', 'wx.rain48': 'Rain, last 48 h',
+    'wx.rainNext': 'Rain, next 48 h', 'wx.wind': 'Wind', 'wx.rain7': 'Rain, last 7 days',
+    'wx.live': 'Live', 'wx.offline': 'Estimate',
+    'wx.offline.note': 'Live weather could not be loaded, so typical values are shown. Results may be less accurate.',
+    'unit.mm': 'mm', 'unit.kmh': 'km/h',
+
+    'conf.title': 'Things to double-check', 'conf.none': 'No conflicts found.',
+    'plan.empty': 'No action plan could be generated.',
+    'cit.none': 'No sources found.',
+    'cit.open': 'Open source', 'cit.pubmed': 'PubMed', 'cit.corpus': 'Karnataka & ICAR',
+
+    'err.analysis': 'The analysis failed.',
+    'err.network': 'Could not reach the server. Please check your internet connection and try again.',
+    'err.image': 'That file could not be read as an image. Please try a JPG or PNG photo.',
+    'err.toolarge': 'The photo is too large (maximum 10 MB).',
+    'err.noleaf': 'We could not find a leaf in this photo. Please retake it in daylight, with one leaf filling most of the frame against a plain background.',
+    'err.server': 'The server had a problem. Please try again in a moment.',
+    'err.weather': 'Weather is unavailable right now. We will try again during the analysis.',
+    'lang.updating': 'Updating results…',
+    'lang.failed': 'Could not update the results to this language.',
+    'guide.title': 'How to take a good photo',
+    'guide.1': 'Use daylight. Do not use the flash.',
+    'guide.2': 'Fill the frame with one leaf that shows the spots.',
+    'guide.3': 'Hold the phone steady and tap the leaf so it is in focus.',
+    'guide.4': 'Keep your shadow and your fingers off the leaf.',
+    'guide.5': 'If you can, take a second photo of the underside of the leaf.',
+    's1.camera.guided': 'Camera with guide',
+    'cam.title': 'Fit one leaf inside the outline',
+    'cam.hint': 'Daylight, no flash. Hold steady and tap Capture.',
+    'cam.capture': 'Capture',
+    'cam.cancel': 'Cancel',
+    'cam.native': 'Use the phone camera app instead',
+    'cam.err': 'The camera could not be opened. Use the phone camera app instead.',
+    'pq.title': 'Photo problems',
+    'pq.dark': 'The photo is too dark. Move into daylight.',
+    'pq.blur': 'The photo is blurry. Hold the phone steady and tap the leaf to focus.',
+    'pq.glare': 'There is glare or a shiny reflection on the leaf. Turn the leaf, or stand so the sun is behind you.',
+    'pq.small_leaf': 'The leaf is too small in the photo. Move closer so one leaf fills the frame.',
+    'pq.multiple_leaves': 'More than one leaf is in the photo. Photograph a single leaf.',
+    'pq.low_res': 'The photo is too small. Use a larger photo.',
+    'pq.retake': 'Take a new photo',
+    'pq.note.severe': 'Because of this, the result is not reliable.',
+    'pq.note.minor': 'The result may be less reliable.',
+    'ov.title': 'What the app saw on the leaf',
+    'ov.show': 'Show marks',
+    'ov.hide': 'Hide marks',
+    'ov.red': 'Spots or dead patches the app counted',
+    'ov.yellow': 'Yellowing',
+    'ov.note': 'If the marks are not on the real problem, do not trust the result.',
+    'ov.alt': 'Your leaf photo with marks',
+    'ov.alt.plain': 'Your leaf photo',
+    's3.done_title_inconclusive': 'We could not check this photo',
+    'inc.title': 'This photo is not good enough',
+    'inc.body': 'We could not see the leaf clearly, so we cannot say whether your crop is healthy or diseased. Please take a new photo, or ask an expert.',
+    'hero.unsure.label': 'Best guess only',
+    'hero.unsure.note': 'Do not spray anything until an expert confirms.',
+    'uncertain.nospray': 'No spray advice is shown because the result is not certain.',
+    's5.sub.unsure': 'Do these steps first. There is no spray advice yet.',
+    'plan.withheld.title': 'No spray advice yet',
+    'plan.withheld.body': 'We are not sure what this is, so we will not tell you to spray. Do the steps below first. You can also call the Kisan Call Centre on {kcc} (free).',
+    'plan.retake': 'Take a clear photo of one leaf in daylight. Also photograph the underside of the leaf and the whole plant.',
+    'plan.kvk': 'Show the leaf or the photos to your nearest KVK or Raita Samparka Kendra before you spray anything.',
+    'help.title': 'Ask an expert near you',
+    'help.kcc': 'Kisan Call Centre',
+    'help.kcc.note': 'Free call, every day 6 am to 10 pm. They answer in your language.',
+    'help.kvk': 'Krishi Vigyan Kendra (KVK) in your district',
+    'help.pick': 'Choose your district',
+    'help.call': 'Call',
+    'help.website': 'Website',
+    'help.nophone': 'No phone number found. Call the Kisan Call Centre.',
+    'help.see': 'No KVK is listed in this district. The nearest are:',
+    'help.warn': 'Numbers may have changed. If nobody answers, call the Kisan Call Centre.',
+    'help.directory': 'Full list of KVKs',
+    'help.loading': 'Loading…',
+    'help.failed': 'Could not load the KVK list. Use the Kisan Call Centre number.',
+    'fb.title': 'Was this result right?',
+    'fb.sub': 'Your answer helps us improve this app.',
+    'fb.match': 'Yes, it looks right',
+    'fb.different': 'No, it is something else',
+    'fb.unsure': 'I am not sure',
+    'fb.which': 'What do you think it is?',
+    'fb.choose': 'Choose…',
+    'fb.healthy': 'The leaf is healthy',
+    'fb.other': 'Something else, or I do not know the name',
+    'fb.consent': 'You may keep my photo and rough location (about 11 km) to improve this app.',
+    'fb.privacy': 'Privacy',
+    'fb.send': 'Send answer',
+    'fb.thanks': 'Thank you! Your answer was saved.',
+    'fb.thanks.photo': 'Your photo was saved too.',
+    'fb.code': 'To delete it later, note this record number and code:',
+    'fb.id': 'Record number',
+    'fb.token': 'Delete code',
+    'fb.delete': 'Delete my answer and photo now',
+    'fb.deleted': 'Deleted.',
+    'fb.err': 'Could not send your answer. Please try again.',
+    'fb.err.old': 'This result is too old. Please analyse the photo again.',
+    'fb.dup': 'You have already answered for this result.',
+    'fb.pick': 'Please choose what you think it is.',
+    'err.ratelimit': 'Too many requests from your network. Please wait a minute and try again.',
+    'err.busy': 'The server is busy. Please try again in a moment.',
+  },
+
+  kn: {
+    'a11y.skip': 'ಮುಖ್ಯ ವಿಷಯಕ್ಕೆ ಹೋಗಿ',
+    'brand.name': 'ಕ್ರಾಪ್ ಒರಾಕಲ್ ಕರ್ನಾಟಕ',
+    'brand.tag': 'AI ಬೆಳೆ ರೋಗ ಸಲಹೆಗಾರ',
+    'brand.flag': 'ಕರ್ನಾಟಕದ ರೈತರಿಗಾಗಿ',
+    'step.1': 'ಫೋಟೋ', 'step.2': 'ದೃಢೀಕರಣ', 'step.3': 'ವಿಶ್ಲೇಷಣೆ', 'step.4': 'ಪುರಾವೆ', 'step.5': 'ಯೋಜನೆ',
+
+    's1.title': 'ನಿಮ್ಮ ಬೆಳೆಯ ಬಗ್ಗೆ ತಿಳಿಸಿ',
+    's1.sub': 'ರೋಗಪೀಡಿತ ಎಲೆಯ ಸ್ಪಷ್ಟ ಫೋಟೋ ಸೇರಿಸಿ ಮತ್ತು ನಿಮ್ಮ ಹೊಲದ ಸ್ಥಳ ಪರಿಶೀಲಿಸಿ.',
+    's1.photo': 'ಬೆಳೆಯ ಫೋಟೋ',
+    's1.drop.t': 'ಎಲೆಯ ಫೋಟೋ ಸೇರಿಸಿ',
+    's1.drop.s': 'ಕೆಳಗಿನ ಬಟನ್ ಒತ್ತಿ, ಅಥವಾ ಫೋಟೋವನ್ನು ಇಲ್ಲಿಗೆ ಎಳೆದು ತನ್ನಿ',
+    's1.camera': 'ಫೋಟೋ ತೆಗೆಯಿರಿ',
+    's1.gallery': 'ಗ್ಯಾಲರಿಯಿಂದ ಆರಿಸಿ',
+    's1.change.photo': 'ಫೋಟೋ ಬದಲಿಸಿ',
+    's1.photo.alt': 'ನೀವು ಸೇರಿಸಿದ ಎಲೆಯ ಫೋಟೋ',
+    's1.samples': 'ಫೋಟೋ ಇಲ್ಲವೇ? ಮಾದರಿ ಎಲೆ ಪ್ರಯತ್ನಿಸಿ',
+    's1.samples.note': 'ಮಾದರಿ ಎಲೆಗಳು ಕೇವಲ ಚಿತ್ರಗಳು. ಆ್ಯಪ್ ಪ್ರಯತ್ನಿಸಲು ಮಾತ್ರ ಬಳಸಿ.',
+    's1.confirm.replace': 'ನಿಮ್ಮ ಫೋಟೋ ಬದಲಿಗೆ ಮಾದರಿ ಎಲೆ ಬಳಸಬೇಕೇ?',
+    's1.location': 'ಹೊಲದ ಸ್ಥಳ',
+    's1.district': 'ಜಿಲ್ಲೆ',
+    's1.district.custom': 'ಬೇರೆ ಸ್ಥಳ',
+    's1.gps': 'ನನ್ನ ಸ್ಥಳ ಬಳಸಿ',
+    's1.search.btn': 'ಹಳ್ಳಿ ಅಥವಾ ಪಟ್ಟಣ ಹುಡುಕಿ',
+    's1.search.label': 'ಕರ್ನಾಟಕದ ಹಳ್ಳಿ ಅಥವಾ ಪಟ್ಟಣ',
+    's1.loc.search': 'ಹೆಸರು ಟೈಪ್ ಮಾಡಿ…',
+    's1.loc.noresults': 'ಕರ್ನಾಟಕದಲ್ಲಿ ಯಾವುದೇ ಸ್ಥಳ ಸಿಗಲಿಲ್ಲ.',
+    's1.loc.error': 'ಈಗ ಹುಡುಕಲು ಆಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕ ಪರಿಶೀಲಿಸಿ.',
+    's1.manual': 'ನಿರ್ದೇಶಾಂಕ ನಮೂದಿಸಿ',
+    's1.lat': 'ಅಕ್ಷಾಂಶ',
+    's1.lon': 'ರೇಖಾಂಶ',
+    's1.manual.apply': 'ಅನ್ವಯಿಸಿ',
+    's1.gps.locating': 'ನಿಮ್ಮ ಸ್ಥಳ ಹುಡುಕುತ್ತಿದೆ…',
+    's1.gps.denied': 'ಸ್ಥಳದ ಅನುಮತಿ ನಿರಾಕರಿಸಲಾಗಿದೆ. ಬದಲಿಗೆ ನಿಮ್ಮ ಜಿಲ್ಲೆಯನ್ನು ಆರಿಸಿ.',
+    's1.gps.unavailable': 'ನಿಮ್ಮ ಸ್ಥಳ ಈಗ ಲಭ್ಯವಿಲ್ಲ.',
+    's1.gps.timeout': 'ಸ್ಥಳ ಹುಡುಕಲು ತುಂಬಾ ಸಮಯ ಹಿಡಿಯಿತು. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.',
+    's1.gps.unsupported': 'ಈ ಬ್ರೌಸರ್ ನಿಮ್ಮ ಸ್ಥಳವನ್ನು ಪತ್ತೆ ಮಾಡಲಾರದು.',
+    's1.invalid.coords': 'ಮಾನ್ಯ ಅಕ್ಷಾಂಶ (−90 ರಿಂದ 90) ಮತ್ತು ರೇಖಾಂಶ (−180 ರಿಂದ 180) ನಮೂದಿಸಿ.',
+    'loc.outside': 'ಈ ಸ್ಥಳ ಕರ್ನಾಟಕದ ಹೊರಗಿದೆ. ಈ ಆ್ಯಪ್ ಕರ್ನಾಟಕದ ಬೆಳೆ ಮತ್ತು ಹವಾಮಾನಕ್ಕಾಗಿ ರೂಪಿಸಲಾಗಿದೆ, ಆದ್ದರಿಂದ ಫಲಿತಾಂಶ ಕಡಿಮೆ ನಂಬಲರ್ಹವಾಗಿರಬಹುದು.',
+    's1.no.image': 'ಮೊದಲು ಎಲೆಯ ಫೋಟೋ ಸೇರಿಸಿ.',
+    's1.crop': 'ಬೆಳೆ',
+    's1.symptoms': 'ನೀವು ಏನು ಗಮನಿಸಿದ್ದೀರಿ? (ಐಚ್ಛಿಕ)',
+    's1.symptoms.ph': 'ಉದಾಹರಣೆ: ಮಳೆಯ ನಂತರ ಹಳದಿ ಉಂಗುರದ ಕಂದು ಚುಕ್ಕೆಗಳು',
+    's1.mic': 'ಮಾತನಾಡಿ ಹೇಳಿ',
+    's1.mic.stop': 'ನಿಲ್ಲಿಸಿ',
+    's1.mic.hint': 'ಮೈಕ್ರೊಫೋನ್ ಬಳಸುತ್ತದೆ · ಕನ್ನಡ',
+    's1.mic.unsupported': 'ಈ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಧ್ವನಿ ಇನ್‌ಪುಟ್ ಬೆಂಬಲಿತವಾಗಿಲ್ಲ.',
+    's1.mic.denied': 'ಮೈಕ್ರೊಫೋನ್ ಬಳಸಲು ಅನುಮತಿ ಸಿಗಲಿಲ್ಲ.',
+    's1.mic.network': 'ಧ್ವನಿ ಇನ್‌ಪುಟ್‌ಗೆ ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕ ಬೇಕು.',
+    's1.more': 'ಹೆಚ್ಚಿನ ಆಯ್ಕೆಗಳು',
+    's1.rules': 'ಕೀಟನಾಶಕ ನಿಯಮಗಳು',
+    's1.rules.note': 'ನಿಯಮ ಸೆಟ್‌ಗಳು ಡೆಮೊ ಮಾಹಿತಿ. ಭಾರತದಲ್ಲಿ ನೋಂದಣಿಯಾದ ಉತ್ಪನ್ನದ ಲೇಬಲ್ ಅನ್ನು ಯಾವಾಗಲೂ ಪಾಲಿಸಿ.',
+    's1.cta': 'ಬೆಳೆ ವಿಶ್ಲೇಷಿಸಿ',
+
+    'crop.rice': '🌾 ಭತ್ತ', 'crop.ragi': '🌾 ರಾಗಿ', 'crop.sugarcane': '🎋 ಕಬ್ಬು',
+    'crop.arecanut': '🌴 ಅಡಿಕೆ', 'crop.cotton': '🌱 ಹತ್ತಿ', 'crop.groundnut': '🥜 ಶೇಂಗಾ (ಕಡಲೆಕಾಯಿ)',
+    'crop.chickpea': '🫘 ಕಡಲೆ', 'crop.wheat': '🌾 ಗೋಧಿ', 'crop.tomato': '🍅 ಟೊಮೆಟೊ',
+    'crop.potato': '🥔 ಆಲೂಗಡ್ಡೆ', 'crop.pepper': '🌶️ ಮೆಣಸಿನಕಾಯಿ / ದಪ್ಪ ಮೆಣಸು', 'crop.grape': '🍇 ದ್ರಾಕ್ಷಿ',
+    'region.ka': 'ಕರ್ನಾಟಕ / ಭಾರತ (ಡೀಫಾಲ್ಟ್)',
+    'region.eu': 'ಯುರೋಪಿಯನ್ ಒಕ್ಕೂಟ (ರಫ್ತು ಪರಿಶೀಲನೆ)',
+    'region.us': 'ಅಮೆರಿಕ ಸಂಯುಕ್ತ ಸಂಸ್ಥಾನ (ರಫ್ತು ಪರಿಶೀಲನೆ)',
+
+    'sample.rice_blast': 'ಭತ್ತದ ಬ್ಲಾಸ್ಟ್',
+    'sample.rice_blb': 'ಭತ್ತದ ಬ್ಯಾಕ್ಟೀರಿಯಾ ಎಲೆ ಅಂಗಮಾರಿ',
+    'sample.ragi_blast': 'ರಾಗಿ ಬ್ಲಾಸ್ಟ್',
+    'sample.ragi_leaf_blight': 'ರಾಗಿ ಎಲೆ ಅಂಗಮಾರಿ',
+    'sample.sugarcane_red_rot': 'ಕಬ್ಬಿನ ಕೆಂಪು ಕೊಳೆ ರೋಗ',
+    'sample.arecanut_banded_leaf_spot': 'ಅಡಿಕೆ ಎಲೆ ಚುಕ್ಕೆ ರೋಗ',
+    'sample.cotton_leaf_curl': 'ಹತ್ತಿ ಎಲೆ ಮುದುಡು ರೋಗ',
+    'sample.groundnut_tikka': 'ಶೇಂಗಾ ಟಿಕ್ಕಾ ರೋಗ',
+    'sample.chickpea_wilt': 'ಕಡಲೆ ಬಾಡು ರೋಗ',
+    'sample.early_blight': 'ಟೊಮೆಟೊ ಅರ್ಲಿ ಬ್ಲೈಟ್',
+    'sample.powdery_mildew': 'ಬೂದಿ ರೋಗ (ಪೌಡರಿ ಮಿಲ್ಡ್ಯೂ)',
+    'sample.healthy': 'ಆರೋಗ್ಯಕರ ಎಲೆ',
+
+    's2.title': 'ನಿಮ್ಮ ಹೊಲವನ್ನು ದೃಢೀಕರಿಸಿ',
+    's2.sub': 'ವಿಶ್ಲೇಷಣೆಗೆ ಮೊದಲು ಇಂದಿನ ಸ್ಥಳೀಯ ಹವಾಮಾನ ಮಾಹಿತಿ ತರುತ್ತೇವೆ.',
+    's2.crop': 'ಬೆಳೆ', 's2.location': 'ಸ್ಥಳ', 's2.coords': 'ನಿರ್ದೇಶಾಂಕಗಳು',
+    's2.rain': 'ಮಳೆ (ಕಳೆದ 48 ಗಂಟೆ)', 's2.temp': 'ತಾಪಮಾನ', 's2.hum': 'ಆರ್ದ್ರತೆ', 's2.notes': 'ನಿಮ್ಮ ಟಿಪ್ಪಣಿ',
+    's2.back': 'ಹಿಂದೆ', 's2.cta': 'ಬೆಳೆ ವಿಶ್ಲೇಷಿಸಿ',
+
+    's3.title': 'ನಿಮ್ಮ ಬೆಳೆಯನ್ನು ವಿಶ್ಲೇಷಿಸಲಾಗುತ್ತಿದೆ…',
+    's3.sub': 'ನಮ್ಮ ಏಜೆಂಟ್‌ಗಳು ನಿಮ್ಮ ಎಲೆ, ಹವಾಮಾನ ಮತ್ತು ಸ್ಥಳೀಯ ಪುರಾವೆಗಳನ್ನು ಪರಿಶೀಲಿಸುತ್ತಿವೆ.',
+    's3.pipeline': 'ವಿಶ್ಲೇಷಣೆಯ ಹಂತಗಳು',
+    'theme.dark': 'ಡಾರ್ಕ್ ಮೋಡ್',
+    's3.more.sub': 'ತರ್ಕ, ಎಲೆಯ ಹಾನಿ ಮತ್ತು ಹವಾಮಾನ',
+    's1.loc.change': 'ಸ್ಥಳ ಬದಲಿಸಿ',
+    's3.diagnosis': 'ರೋಗನಿರ್ಣಯ',
+    's3.decision': 'ನಾವು ಹೇಗೆ ನಿರ್ಧರಿಸಿದೆವು',
+    's3.conditions': 'ಸ್ಥಳೀಯ ಪರಿಸ್ಥಿತಿ',
+    's3.done_title_ok': 'ಯಾವುದೇ ರೋಗ ಕಂಡುಬಂದಿಲ್ಲ',
+    's3.done_title': 'ವಿಶ್ಲೇಷಣೆ ಪೂರ್ಣಗೊಂಡಿದೆ',
+    's3.done_sub': '{s} ಸೆಕೆಂಡ್‌ನಲ್ಲಿ ಪೂರ್ಣಗೊಂಡಿದೆ.',
+    's3.cta_solution': 'ಕ್ರಿಯಾ ಯೋಜನೆ ನೋಡಿ',
+    's3.cta_healthy': 'ಆರೈಕೆ ಸಲಹೆಗಳನ್ನು ನೋಡಿ',
+    's3.cta_evidence': 'ಪುರಾವೆ ನೋಡಿ',
+    's3.cta_redo': 'ಇನ್ನೊಂದು ಫೋಟೋ ವಿಶ್ಲೇಷಿಸಿ',
+    'agent.vision': 'ದೃಷ್ಟಿ ಏಜೆಂಟ್', 'agent.weather': 'ಹವಾಮಾನ ಏಜೆಂಟ್', 'agent.location': 'ಸ್ಥಳ ಏಜೆಂಟ್',
+    'agent.knowledge': 'ಜ್ಞಾನ ಏಜೆಂಟ್', 'agent.regulatory': 'ನಿಯಮ ಏಜೆಂಟ್', 'agent.slm': 'ನಿರ್ಧಾರ ಏಜೆಂಟ್',
+    'agent.farmer': 'ರೈತ ಸಲಹೆಗಾರ', 'agent.waiting': 'ಕಾಯುತ್ತಿದೆ…', 'agent.running': 'ಕೆಲಸ ನಡೆಯುತ್ತಿದೆ…',
+
+    'tab.top': 'ಅತ್ಯುತ್ತಮ ಹೊಂದಾಣಿಕೆ', 'tab.alt': 'ಪರ್ಯಾಯ',
+    'diag.conf': 'ವಿಶ್ವಾಸ',
+    'diag.score': 'ರೋಗನಿರ್ಣಯ ಅಂಕ',
+    'uncertain.body': 'ಈ ಫೋಟೋದಿಂದ ಮಾತ್ರ ಖಚಿತವಾಗಿ ಹೇಳಲು ಆಗುವುದಿಲ್ಲ.',
+    'unsure.alike': 'ಫೋಟೋದಲ್ಲಿ {a} ಮತ್ತು {b} ಬಹುತೇಕ ಒಂದೇ ರೀತಿ ಕಾಣುತ್ತವೆ, ಆದ್ದರಿಂದ ಯಾವುದು ಎಂದು ಹೇಳಲು ಆಗುವುದಿಲ್ಲ.',
+    'unsure.weak': 'ಈ ಎಲೆ ಈ ಬೆಳೆಗೆ ನಮಗೆ ತಿಳಿದ ಯಾವ ರೋಗಕ್ಕೂ ಸ್ಪಷ್ಟವಾಗಿ ಹೊಂದುವುದಿಲ್ಲ.',
+    'unsure.model': 'ನಮ್ಮ ತರಬೇತಿ ಪಡೆದ ಎಲೆ ಮಾದರಿ ಬೇರೆ ರೋಗವನ್ನು ಸೂಚಿಸುತ್ತದೆ, ಆದ್ದರಿಂದ ಯಾವುದು ಸರಿ ಎಂದು ಖಚಿತವಿಲ್ಲ.',
+    'unsure.photo': 'ಖಚಿತವಾಗಿ ಹೇಳುವಷ್ಟು ಫೋಟೋ ಸ್ಪಷ್ಟವಾಗಿಲ್ಲ. ಹಗಲು ಬೆಳಕಿನಲ್ಲಿ ಒಂದು ಎಲೆ ಚೌಕಟ್ಟು ತುಂಬುವಂತೆ ಮತ್ತೆ ಫೋಟೋ ತೆಗೆಯಿರಿ.',
+    'ov.zoom': 'ಫೋಟೋವನ್ನು ದೊಡ್ಡದು ಅಥವಾ ಚಿಕ್ಕದು ಮಾಡಲು ಅದನ್ನು ಒತ್ತಿ',
+
+    's4.title': 'ಈ ಫಲಿತಾಂಶ ಏಕೆ',
+    's4.sub': 'ರೋಗನಿರ್ಣಯದ ಹಿಂದಿನ ಪುರಾವೆ ಇಲ್ಲಿದೆ.',
+    's4.evidence': 'ಪುರಾವೆ',
+    's4.sources': 'ಮೂಲಗಳು',
+    's4.next': 'ಕ್ರಿಯಾ ಯೋಜನೆ ನೋಡಿ',
+
+    's5.title': 'ನಿಮ್ಮ ಕ್ರಿಯಾ ಯೋಜನೆ',
+    's5.sub': 'ಈಗ ಮತ್ತು ಮುಂದಿನ 3 ದಿನಗಳಲ್ಲಿ ಏನು ಮಾಡಬೇಕು.',
+    's5.sub.healthy': 'ನಿಮ್ಮ ಬೆಳೆ ಆರೋಗ್ಯವಾಗಿ ಕಾಣುತ್ತಿದೆ. ಹಾಗೆಯೇ ಉಳಿಸಿಕೊಳ್ಳುವುದು ಹೇಗೆಂದು ಇಲ್ಲಿದೆ.',
+    's5.disclaimer.title': 'ಮುಖ್ಯ:',
+    's5.disclaimer.body': 'ಭಾರತದಲ್ಲಿ ನೋಂದಣಿಯಾದ ಉತ್ಪನ್ನದ ಲೇಬಲ್‌ನಲ್ಲಿ ಪ್ರಮಾಣ, ಬೆಳೆಗೆ ಸೂಕ್ತತೆ ಮತ್ತು ಕೊಯ್ಲಿಗೆ ಮೊದಲಿನ ಕಾಯುವ ಅವಧಿಯನ್ನು ಪರಿಶೀಲಿಸಿ. ಸಹಾಯಕ್ಕಾಗಿ ನಿಮ್ಮ ಹತ್ತಿರದ ಕೃಷಿ ವಿಜ್ಞಾನ ಕೇಂದ್ರ (KVK) ಅಥವಾ ರೈತ ಸಂಪರ್ಕ ಕೇಂದ್ರವನ್ನು ಸಂಪರ್ಕಿಸಿ. ಈ ಆ್ಯಪ್ ನಿರ್ಧಾರಕ್ಕೆ ನೆರವು ನೀಡುತ್ತದೆ; ತಜ್ಞರ ಸಲಹೆಗೆ ಪರ್ಯಾಯವಲ್ಲ.',
+    's5.listen': 'ಯೋಜನೆ ಆಲಿಸಿ', 's5.stop': 'ಆಲಿಸುವುದನ್ನು ನಿಲ್ಲಿಸಿ',
+    's5.back_result': 'ಫಲಿತಾಂಶಕ್ಕೆ ಹಿಂತಿರುಗಿ',
+    's5.restart': 'ಹೊಸ ವಿಶ್ಲೇಷಣೆ ಆರಂಭಿಸಿ',
+    's5.keep': 'ನಿಗಾ ಇಡಿ', 's5.keep.sub': '5–7 ದಿನಗಳ ನಂತರ ಮತ್ತೆ ಪರಿಶೀಲಿಸಿ',
+    's5.keep.text': 'ಮೃದುವಾದ ಹಗಲು ಬೆಳಕಿನಲ್ಲಿ ಕೆಳಗಿನ ಎಲೆಗಳ ಹೊಸ ಫೋಟೋ ತೆಗೆದು ಮತ್ತೆ ವಿಶ್ಲೇಷಿಸಿ.',
+    'tts.unavailable': 'ಈ ಸಾಧನದಲ್ಲಿ {lang} ಧ್ವನಿ ಸಿಗಲಿಲ್ಲ.',
+    'tts.unsupported': 'ಈ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಧ್ವನಿ ಓದುವಿಕೆ ಬೆಂಬಲಿತವಾಗಿಲ್ಲ.',
+    'lang.name.en': 'ಇಂಗ್ಲಿಷ್', 'lang.name.kn': 'ಕನ್ನಡ', 'lang.name.hi': 'ಹಿಂದಿ',
+
+    'bucket.right_now.sub': 'ಇದನ್ನು ಮೊದಲು ಮಾಡಿ',
+    'bucket.today.sub': 'ಮುಂದಿನ ಕೆಲವು ಗಂಟೆಗಳಲ್ಲಿ',
+    'bucket.next_3_days.sub': 'ಮುಂದಿನ 3 ದಿನಗಳ ನಿಮ್ಮ ಆದ್ಯತೆ',
+    'bucket.important.sub': 'ದೀರ್ಘಾವಧಿಯ ತಡೆಗಟ್ಟುವಿಕೆ',
+
+    'ev.image': 'ಎಲೆ ಚಿತ್ರ', 'ev.weather': 'ಹವಾಮಾನ', 'ev.knowledge': 'ಸಂಶೋಧನೆ ಮತ್ತು ಸಲಹೆಗಳು',
+    'ev.model': 'ಚಿತ್ರ ಮಾದರಿ', 'ev.kindwise': 'Kindwise ಗುರುತಿಸುವಿಕೆ', 'ev.regulatory': 'ಕೀಟನಾಶಕ ನಿಯಮಗಳು',
+    'ev.image.healthy': 'ರೋಗ ಸೂಚಿಸುವಷ್ಟು ಬಲವಾದ ಚುಕ್ಕೆ ಅಥವಾ ಹಳದಿ ಬಣ್ಣ ಕಂಡುಬಂದಿಲ್ಲ.',
+    'ev.image.body': ({count, pct, chlor}) =>
+      `${count} ಚುಕ್ಕೆ ಗುಂಪುಗಳು ಕಂಡುಬಂದಿವೆ. ಎಲೆಯ ${pct}% ಭಾಗದಲ್ಲಿ ಚುಕ್ಕೆಗಳಿವೆ ಮತ್ತು ${chlor}% ಭಾಗ ಹಳದಿಯಾಗಿದೆ.`,
+    'ev.weather.body': ({t, rh, rain}) =>
+      `ಸ್ಥಳೀಯ ಹವಾಮಾನ: ${t} °C, ${rh}% ಆರ್ದ್ರತೆ, ಕಳೆದ 48 ಗಂಟೆಗಳಲ್ಲಿ ${rain} ಮಿಮೀ ಮಳೆ.`,
+    'ev.weather.est': ' ನೇರ ಹವಾಮಾನ ಮಾಹಿತಿ ಲಭ್ಯವಿಲ್ಲದ ಕಾರಣ ಇವು ಅಂದಾಜು ಮೌಲ್ಯಗಳು.',
+    'ev.knowledge.healthy': 'ಎಲೆ ಆರೋಗ್ಯವಾಗಿ ಕಾಣುವುದರಿಂದ ಇದರ ಅಗತ್ಯವಿಲ್ಲ.',
+    'ev.knowledge.body': ({total, live}) =>
+      `${total} ಮೂಲಗಳು ಸಿಕ್ಕಿವೆ (${live} PubMed ನಿಂದ, ಉಳಿದವು ಕೃಷಿ ವಿಶ್ವವಿದ್ಯಾಲಯ ಮತ್ತು ಸರ್ಕಾರಿ ಸಲಹೆಗಳಿಂದ).`,
+    'ev.model.body': ({cls, pct}) => `ಚಿತ್ರ ಮಾದರಿಯು “${cls}” ಎಂದು ಸೂಚಿಸಿದೆ (${pct}% ವಿಶ್ವಾಸ).`,
+    'ev.kindwise.body': ({name, pct}) => `Kindwise “${name}” ಅನ್ನು ${pct}% ವಿಶ್ವಾಸದೊಂದಿಗೆ ಗುರುತಿಸಿದೆ.`,
+    'ev.regulatory.body': ({n, region}) => `${region} ನಿಯಮಗಳಿಗೆ ಅನುಗುಣವಾಗಿ ${n} ಉತ್ಪನ್ನ ಬದಲಿಸಲಾಗಿದೆ.`,
+    'ev.regulatory.ok': ({region}) => `${region} ನಿಯಮಗಳ ಪ್ರಕಾರ ಯಾವುದೇ ಉತ್ಪನ್ನ ಬದಲಿಸುವ ಅಗತ್ಯ ಬರಲಿಲ್ಲ.`,
+
+    'remedy.title': 'ಪರಿಶೀಲಿತ ಚಿಕಿತ್ಸಾ ಟಿಪ್ಪಣಿಗಳು',
+    'remedy.note': 'ಈ ಟಿಪ್ಪಣಿಗಳು ಇಂಗ್ಲಿಷ್‌ನಲ್ಲಿ ಮಾತ್ರ ಲಭ್ಯ.',
+    'remedy.symptoms': 'ಲಕ್ಷಣಗಳು', 'remedy.treatment': 'ಚಿಕಿತ್ಸೆ', 'remedy.source': 'ಮೂಲ',
+
+    'slm.chip.rule': 'ನಿಯಮ-ಆಧಾರಿತ',
+    'slm.default.headline': 'ಪುರಾವೆಯ ಸಾರಾಂಶ',
+    'slm.default.explain': 'ತಜ್ಞ ಏಜೆಂಟ್‌ಗಳು ಈ ಕಾರ್ಡ್‌ಗಳಲ್ಲಿ ತೋರಿಸಿರುವ ಪುರಾವೆಯನ್ನು ಸಿದ್ಧಪಡಿಸಿವೆ.',
+    'slm.alt': ({name}) => `${name} ಪುರಾವೆಯಿಂದ ಬೆಂಬಲಿತವಾದ ಇನ್ನೊಂದು ಸಾಧ್ಯತೆ.`,
+    'health.eyebrow': 'ಎಲೆಯ ಹಾನಿ (ಅಂದಾಜು)', 'health.default': 'ಹಾನಿಯ ಮಟ್ಟ',
+    'health.note': 'ಫೋಟೋದಲ್ಲಿ ಎಲೆಯ ಎಷ್ಟು ಭಾಗದಲ್ಲಿ ಚುಕ್ಕೆ, ಸತ್ತ ತೇಪೆ ಅಥವಾ ಹಳದಿ ಬಣ್ಣ ಇದೆ ಎಂಬ ಸ್ಥೂಲ ಅಂದಾಜು. ಇದು ಪ್ರಯೋಗಾಲಯದ ಅಳತೆ ಅಲ್ಲ.',
+
+    'hero.label': 'ಅತ್ಯಂತ ಸಂಭಾವ್ಯ ರೋಗನಿರ್ಣಯ', 'hero.healthy.label': 'ಫಲಿತಾಂಶ',
+    'hero.healthy': 'ಯಾವುದೇ ಸಕ್ರಿಯ ರೋಗ ಕಂಡುಬಂದಿಲ್ಲ',
+    'hero.high': 'ಹೆಚ್ಚಿನ ಸಾಧ್ಯತೆ', 'hero.moderate': 'ಮಧ್ಯಮ ಸಾಧ್ಯತೆ', 'hero.low': 'ಸಾಧ್ಯ: ದಯವಿಟ್ಟು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ',
+    'hero.note': 'ಎಲೆ ಚಿತ್ರ, ಸ್ಥಳೀಯ ಹವಾಮಾನ ಮತ್ತು ನಿಮ್ಮ ಲಕ್ಷಣಗಳ ಆಧಾರದ ಮೇಲೆ',
+
+    'metric.vision': 'ಎಲೆ ಚಿತ್ರ', 'metric.weather': 'ಹವಾಮಾನ ಹೊಂದಾಣಿಕೆ', 'metric.symptoms': 'ಲಕ್ಷಣ ಹೊಂದಾಣಿಕೆ',
+    'wx.temp': 'ತಾಪಮಾನ', 'wx.hum': 'ಆರ್ದ್ರತೆ', 'wx.rain48': 'ಮಳೆ, ಕಳೆದ 48 ಗಂಟೆ',
+    'wx.rainNext': 'ಮಳೆ, ಮುಂದಿನ 48 ಗಂಟೆ', 'wx.wind': 'ಗಾಳಿ', 'wx.rain7': 'ಮಳೆ, ಕಳೆದ 7 ದಿನ',
+    'wx.live': 'ನೇರ', 'wx.offline': 'ಅಂದಾಜು',
+    'wx.offline.note': 'ನೇರ ಹವಾಮಾನ ಮಾಹಿತಿ ಲೋಡ್ ಆಗಲಿಲ್ಲ, ಆದ್ದರಿಂದ ಸಾಮಾನ್ಯ ಮೌಲ್ಯಗಳನ್ನು ತೋರಿಸಲಾಗಿದೆ. ಫಲಿತಾಂಶ ಕಡಿಮೆ ನಿಖರವಾಗಿರಬಹುದು.',
+    'unit.mm': 'ಮಿಮೀ', 'unit.kmh': 'ಕಿಮೀ/ಗಂ',
+
+    'conf.title': 'ಮತ್ತೊಮ್ಮೆ ಪರಿಶೀಲಿಸಬೇಕಾದ ಅಂಶಗಳು', 'conf.none': 'ಯಾವುದೇ ವಿರೋಧಾಭಾಸ ಕಂಡುಬಂದಿಲ್ಲ.',
+    'plan.empty': 'ಯಾವುದೇ ಕ್ರಿಯಾ ಯೋಜನೆ ರೂಪಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.',
+    'cit.none': 'ಯಾವುದೇ ಮೂಲ ಸಿಕ್ಕಿಲ್ಲ.',
+    'cit.open': 'ಮೂಲ ತೆರೆಯಿರಿ', 'cit.pubmed': 'PubMed', 'cit.corpus': 'ಕರ್ನಾಟಕ ಮತ್ತು ICAR',
+
+    'err.analysis': 'ವಿಶ್ಲೇಷಣೆ ವಿಫಲವಾಯಿತು.',
+    'err.network': 'ಸರ್ವರ್ ಸಂಪರ್ಕ ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕ ಪರಿಶೀಲಿಸಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.',
+    'err.image': 'ಆ ಫೈಲ್ ಅನ್ನು ಚಿತ್ರವಾಗಿ ಓದಲು ಆಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು JPG ಅಥವಾ PNG ಫೋಟೋ ಬಳಸಿ.',
+    'err.toolarge': 'ಫೋಟೋ ತುಂಬಾ ದೊಡ್ಡದಾಗಿದೆ (ಗರಿಷ್ಠ 10 MB).',
+    'err.noleaf': 'ಈ ಫೋಟೋದಲ್ಲಿ ಎಲೆ ಕಾಣಿಸಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಹಗಲು ಬೆಳಕಿನಲ್ಲಿ, ಸರಳ ಹಿನ್ನೆಲೆಯ ಮುಂದೆ, ಒಂದು ಎಲೆ ಚೌಕಟ್ಟಿನ ಬಹುಭಾಗ ತುಂಬುವಂತೆ ಮತ್ತೆ ಫೋಟೋ ತೆಗೆಯಿರಿ.',
+    'err.server': 'ಸರ್ವರ್‌ನಲ್ಲಿ ಸಮಸ್ಯೆಯಾಗಿದೆ. ಸ್ವಲ್ಪ ಸಮಯದ ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.',
+    'err.weather': 'ಹವಾಮಾನ ಮಾಹಿತಿ ಈಗ ಲಭ್ಯವಿಲ್ಲ. ವಿಶ್ಲೇಷಣೆಯ ವೇಳೆ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸುತ್ತೇವೆ.',
+    'lang.updating': 'ಫಲಿತಾಂಶ ನವೀಕರಿಸಲಾಗುತ್ತಿದೆ…',
+    'lang.failed': 'ಫಲಿತಾಂಶವನ್ನು ಈ ಭಾಷೆಗೆ ಬದಲಿಸಲು ಆಗಲಿಲ್ಲ.',
+    'guide.title': 'ಒಳ್ಳೆಯ ಫೋಟೋ ತೆಗೆಯುವುದು ಹೇಗೆ',
+    'guide.1': 'ಹಗಲು ಬೆಳಕಿನಲ್ಲಿ ತೆಗೆಯಿರಿ. ಫ್ಲ್ಯಾಶ್ ಬಳಸಬೇಡಿ.',
+    'guide.2': 'ಚುಕ್ಕೆಗಳು ಕಾಣುವ ಒಂದು ಎಲೆ ಚೌಕಟ್ಟು ತುಂಬುವಂತೆ ತೆಗೆಯಿರಿ.',
+    'guide.3': 'ಫೋನ್ ಅಲುಗಾಡದಂತೆ ಹಿಡಿದು, ಎಲೆಯ ಮೇಲೆ ಟ್ಯಾಪ್ ಮಾಡಿ ಸ್ಪಷ್ಟವಾಗಿ ಕಾಣುವಂತೆ ಮಾಡಿ.',
+    'guide.4': 'ನಿಮ್ಮ ನೆರಳು ಮತ್ತು ಬೆರಳುಗಳು ಎಲೆಯ ಮೇಲೆ ಬೀಳದಂತೆ ನೋಡಿಕೊಳ್ಳಿ.',
+    'guide.5': 'ಸಾಧ್ಯವಾದರೆ ಎಲೆಯ ಕೆಳಭಾಗದ ಇನ್ನೊಂದು ಫೋಟೋ ತೆಗೆಯಿರಿ.',
+    's1.camera.guided': 'ಮಾರ್ಗದರ್ಶಿ ಕ್ಯಾಮೆರಾ',
+    'cam.title': 'ಒಂದು ಎಲೆ ರೇಖೆಯ ಒಳಗೆ ಬರುವಂತೆ ಮಾಡಿ',
+    'cam.hint': 'ಹಗಲು ಬೆಳಕು, ಫ್ಲ್ಯಾಶ್ ಬೇಡ. ಅಲುಗಾಡದಂತೆ ಹಿಡಿದು "ಫೋಟೋ ತೆಗೆಯಿರಿ" ಒತ್ತಿ.',
+    'cam.capture': 'ಫೋಟೋ ತೆಗೆಯಿರಿ',
+    'cam.cancel': 'ರದ್ದುಮಾಡಿ',
+    'cam.native': 'ಬದಲಿಗೆ ಫೋನಿನ ಕ್ಯಾಮೆರಾ ಆ್ಯಪ್ ಬಳಸಿ',
+    'cam.err': 'ಕ್ಯಾಮೆರಾ ತೆರೆಯಲಾಗಲಿಲ್ಲ. ಬದಲಿಗೆ ಫೋನಿನ ಕ್ಯಾಮೆರಾ ಆ್ಯಪ್ ಬಳಸಿ.',
+    'pq.title': 'ಫೋಟೋದ ಸಮಸ್ಯೆಗಳು',
+    'pq.dark': 'ಫೋಟೋ ತುಂಬಾ ಕತ್ತಲಾಗಿದೆ. ಹಗಲು ಬೆಳಕಿಗೆ ಹೋಗಿ.',
+    'pq.blur': 'ಫೋಟೋ ಮಸುಕಾಗಿದೆ. ಫೋನ್ ಅಲುಗಾಡದಂತೆ ಹಿಡಿದು, ಎಲೆಯ ಮೇಲೆ ಟ್ಯಾಪ್ ಮಾಡಿ.',
+    'pq.glare': 'ಎಲೆಯ ಮೇಲೆ ಹೊಳಪು ಅಥವಾ ಪ್ರತಿಬಿಂಬ ಕಾಣುತ್ತಿದೆ. ಎಲೆಯನ್ನು ತಿರುಗಿಸಿ, ಅಥವಾ ಸೂರ್ಯ ನಿಮ್ಮ ಹಿಂದೆ ಇರುವಂತೆ ನಿಲ್ಲಿರಿ.',
+    'pq.small_leaf': 'ಫೋಟೋದಲ್ಲಿ ಎಲೆ ತುಂಬಾ ಚಿಕ್ಕದಾಗಿದೆ. ಹತ್ತಿರ ಹೋಗಿ, ಒಂದು ಎಲೆ ಚೌಕಟ್ಟು ತುಂಬುವಂತೆ ತೆಗೆಯಿರಿ.',
+    'pq.multiple_leaves': 'ಫೋಟೋದಲ್ಲಿ ಒಂದಕ್ಕಿಂತ ಹೆಚ್ಚು ಎಲೆಗಳಿವೆ. ಒಂದೇ ಎಲೆಯ ಫೋಟೋ ತೆಗೆಯಿರಿ.',
+    'pq.low_res': 'ಫೋಟೋ ತುಂಬಾ ಚಿಕ್ಕದಾಗಿದೆ. ದೊಡ್ಡ ಫೋಟೋ ಬಳಸಿ.',
+    'pq.retake': 'ಹೊಸ ಫೋಟೋ ತೆಗೆಯಿರಿ',
+    'pq.note.severe': 'ಇದರಿಂದಾಗಿ ಫಲಿತಾಂಶ ನಂಬಲರ್ಹವಲ್ಲ.',
+    'pq.note.minor': 'ಫಲಿತಾಂಶ ಕಡಿಮೆ ನಂಬಲರ್ಹವಾಗಿರಬಹುದು.',
+    'ov.title': 'ಎಲೆಯ ಮೇಲೆ ಆ್ಯಪ್ ಏನನ್ನು ನೋಡಿತು',
+    'ov.show': 'ಗುರುತುಗಳನ್ನು ತೋರಿಸಿ',
+    'ov.hide': 'ಗುರುತುಗಳನ್ನು ಮರೆಮಾಡಿ',
+    'ov.red': 'ಆ್ಯಪ್ ಎಣಿಸಿದ ಚುಕ್ಕೆಗಳು ಅಥವಾ ಒಣಗಿದ ಭಾಗಗಳು',
+    'ov.yellow': 'ಹಳದಿಯಾಗಿರುವ ಭಾಗ',
+    'ov.note': 'ಗುರುತುಗಳು ನಿಜವಾದ ಸಮಸ್ಯೆಯ ಮೇಲೆ ಇಲ್ಲದಿದ್ದರೆ ಫಲಿತಾಂಶವನ್ನು ನಂಬಬೇಡಿ.',
+    'ov.alt': 'ಗುರುತುಗಳೊಂದಿಗೆ ನಿಮ್ಮ ಎಲೆಯ ಫೋಟೋ',
+    'ov.alt.plain': 'ನಿಮ್ಮ ಎಲೆಯ ಫೋಟೋ',
+    's3.done_title_inconclusive': 'ಈ ಫೋಟೋವನ್ನು ಪರಿಶೀಲಿಸಲು ಆಗಲಿಲ್ಲ',
+    'inc.title': 'ಈ ಫೋಟೋ ಸಾಕಷ್ಟು ಚೆನ್ನಾಗಿಲ್ಲ',
+    'inc.body': 'ಎಲೆ ಸ್ಪಷ್ಟವಾಗಿ ಕಾಣದ ಕಾರಣ ನಿಮ್ಮ ಬೆಳೆ ಆರೋಗ್ಯವಾಗಿದೆಯೇ ಅಥವಾ ರೋಗವಿದೆಯೇ ಎಂದು ಹೇಳಲು ಆಗುವುದಿಲ್ಲ. ದಯವಿಟ್ಟು ಹೊಸ ಫೋಟೋ ತೆಗೆಯಿರಿ, ಅಥವಾ ತಜ್ಞರನ್ನು ಕೇಳಿ.',
+    'hero.unsure.label': 'ಕೇವಲ ಊಹೆ',
+    'hero.unsure.note': 'ತಜ್ಞರು ಖಚಿತಪಡಿಸುವವರೆಗೆ ಏನನ್ನೂ ಸಿಂಪಡಿಸಬೇಡಿ.',
+    'uncertain.nospray': 'ಫಲಿತಾಂಶ ಖಚಿತವಿಲ್ಲದ ಕಾರಣ ಸಿಂಪಡಣೆಯ ಸಲಹೆಯನ್ನು ತೋರಿಸಿಲ್ಲ.',
+    's5.sub.unsure': 'ಮೊದಲು ಈ ಹಂತಗಳನ್ನು ಮಾಡಿ. ಇನ್ನೂ ಸಿಂಪಡಣೆಯ ಸಲಹೆ ಇಲ್ಲ.',
+    'plan.withheld.title': 'ಇನ್ನೂ ಸಿಂಪಡಣೆಯ ಸಲಹೆ ಇಲ್ಲ',
+    'plan.withheld.body': 'ಇದು ಏನೆಂದು ನಮಗೆ ಖಚಿತವಿಲ್ಲ, ಆದ್ದರಿಂದ ಸಿಂಪಡಿಸಲು ಹೇಳುವುದಿಲ್ಲ. ಮೊದಲು ಕೆಳಗಿನ ಹಂತಗಳನ್ನು ಮಾಡಿ. ಕಿಸಾನ್ ಕಾಲ್ ಸೆಂಟರ್‌ಗೆ ({kcc}, ಉಚಿತ) ಕೂಡ ಕರೆ ಮಾಡಬಹುದು.',
+    'plan.retake': 'ಹಗಲು ಬೆಳಕಿನಲ್ಲಿ ಒಂದು ಎಲೆಯ ಸ್ಪಷ್ಟ ಫೋಟೋ ತೆಗೆಯಿರಿ. ಎಲೆಯ ಕೆಳಭಾಗ ಮತ್ತು ಇಡೀ ಸಸ್ಯದ ಫೋಟೋ ಕೂಡ ತೆಗೆಯಿರಿ.',
+    'plan.kvk': 'ಯಾವುದೇ ಔಷಧ ಸಿಂಪಡಿಸುವ ಮೊದಲು ಎಲೆಯನ್ನು ಅಥವಾ ಫೋಟೋಗಳನ್ನು ಹತ್ತಿರದ KVK ಅಥವಾ ರೈತ ಸಂಪರ್ಕ ಕೇಂದ್ರಕ್ಕೆ ತೋರಿಸಿ.',
+    'help.title': 'ನಿಮ್ಮ ಹತ್ತಿರದ ತಜ್ಞರನ್ನು ಕೇಳಿ',
+    'help.kcc': 'ಕಿಸಾನ್ ಕಾಲ್ ಸೆಂಟರ್',
+    'help.kcc.note': 'ಉಚಿತ ಕರೆ, ಪ್ರತಿದಿನ ಬೆಳಿಗ್ಗೆ 6 ರಿಂದ ರಾತ್ರಿ 10 ರವರೆಗೆ. ನಿಮ್ಮ ಭಾಷೆಯಲ್ಲಿ ಉತ್ತರಿಸುತ್ತಾರೆ.',
+    'help.kvk': 'ನಿಮ್ಮ ಜಿಲ್ಲೆಯ ಕೃಷಿ ವಿಜ್ಞಾನ ಕೇಂದ್ರ (KVK)',
+    'help.pick': 'ನಿಮ್ಮ ಜಿಲ್ಲೆಯನ್ನು ಆರಿಸಿ',
+    'help.call': 'ಕರೆ ಮಾಡಿ',
+    'help.website': 'ವೆಬ್‌ಸೈಟ್',
+    'help.nophone': 'ಫೋನ್ ಸಂಖ್ಯೆ ಸಿಗಲಿಲ್ಲ. ಕಿಸಾನ್ ಕಾಲ್ ಸೆಂಟರ್‌ಗೆ ಕರೆ ಮಾಡಿ.',
+    'help.see': 'ಈ ಜಿಲ್ಲೆಯಲ್ಲಿ ಪಟ್ಟಿ ಮಾಡಿದ KVK ಇಲ್ಲ. ಹತ್ತಿರದವು:',
+    'help.warn': 'ಸಂಖ್ಯೆಗಳು ಬದಲಾಗಿರಬಹುದು. ಯಾರೂ ಉತ್ತರಿಸದಿದ್ದರೆ ಕಿಸಾನ್ ಕಾಲ್ ಸೆಂಟರ್‌ಗೆ ಕರೆ ಮಾಡಿ.',
+    'help.directory': 'ಎಲ್ಲಾ KVK ಗಳ ಪಟ್ಟಿ',
+    'help.loading': 'ಲೋಡ್ ಆಗುತ್ತಿದೆ…',
+    'help.failed': 'KVK ಪಟ್ಟಿಯನ್ನು ಲೋಡ್ ಮಾಡಲಾಗಲಿಲ್ಲ. ಕಿಸಾನ್ ಕಾಲ್ ಸೆಂಟರ್ ಸಂಖ್ಯೆ ಬಳಸಿ.',
+    'fb.title': 'ಈ ಫಲಿತಾಂಶ ಸರಿಯಾಗಿತ್ತೇ?',
+    'fb.sub': 'ನಿಮ್ಮ ಉತ್ತರ ಈ ಆ್ಯಪ್ ಸುಧಾರಿಸಲು ಸಹಾಯ ಮಾಡುತ್ತದೆ.',
+    'fb.match': 'ಹೌದು, ಸರಿಯಾಗಿ ಕಾಣುತ್ತಿದೆ',
+    'fb.different': 'ಇಲ್ಲ, ಇದು ಬೇರೆ ಏನೋ',
+    'fb.unsure': 'ನನಗೆ ಖಚಿತವಿಲ್ಲ',
+    'fb.which': 'ಇದು ಏನೆಂದು ನೀವು ಭಾವಿಸುತ್ತೀರಿ?',
+    'fb.choose': 'ಆರಿಸಿ…',
+    'fb.healthy': 'ಎಲೆ ಆರೋಗ್ಯವಾಗಿದೆ',
+    'fb.other': 'ಬೇರೆ ಏನೋ, ಅಥವಾ ಹೆಸರು ಗೊತ್ತಿಲ್ಲ',
+    'fb.consent': 'ಈ ಆ್ಯಪ್ ಸುಧಾರಿಸಲು ನನ್ನ ಫೋಟೋ ಮತ್ತು ಸ್ಥೂಲ ಸ್ಥಳವನ್ನು (ಸುಮಾರು 11 ಕಿ.ಮೀ.) ಉಳಿಸಿಕೊಳ್ಳಬಹುದು.',
+    'fb.privacy': 'ಗೌಪ್ಯತೆ',
+    'fb.send': 'ಉತ್ತರ ಕಳುಹಿಸಿ',
+    'fb.thanks': 'ಧನ್ಯವಾದಗಳು! ನಿಮ್ಮ ಉತ್ತರ ಉಳಿಸಲಾಗಿದೆ.',
+    'fb.thanks.photo': 'ನಿಮ್ಮ ಫೋಟೋ ಕೂಡ ಉಳಿಸಲಾಗಿದೆ.',
+    'fb.code': 'ನಂತರ ಅಳಿಸಲು ಈ ದಾಖಲೆ ಸಂಖ್ಯೆ ಮತ್ತು ಕೋಡ್ ಬರೆದಿಟ್ಟುಕೊಳ್ಳಿ:',
+    'fb.id': 'ದಾಖಲೆ ಸಂಖ್ಯೆ',
+    'fb.token': 'ಅಳಿಸುವ ಕೋಡ್',
+    'fb.delete': 'ನನ್ನ ಉತ್ತರ ಮತ್ತು ಫೋಟೋ ಈಗಲೇ ಅಳಿಸಿ',
+    'fb.deleted': 'ಅಳಿಸಲಾಗಿದೆ.',
+    'fb.err': 'ಉತ್ತರ ಕಳುಹಿಸಲಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.',
+    'fb.err.old': 'ಈ ಫಲಿತಾಂಶ ತುಂಬಾ ಹಳೆಯದು. ದಯವಿಟ್ಟು ಫೋಟೋವನ್ನು ಮತ್ತೆ ವಿಶ್ಲೇಷಿಸಿ.',
+    'fb.dup': 'ಈ ಫಲಿತಾಂಶಕ್ಕೆ ನೀವು ಈಗಾಗಲೇ ಉತ್ತರಿಸಿದ್ದೀರಿ.',
+    'fb.pick': 'ಇದು ಏನೆಂದು ನೀವು ಭಾವಿಸುತ್ತೀರಿ ಎಂಬುದನ್ನು ಆರಿಸಿ.',
+    'err.ratelimit': 'ನಿಮ್ಮ ನೆಟ್‌ವರ್ಕ್‌ನಿಂದ ಹೆಚ್ಚು ವಿನಂತಿಗಳು ಬಂದಿವೆ. ಒಂದು ನಿಮಿಷ ಕಾಯ್ದು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.',
+    'err.busy': 'ಸರ್ವರ್ ಬ್ಯುಸಿ ಇದೆ. ಸ್ವಲ್ಪ ಸಮಯದ ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.',
+  },
+
+  hi: {
+    'a11y.skip': 'मुख्य सामग्री पर जाएँ',
+    'brand.name': 'क्रॉप ओरेकल कर्नाटक',
+    'brand.tag': 'AI फसल रोग सलाहकार',
+    'brand.flag': 'कर्नाटक के किसानों के लिए',
+    'step.1': 'फ़ोटो', 'step.2': 'पुष्टि', 'step.3': 'विश्लेषण', 'step.4': 'साक्ष्य', 'step.5': 'योजना',
+
+    's1.title': 'अपनी फसल के बारे में बताइए',
+    's1.sub': 'प्रभावित पत्ती की साफ़ फ़ोटो जोड़ें और अपने खेत का स्थान जाँच लें।',
+    's1.photo': 'फसल की फ़ोटो',
+    's1.drop.t': 'पत्ती की फ़ोटो जोड़ें',
+    's1.drop.s': 'नीचे का बटन दबाएँ, या फ़ोटो यहाँ खींचकर लाएँ',
+    's1.camera': 'फ़ोटो खींचें',
+    's1.gallery': 'गैलरी से चुनें',
+    's1.change.photo': 'फ़ोटो बदलें',
+    's1.photo.alt': 'आपकी जोड़ी हुई पत्ती की फ़ोटो',
+    's1.samples': 'फ़ोटो नहीं है? डेमो पत्ती आज़माएँ',
+    's1.samples.note': 'डेमो पत्तियाँ केवल चित्र हैं। इन्हें सिर्फ़ ऐप आज़माने के लिए इस्तेमाल करें।',
+    's1.confirm.replace': 'अपनी फ़ोटो की जगह डेमो पत्ती इस्तेमाल करें?',
+    's1.location': 'खेत का स्थान',
+    's1.district': 'ज़िला',
+    's1.district.custom': 'अन्य स्थान',
+    's1.gps': 'मेरा स्थान उपयोग करें',
+    's1.search.btn': 'गाँव या कस्बा खोजें',
+    's1.search.label': 'कर्नाटक का गाँव या कस्बा',
+    's1.loc.search': 'नाम लिखें…',
+    's1.loc.noresults': 'कर्नाटक में कोई स्थान नहीं मिला।',
+    's1.loc.error': 'अभी खोज नहीं हो सकी। कृपया इंटरनेट कनेक्शन जाँचें।',
+    's1.manual': 'निर्देशांक दर्ज करें',
+    's1.lat': 'अक्षांश',
+    's1.lon': 'देशांतर',
+    's1.manual.apply': 'लागू करें',
+    's1.gps.locating': 'आपका स्थान खोजा जा रहा है…',
+    's1.gps.denied': 'स्थान की अनुमति नहीं दी गई। कृपया इसके बजाय अपना ज़िला चुनें।',
+    's1.gps.unavailable': 'आपका स्थान अभी उपलब्ध नहीं है।',
+    's1.gps.timeout': 'स्थान खोजने में बहुत समय लगा। कृपया फिर कोशिश करें।',
+    's1.gps.unsupported': 'यह ब्राउज़र आपका स्थान नहीं खोज सकता।',
+    's1.invalid.coords': 'सही अक्षांश (−90 से 90) और देशांतर (−180 से 180) दर्ज करें।',
+    'loc.outside': 'यह स्थान कर्नाटक के बाहर है। यह ऐप कर्नाटक की फसलों और मौसम के लिए बना है, इसलिए नतीजे कम भरोसेमंद हो सकते हैं।',
+    's1.no.image': 'पहले पत्ती की फ़ोटो जोड़ें।',
+    's1.crop': 'फसल',
+    's1.symptoms': 'आपको क्या दिख रहा है? (वैकल्पिक)',
+    's1.symptoms.ph': 'जैसे: बारिश के बाद पीले घेरे वाले भूरे धब्बे',
+    's1.mic': 'बोलकर बताएँ',
+    's1.mic.stop': 'रोकें',
+    's1.mic.hint': 'माइक्रोफ़ोन का उपयोग होगा · हिन्दी',
+    's1.mic.unsupported': 'इस ब्राउज़र में आवाज़ से इनपुट उपलब्ध नहीं है।',
+    's1.mic.denied': 'माइक्रोफ़ोन की अनुमति नहीं मिली।',
+    's1.mic.network': 'आवाज़ से इनपुट के लिए इंटरनेट कनेक्शन चाहिए।',
+    's1.more': 'और विकल्प',
+    's1.rules': 'कीटनाशक नियम',
+    's1.rules.note': 'नियम सेट डेमो डेटा हैं। हमेशा भारत में पंजीकृत उत्पाद के लेबल का पालन करें।',
+    's1.cta': 'फसल का विश्लेषण करें',
+
+    'crop.rice': '🌾 धान', 'crop.ragi': '🌾 रागी (मंडुआ)', 'crop.sugarcane': '🎋 गन्ना',
+    'crop.arecanut': '🌴 सुपारी', 'crop.cotton': '🌱 कपास', 'crop.groundnut': '🥜 मूँगफली',
+    'crop.chickpea': '🫘 चना', 'crop.wheat': '🌾 गेहूँ', 'crop.tomato': '🍅 टमाटर',
+    'crop.potato': '🥔 आलू', 'crop.pepper': '🌶️ मिर्च / शिमला मिर्च', 'crop.grape': '🍇 अंगूर',
+    'region.ka': 'कर्नाटक / भारत (डिफ़ॉल्ट)',
+    'region.eu': 'यूरोपीय संघ (निर्यात जाँच)',
+    'region.us': 'संयुक्त राज्य अमेरिका (निर्यात जाँच)',
+
+    'sample.rice_blast': 'धान का ब्लास्ट',
+    'sample.rice_blb': 'धान का जीवाणु झुलसा',
+    'sample.ragi_blast': 'रागी का ब्लास्ट',
+    'sample.ragi_leaf_blight': 'रागी का पत्ती झुलसा',
+    'sample.sugarcane_red_rot': 'गन्ने का लाल सड़न रोग',
+    'sample.arecanut_banded_leaf_spot': 'सुपारी का पत्ती धब्बा',
+    'sample.cotton_leaf_curl': 'कपास का पत्ती मरोड़',
+    'sample.groundnut_tikka': 'मूँगफली का टिक्का रोग',
+    'sample.chickpea_wilt': 'चने का उकठा रोग',
+    'sample.early_blight': 'टमाटर का अर्ली ब्लाइट',
+    'sample.powdery_mildew': 'चूर्णिल आसिता (पाउडरी मिल्ड्यू)',
+    'sample.healthy': 'स्वस्थ पत्ती',
+
+    's2.title': 'अपने खेत की पुष्टि करें',
+    's2.sub': 'विश्लेषण से पहले हम आज का स्थानीय मौसम लाएँगे।',
+    's2.crop': 'फसल', 's2.location': 'स्थान', 's2.coords': 'निर्देशांक',
+    's2.rain': 'बारिश (पिछले 48 घंटे)', 's2.temp': 'तापमान', 's2.hum': 'आर्द्रता', 's2.notes': 'आपका विवरण',
+    's2.back': 'वापस', 's2.cta': 'फसल का विश्लेषण करें',
+
+    's3.title': 'आपकी फसल का विश्लेषण हो रहा है…',
+    's3.sub': 'हमारे एजेंट आपकी पत्ती, मौसम और स्थानीय साक्ष्य जाँच रहे हैं।',
+    's3.pipeline': 'विश्लेषण के चरण',
+    'theme.dark': 'डार्क मोड',
+    's3.more.sub': 'तर्क, पत्ती का नुकसान और मौसम',
+    's1.loc.change': 'जगह बदलें',
+    's3.diagnosis': 'रोग की पहचान',
+    's3.decision': 'हमने यह कैसे तय किया',
+    's3.conditions': 'स्थानीय परिस्थितियाँ',
+    's3.done_title_ok': 'कोई रोग नहीं मिला',
+    's3.done_title': 'विश्लेषण पूरा हुआ',
+    's3.done_sub': '{s} सेकंड में पूरा हुआ।',
+    's3.cta_solution': 'कार्य योजना देखें',
+    's3.cta_healthy': 'देखभाल के सुझाव देखें',
+    's3.cta_evidence': 'साक्ष्य देखें',
+    's3.cta_redo': 'दूसरी फ़ोटो का विश्लेषण करें',
+    'agent.vision': 'दृष्टि एजेंट', 'agent.weather': 'मौसम एजेंट', 'agent.location': 'स्थान एजेंट',
+    'agent.knowledge': 'ज्ञान एजेंट', 'agent.regulatory': 'नियम एजेंट', 'agent.slm': 'निर्णय एजेंट',
+    'agent.farmer': 'किसान सलाहकार', 'agent.waiting': 'प्रतीक्षा में…', 'agent.running': 'काम जारी है…',
+
+    'tab.top': 'सबसे अच्छा मेल', 'tab.alt': 'विकल्प',
+    'diag.conf': 'भरोसा',
+    'diag.score': 'पहचान स्कोर',
+    'uncertain.body': 'सिर्फ़ इस फ़ोटो से हम पक्का नहीं कह सकते।',
+    'unsure.alike': 'फ़ोटो में {a} और {b} लगभग एक जैसे दिखते हैं, इसलिए हम नहीं बता सकते कि कौन-सी है।',
+    'unsure.weak': 'यह पत्ती इस फसल की जानी-पहचानी किसी भी बीमारी से साफ़ नहीं मिलती।',
+    'unsure.model': 'हमारा प्रशिक्षित पत्ती-मॉडल किसी और बीमारी की ओर इशारा करता है, इसलिए पक्का नहीं कि कौन-सी सही है।',
+    'unsure.photo': 'फ़ोटो इतनी साफ़ नहीं है कि पक्का कहा जा सके। दिन की रोशनी में एक पत्ती से पूरा फ़्रेम भरकर दोबारा फ़ोटो लें।',
+    'ov.zoom': 'फ़ोटो को बड़ा या छोटा करने के लिए उस पर टैप करें',
+
+    's4.title': 'यह नतीजा क्यों',
+    's4.sub': 'रोग की पहचान के पीछे का साक्ष्य यह है।',
+    's4.evidence': 'साक्ष्य',
+    's4.sources': 'स्रोत',
+    's4.next': 'कार्य योजना देखें',
+
+    's5.title': 'आपकी कार्य योजना',
+    's5.sub': 'अभी और अगले 3 दिनों में क्या करें।',
+    's5.sub.healthy': 'आपकी फसल स्वस्थ दिख रही है। इसे ऐसा ही रखने के तरीके ये हैं।',
+    's5.disclaimer.title': 'ज़रूरी:',
+    's5.disclaimer.body': 'भारत में पंजीकृत उत्पाद के लेबल पर मात्रा, फसल के लिए उपयुक्तता और कटाई से पहले की प्रतीक्षा अवधि जाँच लें। मदद के लिए अपने नज़दीकी कृषि विज्ञान केंद्र (KVK) या रैयत संपर्क केंद्र से संपर्क करें। यह ऐप निर्णय में मदद करता है; यह विशेषज्ञ की सलाह का विकल्प नहीं है।',
+    's5.listen': 'योजना सुनें', 's5.stop': 'सुनना रोकें',
+    's5.back_result': 'नतीजे पर वापस जाएँ',
+    's5.restart': 'नया विश्लेषण शुरू करें',
+    's5.keep': 'निगरानी रखें', 's5.keep.sub': '5–7 दिन बाद फिर जाँचें',
+    's5.keep.text': 'हल्की दिन की रोशनी में निचली पत्तियों की नई फ़ोटो लें और फिर से विश्लेषण करें।',
+    'tts.unavailable': 'इस डिवाइस पर {lang} आवाज़ उपलब्ध नहीं है।',
+    'tts.unsupported': 'इस ब्राउज़र में बोलकर सुनाने की सुविधा नहीं है।',
+    'lang.name.en': 'अंग्रेज़ी', 'lang.name.kn': 'कन्नड़', 'lang.name.hi': 'हिन्दी',
+
+    'bucket.right_now.sub': 'यह सबसे पहले करें',
+    'bucket.today.sub': 'अगले कुछ घंटों में',
+    'bucket.next_3_days.sub': 'अगले 3 दिनों की आपकी प्राथमिकता',
+    'bucket.important.sub': 'लंबे समय की रोकथाम',
+
+    'ev.image': 'पत्ती की छवि', 'ev.weather': 'मौसम', 'ev.knowledge': 'शोध और सलाह',
+    'ev.model': 'छवि मॉडल', 'ev.kindwise': 'Kindwise पहचान', 'ev.regulatory': 'कीटनाशक नियम',
+    'ev.image.healthy': 'रोग का संकेत देने लायक कोई धब्बा या पीलापन नहीं मिला।',
+    'ev.image.body': ({count, pct, chlor}) =>
+      `${count} धब्बों के समूह मिले, जो पत्ती के ${pct}% हिस्से में हैं। ${chlor}% हिस्सा पीला है।`,
+    'ev.weather.body': ({t, rh, rain}) =>
+      `स्थानीय मौसम: ${t} °C, ${rh}% आर्द्रता, और पिछले 48 घंटों में ${rain} मिमी बारिश।`,
+    'ev.weather.est': ' लाइव मौसम उपलब्ध नहीं था, इसलिए ये अनुमानित मान हैं।',
+    'ev.knowledge.healthy': 'पत्ती स्वस्थ दिख रही है, इसलिए इसकी ज़रूरत नहीं पड़ी।',
+    'ev.knowledge.body': ({total, live}) =>
+      `${total} स्रोत मिले (${live} PubMed से, बाकी कृषि विश्वविद्यालयों और सरकारी सलाह से)।`,
+    'ev.model.body': ({cls, pct}) => `छवि मॉडल ने “${cls}” सुझाया है (${pct}% भरोसा)।`,
+    'ev.kindwise.body': ({name, pct}) => `Kindwise ने “${name}” की पहचान ${pct}% भरोसे के साथ की।`,
+    'ev.regulatory.body': ({n, region}) => `${region} के नियमों के अनुसार ${n} उत्पाद बदले गए।`,
+    'ev.regulatory.ok': ({region}) => `${region} के नियमों के अनुसार किसी उत्पाद को बदलने की ज़रूरत नहीं पड़ी।`,
+
+    'remedy.title': 'सत्यापित उपचार नोट',
+    'remedy.note': 'ये नोट केवल अंग्रेज़ी में उपलब्ध हैं।',
+    'remedy.symptoms': 'लक्षण', 'remedy.treatment': 'उपचार', 'remedy.source': 'स्रोत',
+
+    'slm.chip.rule': 'नियम-आधारित',
+    'slm.default.headline': 'साक्ष्य का सार',
+    'slm.default.explain': 'विशेषज्ञ एजेंटों ने इन कार्ड में दिखाया गया साक्ष्य तैयार किया है।',
+    'slm.alt': ({name}) => `${name} साक्ष्य से समर्थित एक और संभावना है।`,
+    'health.eyebrow': 'पत्ती को नुकसान (अनुमान)', 'health.default': 'नुकसान का स्तर',
+    'health.note': 'फ़ोटो में पत्ती का कितना हिस्सा धब्बों, मरे हुए हिस्सों या पीलेपन से ढका है, इसका मोटा अनुमान। यह प्रयोगशाला की माप नहीं है।',
+
+    'hero.label': 'सबसे संभावित रोग', 'hero.healthy.label': 'नतीजा',
+    'hero.healthy': 'कोई सक्रिय रोग नहीं मिला',
+    'hero.high': 'ऊँची संभावना', 'hero.moderate': 'मध्यम संभावना', 'hero.low': 'संभव: कृपया पुष्टि करें',
+    'hero.note': 'पत्ती की छवि, स्थानीय मौसम और आपके बताए लक्षणों के आधार पर',
+
+    'metric.vision': 'पत्ती की छवि', 'metric.weather': 'मौसम से मेल', 'metric.symptoms': 'लक्षणों से मेल',
+    'wx.temp': 'तापमान', 'wx.hum': 'आर्द्रता', 'wx.rain48': 'बारिश, पिछले 48 घंटे',
+    'wx.rainNext': 'बारिश, अगले 48 घंटे', 'wx.wind': 'हवा', 'wx.rain7': 'बारिश, पिछले 7 दिन',
+    'wx.live': 'लाइव', 'wx.offline': 'अनुमान',
+    'wx.offline.note': 'लाइव मौसम लोड नहीं हो सका, इसलिए सामान्य मान दिखाए गए हैं। नतीजे कम सटीक हो सकते हैं।',
+    'unit.mm': 'मिमी', 'unit.kmh': 'किमी/घंटा',
+
+    'conf.title': 'दोबारा जाँचने लायक बातें', 'conf.none': 'कोई विरोधाभास नहीं मिला।',
+    'plan.empty': 'कोई कार्य योजना नहीं बन सकी।',
+    'cit.none': 'कोई स्रोत नहीं मिला।',
+    'cit.open': 'स्रोत खोलें', 'cit.pubmed': 'PubMed', 'cit.corpus': 'कर्नाटक और ICAR',
+
+    'err.analysis': 'विश्लेषण विफल रहा।',
+    'err.network': 'सर्वर से संपर्क नहीं हो सका। कृपया इंटरनेट कनेक्शन जाँचकर फिर कोशिश करें।',
+    'err.image': 'वह फ़ाइल चित्र के रूप में नहीं पढ़ी जा सकी। कृपया JPG या PNG फ़ोटो इस्तेमाल करें।',
+    'err.toolarge': 'फ़ोटो बहुत बड़ी है (अधिकतम 10 MB)।',
+    'err.noleaf': 'इस फ़ोटो में पत्ती नहीं मिली। कृपया दिन की रोशनी में, सादी पृष्ठभूमि के सामने, एक पत्ती से फ़्रेम का ज़्यादातर हिस्सा भरकर दोबारा फ़ोटो लें।',
+    'err.server': 'सर्वर में समस्या आई। कृपया थोड़ी देर बाद फिर कोशिश करें।',
+    'err.weather': 'मौसम की जानकारी अभी उपलब्ध नहीं है। विश्लेषण के दौरान फिर कोशिश करेंगे।',
+    'lang.updating': 'नतीजे अपडेट हो रहे हैं…',
+    'lang.failed': 'नतीजों को इस भाषा में नहीं बदला जा सका।',
+    'guide.title': 'अच्छी फ़ोटो कैसे लें',
+    'guide.1': 'दिन की रोशनी में फ़ोटो लें। फ़्लैश का इस्तेमाल न करें।',
+    'guide.2': 'जिस पत्ती पर धब्बे दिखते हों, उसी एक पत्ती से पूरा फ़्रेम भरें।',
+    'guide.3': 'फ़ोन को स्थिर पकड़ें और पत्ती पर टैप करें ताकि वह फ़ोकस में आ जाए।',
+    'guide.4': 'अपनी परछाईं और उँगलियाँ पत्ती पर न आने दें।',
+    'guide.5': 'हो सके तो पत्ती की निचली सतह की भी एक फ़ोटो लें।',
+    's1.camera.guided': 'गाइड वाला कैमरा',
+    'cam.title': 'एक पत्ती को रेखा के अंदर रखें',
+    'cam.hint': 'दिन की रोशनी, फ़्लैश नहीं। स्थिर पकड़कर "फ़ोटो लें" दबाएँ।',
+    'cam.capture': 'फ़ोटो लें',
+    'cam.cancel': 'रद्द करें',
+    'cam.native': 'इसकी जगह फ़ोन का कैमरा ऐप इस्तेमाल करें',
+    'cam.err': 'कैमरा नहीं खुल सका। इसकी जगह फ़ोन का कैमरा ऐप इस्तेमाल करें।',
+    'pq.title': 'फ़ोटो की समस्याएँ',
+    'pq.dark': 'फ़ोटो बहुत अँधेरी है। दिन की रोशनी में जाएँ।',
+    'pq.blur': 'फ़ोटो धुँधली है। फ़ोन को स्थिर पकड़ें और पत्ती पर टैप करके फ़ोकस करें।',
+    'pq.glare': 'पत्ती पर चमक या परावर्तन है। पत्ती को घुमाएँ, या ऐसे खड़े हों कि सूरज आपके पीछे हो।',
+    'pq.small_leaf': 'फ़ोटो में पत्ती बहुत छोटी है। पास जाएँ ताकि एक पत्ती से फ़्रेम भर जाए।',
+    'pq.multiple_leaves': 'फ़ोटो में एक से ज़्यादा पत्तियाँ हैं। सिर्फ़ एक पत्ती की फ़ोटो लें।',
+    'pq.low_res': 'फ़ोटो बहुत छोटी है। बड़ी फ़ोटो इस्तेमाल करें।',
+    'pq.retake': 'नई फ़ोटो लें',
+    'pq.note.severe': 'इसलिए नतीजा भरोसेमंद नहीं है।',
+    'pq.note.minor': 'नतीजा कम भरोसेमंद हो सकता है।',
+    'ov.title': 'ऐप को पत्ती पर क्या दिखा',
+    'ov.show': 'निशान दिखाएँ',
+    'ov.hide': 'निशान छिपाएँ',
+    'ov.red': 'ऐप ने जिन धब्बों या सूखे हिस्सों को गिना',
+    'ov.yellow': 'पीलापन',
+    'ov.note': 'अगर निशान असली समस्या पर नहीं हैं, तो नतीजे पर भरोसा न करें।',
+    'ov.alt': 'निशानों के साथ आपकी पत्ती की फ़ोटो',
+    'ov.alt.plain': 'आपकी पत्ती की फ़ोटो',
+    's3.done_title_inconclusive': 'हम इस फ़ोटो की जाँच नहीं कर सके',
+    'inc.title': 'यह फ़ोटो काफ़ी अच्छी नहीं है',
+    'inc.body': 'पत्ती साफ़ नहीं दिखी, इसलिए हम नहीं कह सकते कि आपकी फसल स्वस्थ है या रोगी। कृपया नई फ़ोटो लें, या किसी विशेषज्ञ से पूछें।',
+    'hero.unsure.label': 'सिर्फ़ अनुमान',
+    'hero.unsure.note': 'जब तक कोई विशेषज्ञ पुष्टि न करे, कुछ भी न छिड़कें।',
+    'uncertain.nospray': 'नतीजा पक्का न होने के कारण छिड़काव की सलाह नहीं दिखाई गई।',
+    's5.sub.unsure': 'पहले ये कदम उठाएँ। अभी छिड़काव की सलाह नहीं है।',
+    'plan.withheld.title': 'अभी छिड़काव की सलाह नहीं',
+    'plan.withheld.body': 'हमें पक्का नहीं पता कि यह क्या है, इसलिए छिड़कने को नहीं कहेंगे। पहले नीचे के कदम उठाएँ। आप किसान कॉल सेंटर ({kcc}, निःशुल्क) पर भी फ़ोन कर सकते हैं।',
+    'plan.retake': 'दिन की रोशनी में एक पत्ती की साफ़ फ़ोटो लें। पत्ती की निचली सतह और पूरे पौधे की फ़ोटो भी लें।',
+    'plan.kvk': 'कुछ भी छिड़कने से पहले पत्ती या फ़ोटो अपने नज़दीकी KVK या रैयत संपर्क केंद्र को दिखाएँ।',
+    'help.title': 'अपने पास के विशेषज्ञ से पूछें',
+    'help.kcc': 'किसान कॉल सेंटर',
+    'help.kcc.note': 'निःशुल्क कॉल, हर दिन सुबह 6 से रात 10 बजे तक। आपकी भाषा में जवाब मिलता है।',
+    'help.kvk': 'आपके ज़िले का कृषि विज्ञान केंद्र (KVK)',
+    'help.pick': 'अपना ज़िला चुनें',
+    'help.call': 'फ़ोन करें',
+    'help.website': 'वेबसाइट',
+    'help.nophone': 'फ़ोन नंबर नहीं मिला। किसान कॉल सेंटर पर फ़ोन करें।',
+    'help.see': 'इस ज़िले में कोई KVK सूचीबद्ध नहीं है। सबसे नज़दीकी:',
+    'help.warn': 'नंबर बदल गए हो सकते हैं। कोई जवाब न दे तो किसान कॉल सेंटर पर फ़ोन करें।',
+    'help.directory': 'सभी KVK की सूची',
+    'help.loading': 'लोड हो रहा है…',
+    'help.failed': 'KVK सूची लोड नहीं हो सकी। किसान कॉल सेंटर का नंबर इस्तेमाल करें।',
+    'fb.title': 'क्या यह नतीजा सही था?',
+    'fb.sub': 'आपका जवाब इस ऐप को बेहतर बनाने में मदद करता है।',
+    'fb.match': 'हाँ, सही लग रहा है',
+    'fb.different': 'नहीं, यह कुछ और है',
+    'fb.unsure': 'मुझे पक्का नहीं पता',
+    'fb.which': 'आपके हिसाब से यह क्या है?',
+    'fb.choose': 'चुनें…',
+    'fb.healthy': 'पत्ती स्वस्थ है',
+    'fb.other': 'कुछ और, या नाम नहीं पता',
+    'fb.consent': 'इस ऐप को बेहतर बनाने के लिए आप मेरी फ़ोटो और मोटा स्थान (लगभग 11 कि.मी.) रख सकते हैं।',
+    'fb.privacy': 'गोपनीयता',
+    'fb.send': 'जवाब भेजें',
+    'fb.thanks': 'धन्यवाद! आपका जवाब सहेज लिया गया।',
+    'fb.thanks.photo': 'आपकी फ़ोटो भी सहेज ली गई।',
+    'fb.code': 'बाद में मिटाने के लिए यह रिकॉर्ड नंबर और कोड लिख लें:',
+    'fb.id': 'रिकॉर्ड नंबर',
+    'fb.token': 'मिटाने का कोड',
+    'fb.delete': 'मेरा जवाब और फ़ोटो अभी मिटाएँ',
+    'fb.deleted': 'मिटा दिया गया।',
+    'fb.err': 'जवाब नहीं भेजा जा सका। कृपया फिर कोशिश करें।',
+    'fb.err.old': 'यह नतीजा बहुत पुराना है। कृपया फ़ोटो दोबारा जाँचें।',
+    'fb.dup': 'आप इस नतीजे के लिए पहले ही जवाब दे चुके हैं।',
+    'fb.pick': 'कृपया चुनें कि आपके हिसाब से यह क्या है।',
+    'err.ratelimit': 'आपके नेटवर्क से बहुत ज़्यादा अनुरोध आए हैं। एक मिनट रुककर फिर कोशिश करें।',
+    'err.busy': 'सर्वर व्यस्त है। थोड़ी देर बाद फिर कोशिश करें।',
+  },
+};
+
+let LANG = 'en';
+function t(key, vars) {
+  const dict = I18N[LANG] || I18N.en;
+  let v = dict[key] !== undefined ? dict[key] : I18N.en[key];
+  if (v === undefined) return key;
+  if (typeof v === 'function') return v(vars || {});
+  if (vars) for (const [k, val] of Object.entries(vars)) v = v.replaceAll('{' + k + '}', String(val));
+  return v;
+}
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const REDUCED_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const esc = v => String(v ?? '').replace(/[&<>'"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[c]));
+const safeUrl = u => (/^https?:\/\//i.test(String(u || '')) ? String(u) : '#');
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch { /* storage blocked */ } },
+};
+const pct = x => Math.round((Number(x) || 0) * 100);
+
+/* Dark mode: the head script already set data-theme; this keeps the button, the browser's
+   colour bar and the saved choice in step. A phone that changes its own setting is followed
+   only until the person has pressed the button. */
+const THEME_KEY = 'cropOracle.theme';
+function currentTheme() { return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'; }
+function paintThemeButton() {
+  const dark = currentTheme() === 'dark', b = $('#themeBtn');
+  if (!b) return;
+  b.setAttribute('aria-pressed', String(dark));
+  const label = t('theme.dark');
+  b.setAttribute('aria-label', label); b.title = label;
+  const meta = $('#metaTheme'); if (meta) meta.setAttribute('content', dark ? '#0e1511' : '#1d5522');
+}
+function setTheme(mode, persist) {
+  document.documentElement.setAttribute('data-theme', mode === 'dark' ? 'dark' : 'light');
+  if (persist) store.set(THEME_KEY, mode);
+  paintThemeButton();
+}
+$('#themeBtn').addEventListener('click', () => setTheme(currentTheme() === 'dark' ? 'light' : 'dark', true));
+try {
+  const mq = window.matchMedia('(prefers-color-scheme: dark)');
+  const follow = e => { const saved = store.get(THEME_KEY); if (saved !== 'light' && saved !== 'dark') setTheme(e.matches ? 'dark' : 'light', false); };
+  if (mq.addEventListener) mq.addEventListener('change', follow); else if (mq.addListener) mq.addListener(follow);
+} catch { /* old browser: no live following */ }
+
+let toastTimer = null;
+function toast(msg, kind) {
+  const el = $('#toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (kind === 'error' ? ' error' : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 5200);
+}
+
+function hideToast() { clearTimeout(toastTimer); $('#toast').classList.remove('show'); }
+
+function applyStaticI18n() {
+  $$('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+  $$('[data-i18n-placeholder]').forEach(el => { el.placeholder = t(el.dataset.i18nPlaceholder); });
+  document.title = `${t('brand.name')} · ${t('brand.tag')}`;
+}
+
+/* ============================================================
+   KARNATAKA DATA  (all 31 districts, approximate district centres)
+   ============================================================ */
+const KARNATAKA = { en: 'Karnataka', kn: 'ಕರ್ನಾಟಕ', hi: 'कर्नाटक' };
+const KA_BOUNDS = { latMin: 11.5, latMax: 18.5, lonMin: 74.0, lonMax: 78.6 };   // keep in sync with main.py
+const KA_ADMIN1_ID = 1267701;                                                  // GeoNames id for Karnataka
+const isInKarnataka = (lat, lon) =>
+  lat >= KA_BOUNDS.latMin && lat <= KA_BOUNDS.latMax && lon >= KA_BOUNDS.lonMin && lon <= KA_BOUNDS.lonMax;
+
+const KA_DISTRICTS = [
+  ['bagalkot', 16.1817, 75.6958, 'Bagalkot', 'ಬಾಗಲಕೋಟೆ', 'बागलकोट'],
+  ['ballari', 15.1394, 76.9214, 'Ballari', 'ಬಳ್ಳಾರಿ', 'बल्लारी'],
+  ['belagavi', 15.8497, 74.4977, 'Belagavi', 'ಬೆಳಗಾವಿ', 'बेलगावी'],
+  ['bengaluru_rural', 13.2957, 77.5377, 'Bengaluru Rural', 'ಬೆಂಗಳೂರು ಗ್ರಾಮಾಂತರ', 'बेंगलुरु ग्रामीण'],
+  ['bengaluru_urban', 12.9716, 77.5946, 'Bengaluru Urban', 'ಬೆಂಗಳೂರು ನಗರ', 'बेंगलुरु शहरी'],
+  ['bidar', 17.9104, 77.5199, 'Bidar', 'ಬೀದರ್', 'बीदर'],
+  ['chamarajanagar', 11.9261, 76.9437, 'Chamarajanagar', 'ಚಾಮರಾಜನಗರ', 'चामराजनगर'],
+  ['chikkaballapur', 13.4355, 77.7315, 'Chikkaballapur', 'ಚಿಕ್ಕಬಳ್ಳಾಪುರ', 'चिक्कबल्लापुर'],
+  ['chikkamagaluru', 13.3161, 75.7720, 'Chikkamagaluru', 'ಚಿಕ್ಕಮಗಳೂರು', 'चिकमगलूर'],
+  ['chitradurga', 14.2251, 76.3980, 'Chitradurga', 'ಚಿತ್ರದುರ್ಗ', 'चित्रदुर्ग'],
+  ['dakshina_kannada', 12.9141, 74.8560, 'Dakshina Kannada', 'ದಕ್ಷಿಣ ಕನ್ನಡ', 'दक्षिण कन्नड़'],
+  ['davanagere', 14.4644, 75.9218, 'Davanagere', 'ದಾವಣಗೆರೆ', 'दावणगेरे'],
+  ['dharwad', 15.4589, 75.0078, 'Dharwad', 'ಧಾರವಾಡ', 'धारवाड़'],
+  ['gadag', 15.4166, 75.6270, 'Gadag', 'ಗದಗ', 'गदग'],
+  ['hassan', 13.0068, 76.0996, 'Hassan', 'ಹಾಸನ', 'हासन'],
+  ['haveri', 14.7937, 75.4048, 'Haveri', 'ಹಾವೇರಿ', 'हावेरी'],
+  ['kalaburagi', 17.3297, 76.8343, 'Kalaburagi', 'ಕಲಬುರಗಿ', 'कलबुर्गी'],
+  ['kodagu', 12.4244, 75.7382, 'Kodagu', 'ಕೊಡಗು', 'कोडगु'],
+  ['kolar', 13.1363, 78.1295, 'Kolar', 'ಕೋಲಾರ', 'कोलार'],
+  ['koppal', 15.3459, 76.1548, 'Koppal', 'ಕೊಪ್ಪಳ', 'कोप्पल'],
+  ['mandya', 12.5218, 76.8951, 'Mandya', 'ಮಂಡ್ಯ', 'मांड्या'],
+  ['mysuru', 12.2958, 76.6394, 'Mysuru', 'ಮೈಸೂರು', 'मैसूर'],
+  ['raichur', 16.2076, 77.3463, 'Raichur', 'ರಾಯಚೂರು', 'रायचूर'],
+  ['ramanagara', 12.7157, 77.2810, 'Ramanagara', 'ರಾಮನಗರ', 'रामनगर'],
+  ['shivamogga', 13.9299, 75.5681, 'Shivamogga', 'ಶಿವಮೊಗ್ಗ', 'शिवमोग्गा'],
+  ['tumakuru', 13.3379, 77.1173, 'Tumakuru', 'ತುಮಕೂರು', 'तुमकुरु'],
+  ['udupi', 13.3409, 74.7421, 'Udupi', 'ಉಡುಪಿ', 'उडुपी'],
+  ['uttara_kannada', 14.8136, 74.1295, 'Uttara Kannada', 'ಉತ್ತರ ಕನ್ನಡ', 'उत्तर कन्नड़'],
+  ['vijayanagara', 15.2689, 76.3909, 'Vijayanagara', 'ವಿಜಯನಗರ', 'विजयनगर'],
+  ['vijayapura', 16.8302, 75.7100, 'Vijayapura', 'ವಿಜಯಪುರ', 'विजयपुरा'],
+  ['yadgir', 16.7625, 77.1383, 'Yadgir', 'ಯಾದಗಿರಿ', 'यादगीर'],
+].map(([id, lat, lon, en, kn, hi]) => ({ id, lat, lon, name: { en, kn, hi } }));
+const DEFAULT_DISTRICT = 'bengaluru_urban';
+const districtName = (d, lang) => d.name[lang] || d.name.en;
+const districtLabel = (d, lang) => `${districtName(d, lang)}, ${KARNATAKA[lang] || KARNATAKA.en}`;
+
+// Crops the backend supports, in the order a Karnataka farmer is most likely to look for them
+const CROPS = ['rice', 'ragi', 'sugarcane', 'arecanut', 'cotton', 'groundnut', 'chickpea', 'wheat', 'tomato', 'potato', 'pepper', 'grape'];
+const REGIONS = ['ka', 'eu', 'us'];
+
+/* ============================================================
+   SAMPLES  (drawn demo leaves)
+   ============================================================ */
+const SAMPLES = [
+  { id: 'rice_blast', emoji: '🌾', crop: 'rice' },
+  { id: 'rice_blb', emoji: '🌾', crop: 'rice' },
+  { id: 'ragi_blast', emoji: '🌾', crop: 'ragi' },
+  { id: 'ragi_leaf_blight', emoji: '🌾', crop: 'ragi' },
+  { id: 'sugarcane_red_rot', emoji: '🎋', crop: 'sugarcane' },
+  { id: 'arecanut_banded_leaf_spot', emoji: '🌴', crop: 'arecanut' },
+  { id: 'cotton_leaf_curl', emoji: '🌱', crop: 'cotton' },
+  { id: 'groundnut_tikka', emoji: '🥜', crop: 'groundnut' },
+  { id: 'chickpea_wilt', emoji: '🫘', crop: 'chickpea' },
+  { id: 'early_blight', emoji: '🍅', crop: 'tomato' },
+  { id: 'powdery_mildew', emoji: '❄️', crop: 'tomato' },
+  { id: 'healthy', emoji: '🌿', crop: 'ragi' },
+];
+
+function renderSampleGrid() {
+  const wrap = $('#samples');
+  const on = $('.sample[aria-pressed="true"]', wrap)?.dataset.s;
+  wrap.innerHTML = SAMPLES.map(s => `
+    <button type="button" class="sample" data-s="${s.id}" aria-pressed="${s.id === on}">
+      <span class="emo" aria-hidden="true">${s.emoji}</span><span class="nm">${esc(t('sample.' + s.id))}</span>
+    </button>`).join('');
+  $$('.sample', wrap).forEach(btn => btn.addEventListener('click', onSampleClick));
+}
+
+function onSampleClick() {
+  if (state.imageSource === 'upload' && state.imageBlob && !confirm(t('s1.confirm.replace'))) return;
+  const s = SAMPLES.find(x => x.id === this.dataset.s);
+  if (s && s.crop) $('#crop').value = s.crop;
+  setImage(makeSampleLeaf(this.dataset.s), 'sample');
+  $$('#samples .sample').forEach(x => x.setAttribute('aria-pressed', String(x === this)));
+}
+
+function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+function makeSampleLeaf(type) {
+  // Each named sample is drawn with the lesion pattern that the diagnosis engine
+  // actually reads as that disease (checked against /api/analyze for every sample).
+  const visual = ({
+    rice_blast: 'late_blight', rice_blb: 'nitrogen_deficiency',
+    ragi_blast: 'septoria', ragi_leaf_blight: 'early_blight',
+    sugarcane_red_rot: 'rust',
+    arecanut_banded_leaf_spot: 'bacterial_spot',
+    cotton_leaf_curl: 'nitrogen_deficiency',
+    groundnut_tikka: 'septoria',
+    chickpea_wilt: 'rust',
+  })[type] || type;
+
+  const S = 480, rnd = mulberry32(type.length * 7919 + 13);
+  const c = document.createElement('canvas'); c.width = S; c.height = S;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#f2f2ea'; ctx.fillRect(0, 0, S, S);
+  const cx = S / 2;
+  const outline = () => {
+    ctx.beginPath(); ctx.moveTo(cx, 26);
+    ctx.bezierCurveTo(cx + 168, 118, cx + 188, 332, cx, 452);
+    ctx.bezierCurveTo(cx - 188, 332, cx - 168, 118, cx, 26);
+    ctx.closePath();
+  };
+  outline();
+  const g = ctx.createLinearGradient(0, 0, S, S);
+  g.addColorStop(0, '#3f7a2e'); g.addColorStop(.5, '#51962f'); g.addColorStop(1, '#33682a');
+  ctx.fillStyle = g; ctx.fill();
+  ctx.save(); ctx.clip();
+  ctx.strokeStyle = 'rgba(30,70,20,.32)'; ctx.lineCap = 'round';
+  ctx.lineWidth = 7; ctx.beginPath(); ctx.moveTo(cx, 40); ctx.lineTo(cx, 448); ctx.stroke();
+  ctx.lineWidth = 2.6;
+  for (let i = 0; i < 9; i++) {
+    const y = 72 + i * 42;
+    ctx.beginPath(); ctx.moveTo(cx, y); ctx.quadraticCurveTo(cx + 90, y + 26, cx + 165, y + 66); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx, y); ctx.quadraticCurveTo(cx - 90, y + 26, cx - 165, y + 66); ctx.stroke();
+  }
+  const R = (a, b) => a + rnd() * (b - a);
+  const rr = (x, y, r, fill) => { ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fillStyle = fill; ctx.fill(); };
+
+  if (visual === 'early_blight') {
+    for (let i = 0; i < 17; i++) { const x = cx + R(-150, 150), y = R(90, 430), r = R(13, 29);
+      rr(x, y, r * 1.75, 'rgba(214,196,60,.75)'); rr(x, y, r, '#6b4a24'); rr(x, y, r * .68, '#5a3d1d'); rr(x, y, r * .34, '#3a2410'); }
+  } else if (visual === 'late_blight') {
+    for (let i = 0; i < 5; i++) { const bx = cx + R(-120, 120), by = R(110, 400), R0 = R(48, 92);
+      for (let k = 0; k < 16; k++) { const a = rnd() * 6.283, d = rnd() * R0; rr(bx + Math.cos(a) * d, by + Math.sin(a) * d, R(26, 46), 'rgba(74,58,40,.94)'); }
+      rr(bx + R(-30, 30), by + R(-30, 30), R(10, 20), 'rgba(232,232,224,.5)'); }
+  } else if (visual === 'septoria') {
+    for (let i = 0; i < 62; i++) { const x = cx + R(-155, 155), y = R(85, 435), r = R(3.6, 7.4);
+      rr(x, y, r * 1.5, 'rgba(200,190,60,.5)'); rr(x, y, r, '#4a3018'); rr(x, y, r * .55, '#cfcfc4'); }
+  } else if (visual === 'bacterial_spot') {
+    for (let i = 0; i < 70; i++) { const x = cx + R(-155, 155), y = R(85, 435), r = R(2.2, 5.2);
+      rr(x, y, r * 2.1, 'rgba(206,196,72,.45)'); rr(x, y, r, '#3a2a16'); }
+  } else if (visual === 'powdery_mildew') {
+    for (let i = 0; i < 34; i++) { const x = cx + R(-165, 165), y = R(70, 440), r = R(11, 30); rr(x, y, r, 'rgba(230,240,206,.86)'); }
+  } else if (visual === 'rust') {
+    for (let i = 0; i < 180; i++) { const x = cx + R(-165, 165), y = R(70, 440), r = R(3, 7);
+      rr(x, y, r * 1.4, 'rgba(230,170,60,.5)'); rr(x, y, r, 'rgba(200,110,30,.85)'); rr(x, y, r * 0.5, 'rgba(150,70,20,.9)'); }
+  } else if (visual === 'spider_mite') {
+    for (let i = 0; i < 1500; i++) { const x = cx + R(-165, 165), y = R(70, 445), r = R(2.2, 4.4); rr(x, y, r, 'rgba(215,195,60,.72)'); }
+  } else if (visual === 'nitrogen_deficiency') {
+    const ng = ctx.createRadialGradient(cx, 440, 40, cx, 440, 470);
+    ng.addColorStop(0, 'rgba(222,208,72,.82)'); ng.addColorStop(.55, 'rgba(214,206,84,.55)'); ng.addColorStop(1, 'rgba(200,200,90,.22)');
+    ctx.fillStyle = ng; ctx.fillRect(0, 0, S, S);
+  }
+  ctx.restore();
+  outline();
+  ctx.strokeStyle = 'rgba(24,52,18,.55)'; ctx.lineWidth = 2.4; ctx.stroke();
+  return c;
+}
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const state = {
+  screen: 1,
+  lang: 'en',
+  imageBlob: null,
+  imageReady: null,
+  imageSource: 'none',
+  result: null,
+  selectedIdx: 0,
+  busy: false,
+  speaking: false,
+  fb: null,            // feedback form state for the current photo
+  photoCodes: [],      // quick on-phone photo warnings
+  marksOn: true,
+  imgUrl: null, imgUrlBlob: null,
+  location: { lat: 0, lon: 0, name: '', districtId: null },
+};
+
+function locNameString() {
+  const loc = state.location;
+  if (loc.districtId) {
+    const d = KA_DISTRICTS.find(x => x.id === loc.districtId);
+    if (d) return districtLabel(d, LANG);
+  }
+  return loc.name || '';
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+function showScreen(n, opts = {}) {
+  $$('.screen').forEach((el, i) => el.classList.toggle('active', i + 1 === n));
+  $$('.step[data-s]').forEach(el => {
+    const s = Number(el.dataset.s);
+    el.classList.toggle('done', s < n);
+    el.classList.toggle('current', s === n);
+    if (s === n) el.setAttribute('aria-current', 'step'); else el.removeAttribute('aria-current');
+  });
+  $$('.step-line').forEach((el, i) => el.classList.toggle('done', i + 1 < n));
+  state.screen = n;
+  if (opts.scroll !== false) window.scrollTo({ top: 0, behavior: REDUCED_MOTION ? 'auto' : 'smooth' });
+  const h = $(`#s${n} h1`);
+  if (h && opts.focus !== false) h.focus({ preventScroll: true });
+}
+
+/* ============================================================
+   LANGUAGE
+   ============================================================ */
+function detectLanguage() {
+  const saved = store.get('cropOracle.lang');
+  if (saved && I18N[saved]) return saved;
+  for (const l of (navigator.languages || [navigator.language || 'en'])) {
+    const base = String(l).toLowerCase().split('-')[0];
+    if (I18N[base]) return base;
+  }
+  return 'en';
+}
+
+function renderCropOptions() {
+  const sel = $('#crop'), keep = sel.value || 'rice';
+  sel.innerHTML = CROPS.map(c => `<option value="${c}">${esc(t('crop.' + c))}</option>`).join('');
+  sel.value = keep;
+}
+function renderRegionOptions() {
+  const sel = $('#region'), keep = sel.value || 'ka';
+  sel.innerHTML = REGIONS.map(r => `<option value="${r}">${esc(t('region.' + r))}</option>`).join('');
+  sel.value = keep;
+}
+function renderDistrictOptions() {
+  const sel = $('#district');
+  let list = [...KA_DISTRICTS];
+  try { const col = new Intl.Collator(LANG); list.sort((a, b) => col.compare(districtName(a, LANG), districtName(b, LANG))); } catch { /* keep default order */ }
+  const custom = state.location.districtId ? '' : `<option value="__custom">${esc(state.location.name || t('s1.district.custom'))}</option>`;
+  sel.innerHTML = custom + list.map(d => `<option value="${d.id}">${esc(districtName(d, LANG))}</option>`).join('');
+  sel.value = state.location.districtId || '__custom';
+}
+
+async function setLanguage(l, persist = true) {
+  if (!I18N[l]) l = 'en';
+  state.lang = l; LANG = l;
+  document.documentElement.lang = l;
+  if (persist) store.set('cropOracle.lang', l);
+  $$('#langpick button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.l === l)));
+
+  applyStaticI18n();
+  paintThemeButton();
+  renderSampleGrid();
+  renderCropOptions();
+  renderRegionOptions();
+  renderDistrictOptions();
+  updateLocationDisplay();
+  renderPhotoCheck();
+  refreshScreen2();
+  labelPipeline();
+  if (state.result) renderAllResults(state.result);   // client-side labels switch immediately
+
+  // Backend text (diagnosis names, plan, advice) is localised server-side, so fetch it again in place.
+  if (state.result && !state.busy && state.imageBlob) {
+    $('#results3').classList.add('busy-veil'); $('#s5').classList.add('busy-veil');
+    toast(t('lang.updating'));
+    let keepToast = false;
+    try {
+      const fresh = await requestAnalysis(l);
+      if (state.lang === l) { state.result = fresh; renderAllResults(fresh); }
+    } catch (err) {
+      hideToast();
+      toast(t('lang.failed') + ' ' + err.message, 'error');
+      keepToast = true;
+    } finally {
+      $('#results3').classList.remove('busy-veil'); $('#s5').classList.remove('busy-veil');
+      if (!keepToast) hideToast();
+    }
+  }
+}
+$$('#langpick button').forEach(b => b.addEventListener('click', () => { if (b.dataset.l !== state.lang) setLanguage(b.dataset.l); }));
+
+function refreshScreen2() {
+  if (state.screen !== 2) return;
+  $('#mCrop').textContent = t('crop.' + $('#crop').value);
+  $('#mLoc').textContent = locNameString() || '—';
+}
+
+/* ============================================================
+   IMAGE INPUT
+   ============================================================ */
+const drop = $('#drop'), preview = $('#canvasPreview');
+const MAX_UPLOAD_DIM = 1024;
+
+function setImage(canvas, source) {
+  preview.width = canvas.width; preview.height = canvas.height;
+  preview.getContext('2d').drawImage(canvas, 0, 0);
+  preview.setAttribute('aria-label', t('s1.photo.alt'));
+  $('#dropEmpty').classList.add('hidden');
+  $('#dropHas').classList.remove('hidden');
+  drop.classList.add('has');
+  state.imageSource = source || 'none';
+  state.imageBlob = null;
+  state.imageReady = new Promise(resolve => canvas.toBlob(b => { state.imageBlob = b; resolve(b); }, 'image/jpeg', 0.9));
+  showPhotoCheck(canvas, source);
+}
+function resetImage() {
+  hidePhotoCheck();
+  $('#dropEmpty').classList.remove('hidden');
+  $('#dropHas').classList.add('hidden');
+  drop.classList.remove('has');
+  state.imageBlob = null; state.imageReady = null; state.imageSource = 'none';
+  $$('#samples .sample').forEach(x => x.setAttribute('aria-pressed', 'false'));
+}
+
+$('#btnCamera').addEventListener('click', () => $('#fileCam').click());
+$('#btnGallery').addEventListener('click', () => $('#fileIn').click());
+$('#btnChangePhoto').addEventListener('click', () => $('#fileIn').click());
+['#fileCam', '#fileIn'].forEach(sel => $(sel).addEventListener('change', e => {
+  const f = e.target.files[0]; if (f) loadFile(f); e.target.value = '';
+}));
+drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('over'); });
+drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+drop.addEventListener('drop', e => {
+  e.preventDefault(); drop.classList.remove('over');
+  const f = e.dataTransfer.files[0]; if (f) loadFile(f);
+});
+
+function loadFile(file) {
+  const img = new Image();
+  const url = URL.createObjectURL(file);
+  img.onload = () => {
+    const scale = Math.min(1, MAX_UPLOAD_DIM / Math.max(img.naturalWidth, img.naturalHeight));
+    const c = document.createElement('canvas');
+    c.width = Math.max(1, Math.round(img.naturalWidth * scale));
+    c.height = Math.max(1, Math.round(img.naturalHeight * scale));
+    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+    URL.revokeObjectURL(url);
+    setImage(c, 'upload');
+    $$('#samples .sample').forEach(x => x.setAttribute('aria-pressed', 'false'));
+  };
+  img.onerror = () => { URL.revokeObjectURL(url); toast(t('err.image'), 'error'); };
+  img.src = url;
+}
+
+/* ============================================================
+   LOCATION
+   ============================================================ */
+function fmtCoord(lat, lon) {
+  return `${Math.abs(lat).toFixed(4)}°${lat >= 0 ? 'N' : 'S'}, ${Math.abs(lon).toFixed(4)}°${lon >= 0 ? 'E' : 'W'}`;
+}
+function updateLocationDisplay() {
+  $('#locName').textContent = locNameString() || '—';
+  $('#locCoords').textContent = fmtCoord(state.location.lat, state.location.lon);
+  const outside = !isInKarnataka(state.location.lat, state.location.lon);
+  $('#outsideBanner').classList.toggle('hidden', !outside);
+  $('#outsideBanner2').classList.toggle('hidden', !outside);
+}
+function applyLocation(lat, lon, name, districtId = null) {
+  state.location = { lat, lon, name: name || `${lat.toFixed(3)}, ${lon.toFixed(3)}`, districtId };
+  renderDistrictOptions();
+  updateLocationDisplay();
+}
+function applyDistrict(id) {
+  const d = KA_DISTRICTS.find(x => x.id === id);
+  if (d) applyLocation(d.lat, d.lon, '', d.id);
+}
+$('#district').addEventListener('change', e => { if (e.target.value !== '__custom') applyDistrict(e.target.value); });
+
+function togglePanel(btnSel, panelSel, force) {
+  const btn = $(btnSel), panel = $(panelSel);
+  const open = force !== undefined ? force : panel.classList.contains('hidden');
+  panel.classList.toggle('hidden', !open);
+  btn.setAttribute('aria-expanded', String(open));
+  return open;
+}
+function closeLocPanels() {
+  togglePanel('#btnSearchToggle', '#locSearchPanel', false);
+  togglePanel('#btnManual', '#locManual', false);
+  $('#locResults').classList.add('hidden');
+  $('#locSearch').value = '';
+}
+
+$('#btnSearchToggle').addEventListener('click', () => {
+  togglePanel('#btnManual', '#locManual', false);
+  if (togglePanel('#btnSearchToggle', '#locSearchPanel')) $('#locSearch').focus();
+});
+$('#btnManual').addEventListener('click', () => {
+  togglePanel('#btnSearchToggle', '#locSearchPanel', false);
+  if (togglePanel('#btnManual', '#locManual')) {
+    $('#lat').value = state.location.lat.toFixed(4);
+    $('#lon').value = state.location.lon.toFixed(4);
+    $('#lat').focus();
+  }
+});
+
+let searchTimer = null, searchToken = 0;
+$('#locSearch').addEventListener('input', e => {
+  const q = e.target.value.trim();
+  clearTimeout(searchTimer);
+  if (q.length < 2) { $('#locResults').classList.add('hidden'); return; }
+  searchTimer = setTimeout(() => searchPlaces(q), 300);
+});
+$('#locSearch').addEventListener('keydown', e => { if (e.key === 'Escape') closeLocPanels(); });
+
+const isKarnatakaPlace = p =>
+  (p.country_code || '').toUpperCase() === 'IN' &&
+  (p.admin1_id === KA_ADMIN1_ID || /karnataka|ಕರ್ನಾಟಕ|कर्नाटक/i.test(p.admin1 || ''));
+
+async function searchPlaces(query) {
+  const myToken = ++searchToken;
+  const box = $('#locResults');
+  box.classList.remove('hidden');
+  box.innerHTML = '<div class="loc-empty">…</div>';
+  try {
+    // The geocoder matches place names only, so extra words such as "Karnataka" return nothing.
+    // Search the plain name, ask for plenty of rows, then keep the ones that are in Karnataka.
+    const r = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=30&language=${state.lang}&format=json`);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const j = await r.json();
+    if (myToken !== searchToken) return;
+    const results = (j.results || []).filter(isKarnatakaPlace).slice(0, 8);
+    if (!results.length) { box.innerHTML = `<div class="loc-empty">${esc(t('s1.loc.noresults'))}</div>`; return; }
+    box.innerHTML = results.map((p, i) => {
+      const meta = [...new Set([p.admin2, p.admin1].filter(Boolean))].join(' · ');
+      return `<button type="button" class="loc-result" role="option" data-i="${i}">
+        <div class="r-name">${esc(p.name)}</div><div class="r-meta">${esc(meta)}</div></button>`;
+    }).join('');
+    $$('.loc-result', box).forEach(el => el.addEventListener('click', () => {
+      const p = results[Number(el.dataset.i)];
+      const label = [...new Set([p.name, p.admin2, p.admin1].filter(Boolean))].join(', ');
+      applyLocation(p.latitude, p.longitude, label);
+      closeLocPanels();
+    }));
+  } catch {
+    if (myToken === searchToken) box.innerHTML = `<div class="loc-empty">${esc(t('s1.loc.error'))}</div>`;
+  }
+}
+
+$('#btnGeo').addEventListener('click', () => {
+  const btn = $('#btnGeo'), lbl = btn.querySelector('[data-i18n]');
+  if (!navigator.geolocation) { toast(t('s1.gps.unsupported'), 'error'); return; }
+  btn.disabled = true; lbl.textContent = t('s1.gps.locating');
+  const done = () => { btn.disabled = false; lbl.textContent = t('s1.gps'); };
+  navigator.geolocation.getCurrentPosition(
+    async pos => {
+      const lat = pos.coords.latitude, lon = pos.coords.longitude;
+      let name = `${lat.toFixed(3)}, ${lon.toFixed(3)}`;
+      try {
+        const r = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=${state.lang}`);
+        const j = await r.json();
+        name = [j.locality || j.city, j.principalSubdivision].filter(Boolean).join(', ') || name;
+      } catch { /* keep coordinates as the name */ }
+      applyLocation(lat, lon, name);
+      closeLocPanels(); done();
+    },
+    err => {
+      done();
+      toast(err.code === 1 ? t('s1.gps.denied') : err.code === 3 ? t('s1.gps.timeout') : t('s1.gps.unavailable'), 'error');
+    },
+    { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+  );
+});
+
+$('#btnManualApply').addEventListener('click', () => {
+  const lat = parseFloat($('#lat').value), lon = parseFloat($('#lon').value);
+  if (!Number.isFinite(lat) || !Number.isFinite(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) {
+    toast(t('s1.invalid.coords'), 'error'); return;
+  }
+  hideToast();   // clear an earlier "invalid coordinates" message
+  applyLocation(lat, lon, `${lat.toFixed(4)}, ${lon.toFixed(4)}`);
+  closeLocPanels();
+});
+
+/* ============================================================
+   SCREEN 1 -> 2
+   ============================================================ */
+let wxToken = 0;
+$('#btnAnalyze1').addEventListener('click', async () => {
+  if (!state.imageBlob && state.imageReady) await state.imageReady;
+  if (!state.imageBlob) {
+    toast(t('s1.no.image'), 'error');
+    $('#drop').scrollIntoView({ block: 'center', behavior: REDUCED_MOTION ? 'auto' : 'smooth' });
+    $('#btnCamera').focus({ preventScroll: true });
+    return;
+  }
+  const { lat, lon } = state.location;
+  if (!Number.isFinite(lat) || !Number.isFinite(lon)) { toast(t('s1.invalid.coords'), 'error'); return; }
+
+  showScreen(2);
+  const c2 = $('#canvasPreview2');
+  c2.width = preview.width; c2.height = preview.height;
+  c2.getContext('2d').drawImage(preview, 0, 0);
+  c2.setAttribute('aria-label', t('s1.photo.alt'));
+
+  $('#mCrop').textContent = t('crop.' + $('#crop').value);
+  $('#mCoords').textContent = `${lat.toFixed(4)}, ${lon.toFixed(4)}`;
+  $('#mLoc').textContent = locNameString() || '—';
+  const notes = $('#symptoms').value.trim();
+  $('#mNotesRow').classList.toggle('hidden', !notes);
+  $('#mNotes').textContent = notes;
+  ['#mRain', '#mTemp', '#mHum'].forEach(s => { $(s).textContent = '…'; });
+
+  const my = ++wxToken;
+  const ctl = new AbortController();
+  const timer = setTimeout(() => ctl.abort(), 8000);
+  try {
+    const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,precipitation&daily=precipitation_sum&past_days=2&forecast_days=1&timezone=Asia%2FKolkata`, { signal: ctl.signal });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const j = await r.json();
+    if (my !== wxToken) return;
+    const rain = (j.daily.precipitation_sum[0] || 0) + (j.daily.precipitation_sum[1] || 0);
+    $('#mRain').textContent = `${rain.toFixed(1)} ${t('unit.mm')}`;
+    $('#mTemp').textContent = `${j.current.temperature_2m.toFixed(1)} °C`;
+    $('#mHum').textContent = `${j.current.relative_humidity_2m}%`;
+  } catch {
+    if (my !== wxToken) return;
+    ['#mRain', '#mTemp', '#mHum'].forEach(s => { $(s).textContent = '—'; });
+    toast(t('err.weather'));
+  } finally { clearTimeout(timer); }
+});
+$('#btnBack1').addEventListener('click', () => showScreen(1));
+
+/* ============================================================
+   PIPELINE
+   ============================================================ */
+const AGENTS = ['vision', 'weather', 'location', 'knowledge', 'regulatory', 'slm', 'farmer'];
+const AGENT_ICON = { vision: '👁️', weather: '🌦️', location: '📍', knowledge: '📚', regulatory: '⚖️', slm: '🧠', farmer: '👨‍🌾' };
+
+function initPipeline() {
+  $('#pipeline').innerHTML = AGENTS.map((a, i) => `
+    <li data-a="${a}"><span class="ic">${i + 1}</span>
+      <div><div class="lbl"><span aria-hidden="true">${AGENT_ICON[a]}</span> <span class="lt">${esc(t('agent.' + a))}</span></div>
+      <div class="dt">${esc(t('agent.waiting'))}</div></div></li>`).join('');
+}
+function labelPipeline() {
+  $$('#pipeline li').forEach(li => {
+    li.querySelector('.lt').textContent = t('agent.' + li.dataset.a);
+    if (li.classList.contains('run')) li.querySelector('.dt').textContent = t('agent.running');
+    else if (!li.classList.contains('done')) li.querySelector('.dt').textContent = t('agent.waiting');
+  });
+}
+function setStage(id, status, label, detail) {
+  const li = $(`#pipeline li[data-a="${id}"]`);
+  if (!li) return;
+  li.classList.toggle('run', status === 'run');
+  li.classList.toggle('done', status === 'done');
+  li.querySelector('.ic').textContent = status === 'done' ? '✓' : String(AGENTS.indexOf(id) + 1);
+  if (status === 'run') li.querySelector('.dt').textContent = t('agent.running');
+  if (status === 'done') {
+    if (label) li.querySelector('.lt').textContent = label;
+    li.querySelector('.dt').textContent = detail || '';
+  }
+}
+
+class AppError extends Error {}
+function noLeafMessage(body) {
+  const codes = (((body || {}).photo_quality || {}).issues || []).map(i => i.code);
+  const why = ['dark', 'blur', 'glare', 'low_res'].find(c => codes.includes(c));
+  return t('err.noleaf') + (why ? ' ' + t('pq.' + why) : '');
+}
+function apiMessage(status, detail, body) {
+  if (status === 413) return t('err.toolarge');
+  if (status === 422) return noLeafMessage(body);
+  if (status === 429) return t('err.ratelimit');
+  if (status === 503) return t('err.busy');
+  if (status === 400 && /image/i.test(detail)) return t('err.image');
+  if (status >= 500) return t('err.server');
+  return `${t('err.analysis')} ${detail}`.trim();
+}
+
+async function requestAnalysis(lang) {
+  const fd = new FormData();
+  fd.append('image', state.imageBlob, 'leaf.jpg');
+  fd.append('crop', $('#crop').value);
+  fd.append('region', $('#region').value);
+  fd.append('language', lang);
+  fd.append('latitude', state.location.lat);
+  fd.append('longitude', state.location.lon);
+  fd.append('symptoms_text', $('#symptoms').value);
+  fd.append('live_pubmed', 'true');
+
+  const ctl = new AbortController();
+  const timer = setTimeout(() => ctl.abort(), 70000);
+  let r;
+  try {
+    r = await fetch('/api/analyze', { method: 'POST', body: fd, signal: ctl.signal });
+  } catch {
+    throw new AppError(t('err.network'));
+  } finally { clearTimeout(timer); }
+  if (!r.ok) {
+    let detail = '', body = null;
+    try { body = await r.json(); detail = typeof body.detail === 'string' ? body.detail : JSON.stringify(body.detail); } catch { /* not JSON */ }
+    throw new AppError(apiMessage(r.status, detail, body));
+  }
+  return r.json();
+}
+
+function setAnalyzeBusy(on) {
+  const b = $('#btnAnalyze2');
+  b.disabled = on;
+  $('#analyze2Label').textContent = on ? '…' : t('s2.cta');
+}
+
+async function runPipeline() {
+  if (state.busy) return;
+  if (!state.imageBlob) { toast(t('s1.no.image'), 'error'); showScreen(1); return; }
+  state.busy = true; setAnalyzeBusy(true);
+
+  showScreen(3);
+  $('#h-s3').dataset.i18n = 's3.title'; $('#h-s3').textContent = t('s3.title');
+  $('#h3sub').dataset.i18n = 's3.sub'; $('#h3sub').textContent = t('s3.sub');
+  $('#pipelineCard').classList.remove('hidden');
+  $('#results3').classList.add('hidden');
+  initPipeline();
+  setStage('vision', 'run');
+
+  let result;
+  try {
+    result = await requestAnalysis(state.lang);
+    // The farmer switched language while we were waiting: ask again in the new language.
+    if (result.language !== state.lang) result = await requestAnalysis(state.lang);
+  } catch (err) {
+    toast(err.message, 'error');
+    state.busy = false; setAnalyzeBusy(false);
+    showScreen(2);
+    return;
+  }
+
+  for (const id of AGENTS) {
+    setStage(id, 'run');
+    if (!REDUCED_MOTION) await sleep(120);
+    const st = (result.stages || []).find(s => s.id === id);
+    setStage(id, 'done', st && st.label, st && st.detail);
+  }
+  if (!REDUCED_MOTION) await sleep(250);
+
+  state.result = result; state.selectedIdx = 0;
+  state.fb = newFeedbackState(result);
+  renderAllResults(result);
+  $('#pipelineCard').classList.add('hidden');
+  $('#results3').classList.remove('hidden');
+  const h = $('#h-s3'); if (h) h.focus({ preventScroll: true });
+  state.busy = false; setAnalyzeBusy(false);
+}
+$('#btnAnalyze2').addEventListener('click', runPipeline);
+
+/* ============================================================
+   RESULTS
+   ============================================================ */
+function renderCandidateTabs() {
+  const cands = state.result?.candidates || [];
+  const rows = ['#candTabs', '#candTabsPlan'].map(s => $(s));
+  rows.forEach(el => { el.style.display = cands.length <= 1 ? 'none' : ''; el.innerHTML = ''; });
+  if (cands.length <= 1) return;
+  const html = cands.map((c, i) => `
+    <button type="button" class="cand-tab" data-idx="${i}" aria-pressed="${i === state.selectedIdx}">
+      <span class="tab-rank">${esc(i === 0 ? t('tab.top') : t('tab.alt'))}</span>
+      <span class="tab-name">${esc(c.diagnosis.name[state.lang] || c.diagnosis.name.en)}</span>
+      <span class="tab-score">${pct(c.diagnosis.score)}%</span>
+    </button>`).join('');
+  rows.forEach(el => { el.innerHTML = html; });
+  $$('.cand-tab').forEach(btn => btn.addEventListener('click', () => {
+    const idx = Number(btn.dataset.idx);
+    if (idx !== state.selectedIdx) { state.selectedIdx = idx; renderAllResults(state.result); }
+  }));
+}
+
+function renderAllResults(res) {
+  const cands = res.candidates || [];
+  const cand = cands[state.selectedIdx] || cands[0] || null;   // null when the leaf is healthy or the photo unusable
+  const inconclusive = !!res.inconclusive;
+  const healthy = !inconclusive && (!!res.is_healthy || !cand);
+  const unsure = inconclusive || !!res.spray_withheld;
+
+  renderQuality(res);
+  renderCandidateTabs();
+  renderDiagnosis(res, cand);
+  renderDiagBars(res, cand);
+  renderHelp(res);
+  renderOverlay(res);
+  $('#decisionCard').classList.toggle('hidden', inconclusive);
+  renderReasoning(res, cand);
+  renderWeather(res);
+  renderConflicts(cand, res);
+  renderFeedback(res);
+  renderEvidence(res, cand);
+  renderCitations(cand);
+  renderHero(res, cand);
+  renderPlan(res, cand);
+  renderRemedy(cand);
+
+  const title = $('#h-s3');
+  title.dataset.i18n = inconclusive ? 's3.done_title_inconclusive' : healthy ? 's3.done_title_ok' : 's3.done_title';
+  title.textContent = t(title.dataset.i18n);
+  const sub = $('#h3sub'); sub.removeAttribute('data-i18n');
+  sub.textContent = t('s3.done_sub', { s: ((res.elapsed_ms || 0) / 1000).toFixed(1) });
+  const cta = $('#goSolutionLabel');
+  cta.dataset.i18n = healthy ? 's3.cta_healthy' : 's3.cta_solution';
+  cta.textContent = t(cta.dataset.i18n);
+  const p5 = $('#s5 .lead');
+  p5.dataset.i18n = unsure ? 's5.sub.unsure' : healthy ? 's5.sub.healthy' : 's5.sub';
+  p5.textContent = t(p5.dataset.i18n);
+  $('#s4 .lead').textContent = t('s4.sub');
+  $('#btnSpeak').onclick = () => toggleSpeak(res.spoken || (cand && cand.spoken) || '', state.lang);
+}
+
+function renderDiagnosis(res, cand) {
+  const ui = res.ui_strings || {};
+  if (res.inconclusive) {
+    $('#diagBox').innerHTML = `
+      <div class="diag uncertain">
+        <div class="name"><span aria-hidden="true">❓</span> ${esc(t('inc.title'))}</div>
+        <div class="path" style="font-style:normal">${esc(t('inc.body'))}</div>
+      </div>`;
+    return;
+  }
+  if (res.is_healthy || !cand) {
+    $('#diagBox').innerHTML = `
+      <div class="diag healthy">
+        <div class="name"><span aria-hidden="true">✅</span> ${esc(ui.healthy || t('hero.healthy'))}</div>
+        <div class="path" style="font-style:normal">${esc(ui.healthy_sub || '')}</div>
+      </div>`;
+    return;
+  }
+  const d = cand.diagnosis;
+  const name = d.name[state.lang] || d.name.en;
+  const conf = res.confidence || 'moderate';
+  const band = conf === 'high' ? 'high' : conf === 'low' ? 'low' : 'mod';
+  const confWord = ui[conf] || conf;
+  const uncertain = !!res.spray_withheld && cand.is_top;
+  $('#diagBox').innerHTML = `
+    <div class="diag${uncertain ? ' uncertain' : ''}">
+      <div class="diag-top">
+        <div>
+          ${uncertain ? `<div class="eyebrow">${esc(t('hero.unsure.label'))}</div>` : ''}
+          <div class="name">${esc(name)}</div>
+          <div class="path">${esc(d.pathogen)}</div>
+          <div style="margin-top:10px"><span class="badge ${band}">${esc(t('diag.conf'))}: ${esc(confWord)}</span></div>
+        </div>
+        ${uncertain ? '' : `<div class="score"><div class="num">${pct(d.score)}%</div><div class="lab">${esc(ui.diagnostic_score || t('diag.score'))}</div></div>`}
+      </div>
+      ${uncertain ? `<div class="note-box">${esc(unsureReason(res))} <b>${esc(t('uncertain.nospray'))}</b></div>` : ''}
+    </div>`;
+}
+
+// The three scores behind the answer. They sit in the "How we decided" fold, not in the main card.
+function renderDiagBars(res, cand) {
+  const box = $('#diagBars');
+  if (!box) return;
+  if (res.inconclusive || res.is_healthy || !cand) { box.innerHTML = ''; return; }
+  const d = cand.diagnosis;
+  const bar = (cls, label, v) => `
+    <div class="diag-bar"><span class="lb">${esc(label)}</span>
+      <div class="bar"><i class="${cls}" style="width:${pct(v)}%"></i></div><span class="pct">${pct(v)}%</span></div>`;
+  box.innerHTML = `<div class="diag-bars">
+    ${bar('v', t('metric.vision'), d.vision_score)}
+    ${bar('w', t('metric.weather'), d.weather_suit)}
+    ${bar('s', t('metric.symptoms'), d.symptom_score)}
+  </div>`;
+}
+
+// Say the true reason a result is "low": a good photo must never be blamed for two diseases that look alike.
+function unsureReason(res) {
+  const cand = (res.candidates || [])[0], second = res.runner_up;
+  const a = cand && cand.diagnosis ? (cand.diagnosis.name[state.lang] || cand.diagnosis.name.en) : '';
+  const b = second && second.name ? (second.name[state.lang] || second.name.en) : '';
+  const why = res.confidence_reason;
+  if (why === 'alike' && a && b) return t('unsure.alike', { a, b });
+  if (why === 'weak' || why === 'model' || why === 'photo') return t('unsure.' + why);
+  return t('uncertain.body');
+}
+
+function renderReasoning(res, cand) {
+  if (res.inconclusive) { $('#slmReason').innerHTML = ''; $('#healthScore').innerHTML = ''; return; }
+  const slm = res.slm || {}, r = slm.reasoning || {};
+  const isTop = !cand || cand.is_top;
+  const altName = cand ? (cand.diagnosis.name[state.lang] || cand.diagnosis.name.en) : '';
+  const headline = isTop ? (r.headline || t('slm.default.headline')) : altName;
+  const explanation = isTop ? (r.explanation || t('slm.default.explain')) : t('slm.alt', { name: altName });
+  const factors = isTop && Array.isArray(r.factors) ? r.factors : [];
+  const model = slm.used && isTop;
+
+  $('#slmReason').innerHTML = `
+    <div class="ai-head"><b>${esc(t('agent.slm'))}</b>
+      <span class="chip${model ? '' : ' fallback'}">${esc(model ? (slm.model || 'SLM') : t('slm.chip.rule'))}</span></div>
+    <div class="ai-headline">${esc(headline)}</div>
+    <div class="ai-explain">${esc(explanation)}</div>
+    ${factors.map(f => {
+      const s = Math.max(0, Math.min(100, pct(f.strength)));
+      return `<div class="factor"><b>${esc(f.label || '')}</b><div class="fbar"><i style="width:${s}%"></i></div><span class="fp">${s}%</span>
+        ${f.detail ? `<div class="fd">${esc(f.detail)}</div>` : ''}</div>`;
+    }).join('')}
+    ${isTop && r.caution ? `<div class="ai-caution"><span aria-hidden="true">⚠️</span> ${esc(r.caution)}</div>` : ''}`;
+
+  const hs = res.health_score || { score: 0 };
+  const meter = Math.max(0, Math.min(100, Number(hs.score) || 0));
+  $('#healthScore').innerHTML = `
+    <div class="ey">${esc(t('health.eyebrow'))}</div>
+    <div class="hs">${meter}<small>%</small></div>
+    <div class="hl">${esc(hs.label || t('health.default'))}</div>
+    <div class="health-meter" role="presentation"><i class="${esc(hs.level || 'good')}" style="width:${meter}%"></i></div>
+    <div class="hn">${esc(t('health.note'))}</div>`;
+}
+
+function renderWeather(res) {
+  const w = res.weather || {};
+  const n = (v, d = 1) => (Number.isFinite(Number(v)) ? Number(v).toFixed(d) : '—');
+  $('#wxLive').textContent = w.live ? t('wx.live') : t('wx.offline');
+  $('#wxOffline').classList.toggle('hidden', !!w.live);
+  const cell = (k, v, unit) => `<div class="wcell"><div class="k">${esc(t(k))}</div><div class="v">${v}${unit ? `<small> ${esc(unit)}</small>` : ''}</div></div>`;
+  $('#wgrid').innerHTML =
+    cell('wx.temp', n(w.temp) + '°', '') +
+    cell('wx.hum', Math.round(w.rh) + '%', '') +
+    cell('wx.rain48', n(w.rain_48h), t('unit.mm')) +
+    cell('wx.rainNext', n(w.rain_next_48h), t('unit.mm')) +
+    cell('wx.wind', n(w.wind, 0), t('unit.kmh')) +
+    cell('wx.rain7', n(w.rain_7d, 0), t('unit.mm'));
+}
+
+function renderConflicts(cand, res) {
+  // "two diseases scored the same" is already said in the diagnosis card when that is why the result is low
+  const said = !!(res && res.confidence_reason === 'alike' && cand && cand.is_top);
+  const list = ((cand && cand.conflicts) || []).filter(c => !(said && c.key === 'ambiguity'));
+  $('#confBox').innerHTML = list.length ? `
+    <div class="card">
+      <div class="card-head"><h2 class="card-title"><span aria-hidden="true">⚖️</span><span>${esc(t('conf.title'))}</span></h2><span class="badge neutral">${list.length}</span></div>
+      ${list.map(c => `<div class="conf ${esc(c.sev)}"><span class="ic" aria-hidden="true">${esc(c.icon)}</span><div>${esc(c.text)}</div></div>`).join('')}
+    </div>` : '';
+}
+
+const prettyClass = s => String(s || '').replace(/_{3}/g, ' – ').replace(/_/g, ' ').replace(/\s+/g, ' ').trim();
+
+function renderEvidence(res, cand) {
+  const inconclusive = !!res.inconclusive;
+  const healthy = !inconclusive && (!!res.is_healthy || !cand);
+  const v = res.vision || {}, w = res.weather || {}, src = res.evidence_sources || {};
+  const parts = [];
+  parts.push({ icon: '📷', title: t('ev.image'), body: inconclusive ? t('inc.body') : healthy ? t('ev.image.healthy')
+    : t('ev.image.body', { count: v.spot_count || 0, pct: ((v.lesion_ratio || 0) * 100).toFixed(1), chlor: ((v.chlorosis_ratio || 0) * 100).toFixed(1) }) });
+  parts.push({ icon: '🌦️', title: t('ev.weather'),
+    body: t('ev.weather.body', { t: Number(w.temp).toFixed(1), rh: Math.round(w.rh), rain: Number(w.rain_48h).toFixed(1) }) + (w.live ? '' : t('ev.weather.est')) });
+  if (Array.isArray(src.tflite) && src.tflite.length) {
+    parts.push({ icon: '🤖', title: t('ev.model'), body: t('ev.model.body', { cls: prettyClass(src.tflite[0].class), pct: pct(src.tflite[0].confidence) }) });
+  }
+  if (src.kindwise && cand && cand.is_top) {
+    parts.push({ icon: '🌿', title: t('ev.kindwise'), body: t('ev.kindwise.body', { name: src.kindwise.name || src.kindwise.id, pct: pct(src.kindwise.confidence) }) });
+  }
+  const cits = (cand && cand.citations) || [];
+  if (!inconclusive) parts.push({ icon: '📚', title: t('ev.knowledge'), body: healthy ? t('ev.knowledge.healthy')
+    : t('ev.knowledge.body', { total: cits.length, live: cits.filter(c => c.kind === 'pubmed').length }) });
+  if (cand && cand.regulatory && !res.spray_withheld) {
+    const n = (cand.regulatory.substitutions || []).length;
+    parts.push({ icon: '⚖️', title: t('ev.regulatory'), body: n
+      ? t('ev.regulatory.body', { n, region: cand.regulatory.region_name })
+      : t('ev.regulatory.ok', { region: cand.regulatory.region_name }) });
+  }
+  $('#evidence').innerHTML = parts.map(e => `
+    <div class="ev"><div class="ico" aria-hidden="true">${esc(e.icon)}</div>
+      <div class="body"><b>${esc(e.title)}</b><p>${esc(e.body)}</p></div></div>`).join('');
+}
+
+function renderCitations(cand) {
+  const cits = (cand && cand.citations) || [];
+  $('#citCount').textContent = cits.length;
+  $('#citations').innerHTML = !cits.length ? `<p class="muted">${esc(t('cit.none'))}</p>` : cits.map(c => `
+    <div class="cit">
+      <span class="kind ${c.kind === 'pubmed' ? 'pm' : 'in'}">${esc(c.kind === 'pubmed' ? t('cit.pubmed') : t('cit.corpus'))}</span>
+      <span class="t">${esc(c.title)}</span>
+      <div class="m">${esc(c.authors ? c.authors + ' · ' : '')}${esc(c.org || '')}${c.pmid ? ' · PMID ' + esc(c.pmid) : ''}</div>
+      <a class="link" href="${esc(safeUrl(c.url))}" target="_blank" rel="noopener noreferrer">${esc(t('cit.open'))} ↗</a>
+    </div>`).join('');
+}
+
+function renderHero(res, cand) {
+  const hero = $('#summaryHero');
+  if (res.inconclusive) {
+    hero.innerHTML = `
+      <div class="summary-hero">
+        <div class="hero-label">${esc(t('hero.unsure.label'))}</div>
+        <div class="hero-disease"><span aria-hidden="true">❓</span> ${esc(t('inc.title'))}</div>
+        <div class="hero-pathogen" style="font-style:normal">${esc(t('hero.unsure.note'))}</div>
+      </div>`;
+    return;
+  }
+  if (res.is_healthy || !cand) {
+    hero.innerHTML = `
+      <div class="summary-hero healthy">
+        <div class="hero-label">${esc(t('hero.healthy.label'))}</div>
+        <div class="hero-disease"><span aria-hidden="true">✅</span> ${esc((res.ui_strings || {}).healthy || t('hero.healthy'))}</div>
+        <div class="hero-pathogen" style="font-style:normal">${esc((res.ui_strings || {}).healthy_sub || '')}</div>
+      </div>`;
+    return;
+  }
+  const d = cand.diagnosis, p = pct(d.score);
+  if (res.spray_withheld) {
+    hero.innerHTML = `
+      <div class="summary-hero">
+        <div class="hero-label">${esc(t('hero.unsure.label'))}</div>
+        <div class="hero-disease">${esc(d.name[state.lang] || d.name.en)}</div>
+        <div class="hero-pathogen">${esc(d.pathogen)}</div>
+        <div class="conf-note" style="margin-top:10px"><b>${esc(t('hero.unsure.note'))}</b></div>
+      </div>`;
+    return;
+  }
+  const line = p >= 60 ? t('hero.high') : p >= 40 ? t('hero.moderate') : t('hero.low');
+  hero.innerHTML = `
+    <div class="summary-hero">
+      <div class="hero-label">${esc(t('hero.label'))}</div>
+      <div class="hero-disease">${esc(d.name[state.lang] || d.name.en)}</div>
+      <div class="hero-pathogen">${esc(d.pathogen)}</div>
+      <div class="hero-conf"><div class="pct">${p}%</div><div class="conf-bar" role="presentation"><i style="width:${p}%"></i></div>
+        <div class="conf-note">${esc(line)} · ${esc(t('hero.note'))}</div></div>
+    </div>`;
+}
+
+const BUCKET_NOW = { en: 'Right now', hi: 'अभी करें', kn: 'ಈಗಲೇ ಮಾಡಿ' };
+function unsureBanner() {
+  const body = esc(t('plan.withheld.body', { kcc: KCC_PHONE }))
+    .replace(KCC_PHONE, `<a href="${telHref(KCC_PHONE)}">${KCC_PHONE}</a>`);
+  return `<div class="banner warn" role="status"><span class="ic" aria-hidden="true">⚠️</span><div><b>${esc(t('plan.withheld.title'))}</b><br>${body}</div></div>`;
+}
+
+function renderPlan(res, cand) {
+  const wrap = $('#plan');
+  if (res.inconclusive) {
+    const step = (icon, key) => `<div class="step-card"><div class="s-icon" aria-hidden="true">${icon}</div><div class="s-body"><div class="s-text">${esc(t(key))}</div></div></div>`;
+    wrap.innerHTML = unsureBanner() + `
+      <div class="bucket" data-bucket="right_now">
+        <div class="bucket-head"><div class="b-icon" aria-hidden="true">🚨</div>
+          <div><div class="b-title">${esc(BUCKET_NOW[state.lang] || BUCKET_NOW.en)}</div><div class="b-sub">${esc(t('bucket.right_now.sub'))}</div></div></div>
+        ${step('📸', 'plan.retake')}${step('📞', 'plan.kvk')}
+      </div>`;
+    return;
+  }
+  if (res.is_healthy || !cand) {
+    wrap.innerHTML = `
+      <div class="bucket" data-bucket="keep">
+        <div class="bucket-head"><div class="b-icon" aria-hidden="true">📅</div>
+          <div><div class="b-title">${esc(t('s5.keep'))}</div><div class="b-sub">${esc(t('s5.keep.sub'))}</div></div></div>
+        <div class="step-card"><div class="s-icon" aria-hidden="true">📸</div><div class="s-body"><div class="s-text">${esc(t('s5.keep.text'))}</div></div></div>
+      </div>`;
+    return;
+  }
+  const plan = cand.plan || {};
+  const icons = { right_now: '🚨', today: '⏱️', next_3_days: '📅', important: '🛡️' };
+  let html = '';
+  for (const b of ['right_now', 'today', 'next_3_days', 'important']) {
+    const steps = (plan.buckets && plan.buckets[b]) || [];
+    if (!steps.length) continue;
+    html += `
+      <div class="bucket" data-bucket="${b}">
+        <div class="bucket-head"><div class="b-icon" aria-hidden="true">${icons[b]}</div>
+          <div><div class="b-title">${esc((plan.labels && plan.labels[b]) || b)}</div><div class="b-sub">${esc(t('bucket.' + b + '.sub'))}</div></div></div>
+        ${steps.map(s => {
+          const icon = s.icon && s.icon.length <= 4 ? s.icon : '•';
+          const refs = (s.refs || []).map(r =>
+            `<a href="${esc(safeUrl(r.url))}" target="_blank" rel="noopener noreferrer" title="${esc(r.title || '')}"><span aria-hidden="true">📄</span> ${esc(r.short || String(r.org || '').split(/\s[—·-]\s|,|\(/)[0].trim())}</a>`).join('');
+          return `<div class="step-card"><div class="s-icon" aria-hidden="true">${esc(icon)}</div>
+            <div class="s-body"><div class="s-text">${esc(s.text)}</div>${refs ? `<div class="s-refs">${refs}</div>` : ''}</div></div>`;
+        }).join('')}
+      </div>`;
+  }
+  wrap.innerHTML = (res.spray_withheld ? unsureBanner() : '') +
+    (html || `<p class="muted">${esc((res.ui_strings || {}).plan_empty || t('plan.empty'))}</p>`);
+}
+
+function renderRemedy(cand) {
+  const card = $('#remedyCard'), r = cand && cand.csv_remedy;
+  if (!r) { card.classList.add('hidden'); card.innerHTML = ''; return; }
+  const link = safeUrl(r.source_url) !== '#'
+    ? `<a href="${esc(safeUrl(r.source_url))}" target="_blank" rel="noopener noreferrer">${esc(r.source_org || r.source_url)} ↗</a>`
+    : esc(r.source_org || '');
+  card.classList.remove('hidden');
+  card.innerHTML = `
+    <div class="card-head"><h2 class="card-title"><span aria-hidden="true">🧪</span><span>${esc(t('remedy.title'))}</span></h2></div>
+    ${state.lang !== 'en' ? `<p class="hint" style="margin:-6px 0 12px">${esc(t('remedy.note'))}</p>` : ''}
+    <dl lang="en">
+      ${r.symptoms ? `<div><dt>${esc(t('remedy.symptoms'))}</dt><dd>${esc(r.symptoms)}</dd></div>` : ''}
+      ${r.treatment ? `<div><dt>${esc(t('remedy.treatment'))}</dt><dd>${esc(r.treatment)}</dd></div>` : ''}
+      ${link ? `<div><dt>${esc(t('remedy.source'))}</dt><dd>${link}</dd></div>` : ''}
+    </dl>`;
+}
+
+/* ============================================================
+   PHOTO CHECK, GUIDE AND CAMERA
+   ============================================================ */
+const PQ_ORDER = ['dark', 'blur', 'glare', 'small_leaf', 'multiple_leaves', 'low_res'];
+
+// A rough check on the phone, before anything is uploaded. It only ever warns; the server does the
+// real check (quality.py). These numbers are starting values: see README, "Photo checks".
+const QUICK = { darkBelow: 0.25, blurBelow: 4, minSide: 480 };
+
+function quickPhotoCheck(canvas) {
+  const k = Math.min(1, 192 / Math.max(canvas.width, canvas.height));
+  const w = Math.max(8, Math.round(canvas.width * k)), h = Math.max(8, Math.round(canvas.height * k));
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  const ctx = c.getContext('2d', { willReadFrequently: true });
+  ctx.drawImage(canvas, 0, 0, w, h);
+  const px = ctx.getImageData(0, 0, w, h).data;
+  const g = new Float32Array(w * h);
+  let sum = 0;
+  for (let i = 0, j = 0; i < px.length; i += 4, j++) {
+    const y = 0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2];
+    g[j] = y; sum += y;
+  }
+  let n = 0, m = 0, m2 = 0;                       // variance of the Laplacian = sharpness
+  for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) {
+    const i = y * w + x;
+    const l = g[i - 1] + g[i + 1] + g[i - w] + g[i + w] - 4 * g[i];
+    n++; m += l; m2 += l * l;
+  }
+  return { mean: sum / (w * h) / 255, lapVar: n ? m2 / n - (m / n) ** 2 : 0, long: Math.max(canvas.width, canvas.height) };
+}
+function photoCodesFor(r) {
+  const codes = [];
+  if (r.mean < QUICK.darkBelow) codes.push('dark');
+  if (r.lapVar < QUICK.blurBelow) codes.push('blur');
+  if (r.long < QUICK.minSide) codes.push('low_res');
+  return codes;
+}
+function hidePhotoCheck() { state.photoCodes = []; renderPhotoCheck(); }
+function showPhotoCheck(canvas, source) {
+  state.photoCodes = [];
+  if (source !== 'sample') { try { state.photoCodes = photoCodesFor(quickPhotoCheck(canvas)); } catch { /* skip the check */ } }
+  renderPhotoCheck();
+}
+function renderPhotoCheck() {
+  const b = $('#photoCheck'), codes = state.photoCodes || [];
+  if (!codes.length) { b.classList.add('hidden'); b.innerHTML = ''; return; }
+  b.innerHTML = `<span class="ic" aria-hidden="true">⚠️</span><div><b>${esc(t('pq.title'))}</b><ul class="pq-list">${codes.map(c => `<li>${esc(t('pq.' + c))}</li>`).join('')}</ul></div>`;
+  b.classList.remove('hidden');
+}
+
+let camStream = null;
+const camSupported = () => !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.isSecureContext);
+async function openCamera() {
+  if (!camSupported()) { $('#fileCam').click(); return; }
+  try {
+    camStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: { ideal: 'environment' }, width: { ideal: 1920 }, height: { ideal: 1080 } }, audio: false });
+  } catch {
+    toast(t('cam.err'), 'error');
+    return;
+  }
+  const v = $('#camVideo');
+  v.srcObject = camStream;
+  $('#cam').classList.remove('hidden');
+  document.body.classList.add('cam-open');
+  try { await v.play(); } catch { /* the autoplay attribute will start it */ }
+  $('#camShot').focus();
+}
+function closeCamera() {
+  if (camStream) { camStream.getTracks().forEach(tr => tr.stop()); camStream = null; }
+  const v = $('#camVideo'); if (v) v.srcObject = null;
+  $('#cam').classList.add('hidden');
+  document.body.classList.remove('cam-open');
+}
+function captureFromCamera() {
+  const v = $('#camVideo');
+  if (!v.videoWidth) return;
+  const k = Math.min(1, MAX_UPLOAD_DIM / Math.max(v.videoWidth, v.videoHeight));
+  const c = document.createElement('canvas');
+  c.width = Math.max(1, Math.round(v.videoWidth * k)); c.height = Math.max(1, Math.round(v.videoHeight * k));
+  c.getContext('2d').drawImage(v, 0, 0, c.width, c.height);
+  closeCamera();
+  setImage(c, 'upload');
+  $$('#samples .sample').forEach(x => x.setAttribute('aria-pressed', 'false'));
+}
+$('#btnGuided').addEventListener('click', openCamera);
+$('#camCancel').addEventListener('click', closeCamera);
+$('#camShot').addEventListener('click', captureFromCamera);
+$('#camNative').addEventListener('click', () => { closeCamera(); $('#fileCam').click(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#cam').classList.contains('hidden')) closeCamera(); });
+window.addEventListener('pagehide', closeCamera);
+if (camSupported()) $('#btnGuided').classList.remove('hidden');
+
+/* ============================================================
+   RESULT EXTRAS: photo problems, marks on the leaf, expert contacts, feedback
+   ============================================================ */
+function renderQuality(res) {
+  const q = res.photo_quality || {}, box = $('#qualityBox');
+  const present = new Set((q.issues || []).map(i => i.code));
+  const codes = PQ_ORDER.filter(c => present.has(c));
+  if (!codes.length) { box.innerHTML = ''; return; }
+  const severe = q.severity === 'severe';
+  box.innerHTML = `
+    <div class="banner ${severe ? 'bad' : 'warn'}" role="status">
+      <span class="ic" aria-hidden="true">${severe ? '⛔' : '⚠️'}</span>
+      <div><b>${esc(t('pq.title'))}</b>
+        <ul class="pq-list">${codes.map(c => `<li>${esc(t('pq.' + c))}</li>`).join('')}</ul>
+        <p style="margin-top:6px">${esc(t(severe ? 'pq.note.severe' : 'pq.note.minor'))}</p>
+        <button type="button" class="btn sm" id="btnRetake" style="margin-top:8px">${esc(t('pq.retake'))}</button>
+      </div>
+    </div>`;
+  $('#btnRetake').onclick = () => { resetImage(); showScreen(1); };
+}
+
+function renderOverlay(res) {
+  const card = $('#ovCard');
+  if (!res.vision_overlay || !state.imageBlob) { card.classList.add('hidden'); card.innerHTML = ''; return; }
+  if (state.imgUrl && state.imgUrlBlob !== state.imageBlob) { URL.revokeObjectURL(state.imgUrl); state.imgUrl = null; }
+  if (!state.imgUrl) { state.imgUrl = URL.createObjectURL(state.imageBlob); state.imgUrlBlob = state.imageBlob; }
+  const on = state.marksOn !== false;
+  card.classList.remove('hidden');
+  card.innerHTML = `
+    <div class="card-head"><h2 class="card-title"><span aria-hidden="true">🔍</span><span>${esc(t('ov.title'))}</span></h2>
+      <button type="button" class="btn sm" id="btnMarks" aria-pressed="${on}">${esc(t(on ? 'ov.hide' : 'ov.show'))}</button></div>
+    <div class="ovwrap${state.ovZoom ? ' zoom' : ''}">
+      <div class="ovfig" id="ovFig" role="button" tabindex="0" aria-expanded="${!!state.ovZoom}" aria-label="${esc(t('ov.zoom'))}">
+        <img id="ovPhoto" src="${esc(state.imgUrl)}" alt="${esc(t(on ? 'ov.alt' : 'ov.alt.plain'))}">
+        <img id="ovMarks" class="ov${on ? '' : ' hidden'}" src="${esc(res.vision_overlay)}" alt="">
+        <span class="zoom-cue" aria-hidden="true">⤢</span>
+      </div>
+      <div class="ovside">
+        <div class="ovleg"><span><i class="sw red"></i>${esc(t('ov.red'))}</span><span><i class="sw yel"></i>${esc(t('ov.yellow'))}</span></div>
+        <p class="hint">${esc(t('ov.note'))}</p>
+      </div>
+    </div>`;
+  const fig = $('#ovFig');
+  const toggleZoom = () => {
+    state.ovZoom = !state.ovZoom;
+    fig.closest('.ovwrap').classList.toggle('zoom', state.ovZoom);
+    fig.setAttribute('aria-expanded', String(state.ovZoom));
+  };
+  fig.onclick = toggleZoom;
+  fig.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleZoom(); } };
+  $('#btnMarks').onclick = () => {       // flip the marks in place: rebuilding the card would reload the photo and make the page jump
+    const now = !(state.marksOn !== false);
+    state.marksOn = now;
+    $('#ovMarks').classList.toggle('hidden', !now);
+    $('#btnMarks').setAttribute('aria-pressed', String(now));
+    $('#btnMarks').textContent = t(now ? 'ov.hide' : 'ov.show');
+    $('#ovPhoto').alt = t(now ? 'ov.alt' : 'ov.alt.plain');
+  };
+}
+
+const KCC_PHONE = '1800-180-1551';
+const telHref = p => 'tel:' + String(p).replace(/[^\d+]/g, '');
+const webHref = u => { const x = String(u || '').trim(); return !x ? '' : /^https?:\/\//i.test(x) ? x : 'https://' + x; };
+let KVK = null, kvkPromise = null;
+function loadKvk() {
+  if (!kvkPromise) {
+    kvkPromise = fetch('/api/kvk')
+      .then(r => (r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))))
+      .then(j => (KVK = j))
+      .catch(e => { kvkPromise = null; throw e; });
+  }
+  return kvkPromise;
+}
+
+function renderHelp(res) {
+  const box = $('#helpBox'), q = res.photo_quality || {};
+  const show = res.confidence === 'low' || res.inconclusive || res.spray_withheld || q.severity === 'severe';
+  if (!show) { box.innerHTML = ''; return; }
+  const list = [...KA_DISTRICTS];
+  try { const col = new Intl.Collator(LANG); list.sort((a, b) => col.compare(districtName(a, LANG), districtName(b, LANG))); } catch { /* keep order */ }
+  const remembered = store.get('cropOracle.helpDistrict') || '';
+  const current = [state.location.districtId, remembered].find(id => id && list.some(d => d.id === id)) || '';
+  box.innerHTML = `
+    <div class="card">
+      <div class="card-head"><h2 class="card-title"><span aria-hidden="true">📞</span><span>${esc(t('help.title'))}</span></h2></div>
+      <div class="kcc">
+        <b>${esc(t('help.kcc'))}</b>
+        <a class="btn pri sm" href="${telHref(KCC_PHONE)}"><span aria-hidden="true">📞</span>${KCC_PHONE}</a>
+        <div class="muted">${esc(t('help.kcc.note'))}</div>
+      </div>
+      <div class="field">
+        <label class="fl visually-hidden" for="helpDistrict">${esc(t('help.kvk'))}</label>
+        <select id="helpDistrict"><option value="">${esc(t('help.pick'))}</option>
+          ${list.map(d => `<option value="${esc(d.id)}">${esc(districtName(d, LANG))}</option>`).join('')}</select>
+      </div>
+      <div id="kvkList" aria-live="polite"></div>
+    </div>`;
+  const sel = $('#helpDistrict');
+  sel.value = current;
+  sel.onchange = () => { store.set('cropOracle.helpDistrict', sel.value); showKvk(sel.value); };
+  showKvk(sel.value);
+}
+
+async function showKvk(districtId) {
+  const out = $('#kvkList');
+  if (!out) return;
+  if (!districtId) { out.innerHTML = ''; return; }
+  out.innerHTML = `<p class="muted">${esc(t('help.loading'))}</p>`;
+  try { await loadKvk(); } catch {
+    const o = $('#kvkList'); if (o) o.innerHTML = `<p class="muted">${esc(t('help.failed'))}</p>`;
+    return;
+  }
+  const sel = $('#helpDistrict');
+  if (!sel || sel.value !== districtId) return;          // the farmer picked another district meanwhile
+  const dist = (KVK.districts || {})[districtId] || {};
+  let items = dist.kvks || [], lead = '';
+  if (!items.length && dist.see) {
+    items = dist.see.flatMap(id => ((KVK.districts || {})[id] || {}).kvks || []);
+    lead = `<p class="muted">${esc(t('help.see'))}</p>`;
+  }
+  const row = k => {
+    const calls = (k.phones || []).map(p => `<a class="btn sm" href="${esc(telHref(p))}"><span aria-hidden="true">📞</span>${esc(t('help.call'))} ${esc(p)}</a>`).join('');
+    const site = webHref(k.website);
+    const web = site ? `<a class="kvk-web" href="${esc(site)}" target="_blank" rel="noopener noreferrer">${esc(t('help.website'))} ↗</a>` : '';
+    return `<div class="kvk-item"><div class="nm">${esc(k.name)}</div>
+      ${calls ? `<div class="kvk-calls">${calls}${web}</div>`
+              : `<p class="muted">${esc(t('help.nophone'))}</p>${web ? `<div class="kvk-calls">${web}</div>` : ''}`}</div>`;
+  };
+  const dir = webHref(KVK.directory_url);
+  const tail = [items.length ? esc(t('help.warn')) : '',
+    dir ? `<a href="${esc(dir)}" target="_blank" rel="noopener noreferrer">${esc(t('help.directory'))} ↗</a>` : ''].filter(Boolean).join(' ');
+  out.innerHTML = lead + items.map(row).join('') + (tail ? `<p class="hint">${tail}</p>` : '');
+}
+
+function newFeedbackState(res) {
+  return { token: res.analysis_token || '', verdict: '', reported: '', consent: false, busy: false,
+           done: false, id: '', deleteToken: '', photoSaved: false, deleted: false, dup: false };
+}
+
+function renderFeedback(res) {
+  const box = $('#feedbackBox'), f = state.fb;
+  if (!f || !f.token) { box.classList.add('hidden'); box.innerHTML = ''; return; }
+  box.classList.remove('hidden');
+  const head = `<div class="card-head"><h2 class="card-title"><span aria-hidden="true">🗳️</span><span>${esc(t('fb.title'))}</span></h2></div>`;
+  if (f.done) {
+    const msg = f.deleted ? 'fb.deleted' : f.dup ? 'fb.dup' : 'fb.thanks';
+    box.innerHTML = head + `<p><b>${esc(t(msg))}</b>${f.photoSaved && !f.deleted ? ' ' + esc(t('fb.thanks.photo')) : ''}</p>` +
+      (f.id && !f.deleted ? `
+        <div class="fb-code">${esc(t('fb.code'))}<br>${esc(t('fb.id'))}: <code>${esc(f.id)}</code><br>${esc(t('fb.token'))}: <code>${esc(f.deleteToken)}</code></div>
+        <div class="btn-row" style="margin-top:12px"><button type="button" class="btn sm" data-fb="delete"${f.busy ? ' disabled' : ''}>${esc(t('fb.delete'))}</button></div>` : '');
+    return;
+  }
+  const choice = (v, key) => `<button type="button" class="fb-choice" data-fb="verdict" data-v="${v}" aria-pressed="${f.verdict === v}">${esc(t(key))}</button>`;
+  const opt = (id, label) => `<option value="${esc(id)}"${f.reported === id ? ' selected' : ''}>${esc(label)}</option>`;
+  const which = f.verdict === 'different' ? `
+    <div class="field"><label class="fl" for="fbWhich">${esc(t('fb.which'))}</label>
+      <select id="fbWhich"><option value="">${esc(t('fb.choose'))}</option>
+        ${(res.diagnosis_options || []).map(o => opt(o.id, o.name[state.lang] || o.name.en)).join('')}
+        ${opt('healthy', t('fb.healthy'))}${opt('other', t('fb.other'))}</select></div>` : '';
+  const consent = res.photo_feedback_enabled && state.imageBlob ? `
+    <label class="fb-consent"><input type="checkbox" id="fbConsent"${f.consent ? ' checked' : ''}>
+      <span>${esc(t('fb.consent'))} <a href="/privacy" target="_blank" rel="noopener">${esc(t('fb.privacy'))}</a></span></label>` : '';
+  box.innerHTML = head + `
+    <p class="muted">${esc(t('fb.sub'))}</p>
+    <div class="fb-choices" role="group" aria-label="${esc(t('fb.title'))}">${choice('match', 'fb.match')}${choice('different', 'fb.different')}${choice('unsure', 'fb.unsure')}</div>
+    <div class="fb-after${f.verdict ? '' : ' hidden'}">${which}${consent}
+      <div class="btn-row" style="margin-top:12px"><button type="button" class="btn pri" data-fb="send"${f.verdict && !f.busy ? '' : ' disabled'}>${esc(f.busy ? '…' : t('fb.send'))}</button></div></div>`;
+}
+
+async function submitFeedback() {
+  const f = state.fb, res = state.result;
+  if (!f || f.busy || f.done || !f.verdict || !res) return;
+  if (f.verdict === 'different' && !f.reported) { toast(t('fb.pick'), 'error'); return; }
+  f.busy = true; renderFeedback(res);
+  const consent = !!(f.consent && res.photo_feedback_enabled && state.imageBlob);
+  const fd = new FormData();
+  fd.append('analysis_token', f.token);
+  fd.append('verdict', f.verdict);
+  if (f.verdict === 'different') fd.append('reported_id', f.reported);
+  fd.append('language', state.lang);
+  fd.append('consent_photo', consent ? 'true' : 'false');
+  if (consent) {
+    fd.append('image', state.imageBlob, 'leaf.jpg');
+    fd.append('latitude', state.location.lat); fd.append('longitude', state.location.lon);
+  }
+  try {
+    const r = await fetch('/api/feedback', { method: 'POST', body: fd });
+    if (r.ok) {
+      const j = await r.json();
+      Object.assign(f, { done: true, id: j.id, deleteToken: j.delete_token, photoSaved: !!j.photo_saved });
+    } else if (r.status === 409) {
+      Object.assign(f, { done: true, dup: true });
+    } else if (r.status === 429) {
+      toast(t('err.ratelimit'), 'error');
+    } else {
+      let d = ''; try { d = (await r.json()).detail || ''; } catch { /* not JSON */ }
+      toast(/too old|not valid/i.test(String(d)) ? t('fb.err.old') : t('fb.err'), 'error');
+    }
+  } catch { toast(t('err.network'), 'error'); }
+  f.busy = false; renderFeedback(res);
+}
+
+async function deleteFeedback() {
+  const f = state.fb;
+  if (!f || f.busy || !f.id) return;
+  f.busy = true; renderFeedback(state.result);
+  try {
+    const r = await fetch('/api/feedback/' + encodeURIComponent(f.id), { method: 'DELETE', headers: { 'X-Delete-Token': f.deleteToken } });
+    if (r.ok) f.deleted = true; else toast(t('fb.err'), 'error');
+  } catch { toast(t('err.network'), 'error'); }
+  f.busy = false; renderFeedback(state.result);
+}
+
+$('#feedbackBox').addEventListener('click', e => {
+  const b = e.target.closest('[data-fb]');
+  if (!b || !state.fb) return;
+  const a = b.dataset.fb;
+  if (a === 'verdict') {
+    state.fb.verdict = b.dataset.v; renderFeedback(state.result);
+    const again = $(`#feedbackBox [data-v="${b.dataset.v}"]`); if (again) again.focus();
+  } else if (a === 'send') submitFeedback();
+  else if (a === 'delete') deleteFeedback();
+});
+$('#feedbackBox').addEventListener('change', e => {
+  if (!state.fb) return;
+  if (e.target.id === 'fbWhich') state.fb.reported = e.target.value;
+  if (e.target.id === 'fbConsent') state.fb.consent = e.target.checked;
+});
+
+/* ============================================================
+   VOICE OUTPUT
+   ============================================================ */
+function setSpeakUI(on) {
+  state.speaking = on;
+  $('#speakLabel').dataset.i18n = on ? 's5.stop' : 's5.listen';
+  $('#speakLabel').textContent = t(on ? 's5.stop' : 's5.listen');
+}
+async function loadVoices() {
+  let v = speechSynthesis.getVoices();
+  if (v.length) return v;
+  await new Promise(res => { const done = () => res(); speechSynthesis.addEventListener('voiceschanged', done, { once: true }); setTimeout(done, 700); });
+  return speechSynthesis.getVoices();
+}
+async function toggleSpeak(text, lang) {
+  if (!('speechSynthesis' in window)) { toast(t('tts.unsupported'), 'error'); return; }
+  if (state.speaking) { speechSynthesis.cancel(); setSpeakUI(false); return; }
+  if (!text) return;
+  const want = { en: 'en-IN', hi: 'hi-IN', kn: 'kn-IN' }[lang] || 'en-IN';
+  const voices = await loadVoices();
+  const voice = voices.find(v => v.lang.replace('_', '-') === want) || voices.find(v => v.lang.toLowerCase().startsWith(want.split('-')[0]));
+  if (!voice && voices.length && lang !== 'en') { toast(t('tts.unavailable', { lang: t('lang.name.' + lang) }), 'error'); return; }
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = voice ? voice.lang : want;
+  if (voice) u.voice = voice;
+  u.rate = 0.95;
+  u.onend = u.onerror = () => setSpeakUI(false);
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+  setSpeakUI(true);
+}
+
+/* ============================================================
+   VOICE INPUT
+   ============================================================ */
+(function initVoiceInput() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const btn = $('#btnVoiceInput'), micLabel = $('#micLabel'), box = $('#symptoms');
+  if (!SR) {
+    btn.addEventListener('click', () => toast(t('s1.mic.unsupported'), 'error'));
+    btn.setAttribute('aria-disabled', 'true');
+    return;
+  }
+  const rec = new SR();
+  rec.continuous = false; rec.interimResults = true; rec.maxAlternatives = 1;
+  let recording = false, baseText = '';
+  btn.addEventListener('click', () => {
+    if (recording) { rec.stop(); return; }
+    rec.lang = { en: 'en-IN', hi: 'hi-IN', kn: 'kn-IN' }[state.lang] || 'en-IN';
+    try { rec.start(); } catch (e) { console.warn(e); }
+  });
+  rec.onstart = () => {
+    recording = true; baseText = box.value.trim();
+    micLabel.dataset.i18n = 's1.mic.stop'; micLabel.textContent = t('s1.mic.stop'); btn.classList.add('rec');
+  };
+  rec.onresult = ev => {
+    let interim = '', fin = '';
+    for (let i = ev.resultIndex; i < ev.results.length; i++) {
+      const txt = ev.results[i][0].transcript;
+      if (ev.results[i].isFinal) fin += txt + ' '; else interim += txt;
+    }
+    const joined = (fin + interim).trim();
+    box.value = baseText ? baseText + ' ' + joined : joined;
+  };
+  rec.onerror = ev => {
+    if (ev.error === 'not-allowed' || ev.error === 'service-not-allowed') toast(t('s1.mic.denied'), 'error');
+    else if (ev.error === 'network') toast(t('s1.mic.network'), 'error');
+  };
+  rec.onend = () => {
+    recording = false; btn.classList.remove('rec');
+    micLabel.dataset.i18n = 's1.mic'; micLabel.textContent = t('s1.mic');
+  };
+})();
+
+/* ============================================================
+   NEXT / BACK / RESTART
+   ============================================================ */
+$('#btnGoSolution').addEventListener('click', () => showScreen(5));
+$('#btnViewEvidence').addEventListener('click', () => showScreen(4));
+$('#btnRedo').addEventListener('click', () => showScreen(1));
+$('#btnNext5').addEventListener('click', () => showScreen(5));
+$('#btnBack3').addEventListener('click', () => showScreen(3));
+$('#btnBack4').addEventListener('click', () => showScreen(3));
+
+$('#btnRestart').addEventListener('click', () => {
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  setSpeakUI(false);
+  state.result = null; state.selectedIdx = 0; state.fb = null;
+  if (state.imgUrl) { URL.revokeObjectURL(state.imgUrl); state.imgUrl = null; state.imgUrlBlob = null; }
+  resetImage();
+  ['#qualityBox', '#helpBox', '#feedbackBox', '#ovCard'].forEach(s => { $(s).innerHTML = ''; });
+  $('#ovCard').classList.add('hidden'); $('#feedbackBox').classList.add('hidden');
+  ['#diagBox', '#wgrid', '#confBox', '#evidence', '#citations', '#plan', '#summaryHero', '#slmReason', '#healthScore', '#candTabs', '#candTabsPlan', '#remedyCard']
+    .forEach(s => { $(s).innerHTML = ''; });
+  $('#remedyCard').classList.add('hidden');
+  showScreen(1);
+});
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+applyLocation(KA_DISTRICTS.find(d => d.id === DEFAULT_DISTRICT).lat, KA_DISTRICTS.find(d => d.id === DEFAULT_DISTRICT).lon, '', DEFAULT_DISTRICT);
+setLanguage(detectLanguage(), false);
+showScreen(1, { scroll: false, focus: false });
+
+(async () => {
+  try {
+    const r = await fetch('/api/health');
+    console.log('[crop-oracle-ka] health:', await r.json());
+  } catch (e) {
+    console.warn('[crop-oracle-ka] health check failed:', e);
+  }
+})();
+
+</script>
+</body>
+</html>

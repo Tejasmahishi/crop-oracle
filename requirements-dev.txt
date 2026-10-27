@@ -1,0 +1,5 @@
+-r requirements.txt
+pytest>=9.1,<10
+# Only for tests/test_browser.py (it skips itself when this is missing):
+#   pip install playwright && playwright install chromium
+playwright>=1.56,<2

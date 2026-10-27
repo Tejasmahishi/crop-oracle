@@ -1,0 +1,42 @@
+# 1. Virtual Environments (CRITICAL: Windows venv breaks Linux Docker)
+venv/
+.venv/
+env/
+
+# 2. Large Datasets & Local Storage (CRITICAL: Exceeds free tiers)
+plantvillage/
+plantvillage_stats.json
+rice_data/
+data/
+debug_masks/
+*.zip
+
+# 3. Python & Test Caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# 4. Development & Test Files
+tests/
+scripts/
+conftest.py
+test_*.py
+requirements-dev.txt
+
+# 5. Secrets & Local Config (CRITICAL: Never bake secrets into a public image)
+.env
+*.pem
+*.key
+
+# 6. Git & OS/IDE Junk
+.git/
+.gitignore
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+README.md
+Dockerfile
+.dockerignore

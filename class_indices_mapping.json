@@ -1,0 +1,87 @@
+{
+  "_note": "Maps PlantVillage TFLite classes to Crop Oracle internal disease IDs. Only entries with a non-null 'id' are usable offline.",
+
+  "Bacterial leaf blight":  { "id": "rice_blb",        "crop": "rice", "region_supported": ["ka", "in"] },
+  "Brown spot":             { "id": "rice_brown_spot", "crop": "rice", "region_supported": ["ka", "in"] },
+  "Health":                 { "id": null,              "crop": "rice", "healthy": true },
+  "Leaf smut":              { "id": "rice_leaf_smut",  "crop": "rice", "region_supported": ["ka", "in"] },
+
+  "Rice___Blast":                     { "id": "rice_blast",           "crop": "rice",     "region_supported": ["ka", "in"] },
+  "Rice___Bacterial_Leaf_Blight":     { "id": "rice_blb",             "crop": "rice",     "region_supported": ["ka", "in"] },
+  "Rice___Brown_Spot":                { "id": "rice_brown_spot",      "crop": "rice",     "region_supported": ["ka", "in"] },
+  "Rice___Leaf_Smut":                 { "id": "rice_leaf_smut",       "crop": "rice",     "region_supported": ["ka", "in"] },
+  "Rice___Stem_Rot":                  { "id": "rice_brown_spot",      "crop": "rice",     "note": "maps to brown spot for now" },
+
+  "Arecanut___Mahali_Kole_Roga":      { "id": "arecanut_mahali",           "crop": "arecanut", "region_supported": ["ka"] },
+  "Arecanut___Yellow_Leaf_Disease":   { "id": "arecanut_yellow_leaf",      "crop": "arecanut", "region_supported": ["ka"] },
+  "Arecanut___Bud_Rot":               { "id": "arecanut_bud_rot",          "crop": "arecanut", "region_supported": ["ka"] },
+  "Arecanut___Stem_Bleeding":         { "id": "arecanut_stem_bleeding",    "crop": "arecanut", "region_supported": ["ka"] },
+  "Arecanut___Banded_Leaf_Spot":      { "id": "arecanut_banded_leaf_spot", "crop": "arecanut", "region_supported": ["ka"] },
+  "Arecanut___Healthy":               { "id": null, "crop": "arecanut", "healthy": true },
+
+  "Tomato___Early_blight":            { "id": "early_blight",     "crop": "tomato", "region_supported": ["ka", "in"] },
+  "Tomato___Late_blight":             { "id": "late_blight",      "crop": "tomato", "region_supported": ["ka", "in"] },
+  "Tomato___Bacterial_spot":          { "id": "bacterial_spot",   "crop": "tomato", "region_supported": ["ka", "in"] },
+  "Tomato___Spider_mites Two-spotted_spider_mite": { "id": "spider_mite", "crop": "tomato", "region_supported": ["ka", "in"] },
+  "Tomato___Septoria_leaf_spot":      { "id": null, "crop": "tomato" },
+  "Tomato___Target_Spot":             { "id": null, "crop": "tomato" },
+  "Tomato___Leaf_Mold":               { "id": null, "crop": "tomato" },
+  "Tomato___Tomato_Yellow_Leaf_Curl_Virus": { "id": null, "crop": "tomato" },
+  "Tomato___Tomato_mosaic_virus":     { "id": null, "crop": "tomato" },
+  "Tomato___healthy":                 { "id": null, "crop": "tomato", "healthy": true },
+
+  "Potato___Early_blight":            { "id": "early_blight", "crop": "potato", "region_supported": ["ka", "in"] },
+  "Potato___Late_blight":             { "id": "late_blight",  "crop": "potato", "region_supported": ["ka", "in"] },
+  "Potato___healthy":                 { "id": null, "crop": "potato", "healthy": true },
+
+  "Pepper,_bell___Bacterial_spot":    { "id": "bacterial_spot", "crop": "pepper", "region_supported": ["ka", "in"] },
+  "Pepper,_bell___healthy":           { "id": null, "crop": "pepper", "healthy": true },
+
+  "Grape___Black_rot":                { "id": "grape_black_rot", "crop": "grape", "region_supported": ["ka", "in"] },
+  "Grape___Esca_(Black_Measles)":     { "id": null, "crop": "grape" },
+  "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)": { "id": null, "crop": "grape" },
+  "Grape___healthy":                  { "id": null, "crop": "grape", "healthy": true },
+
+  "Wheat___Rust":                     { "id": "wheat_rust",      "crop": "wheat", "region_supported": ["ka", "in"] },
+  "Wheat___Powdery_Mildew":           { "id": "wheat_powdery",   "crop": "wheat", "region_supported": ["ka", "in"] },
+  "Wheat___healthy":                  { "id": null, "crop": "wheat", "healthy": true },
+
+  "Cotton___Leaf_Curl_Virus":         { "id": "cotton_leaf_curl", "crop": "cotton", "region_supported": ["ka", "in"] },
+  "Cotton___Bollworm":                { "id": "cotton_bollworm",  "crop": "cotton", "region_supported": ["ka", "in"] },
+  "Cotton___healthy":                 { "id": null, "crop": "cotton", "healthy": true },
+
+  "Groundnut___Tikka_Leaf_Spot":      { "id": "groundnut_tikka", "crop": "groundnut", "region_supported": ["ka", "in"] },
+  "Groundnut___Rust":                 { "id": "groundnut_rust",  "crop": "groundnut", "region_supported": ["ka", "in"] },
+  "Groundnut___healthy":              { "id": null, "crop": "groundnut", "healthy": true },
+
+  "Chickpea___Wilt":                  { "id": "chickpea_wilt", "crop": "chickpea", "region_supported": ["ka", "in"] },
+  "Chickpea___healthy":               { "id": null, "crop": "chickpea", "healthy": true },
+
+  "Ragi___Blast":                     { "id": "ragi_blast",        "crop": "ragi", "region_supported": ["ka"] },
+  "Ragi___Leaf_Blight":               { "id": "ragi_leaf_blight",  "crop": "ragi", "region_supported": ["ka"] },
+  "Ragi___healthy":                   { "id": null, "crop": "ragi", "healthy": true },
+
+  "Sugarcane___Red_Rot":              { "id": "sugarcane_red_rot", "crop": "sugarcane", "region_supported": ["ka"] },
+  "Sugarcane___Smut":                 { "id": "sugarcane_smut",    "crop": "sugarcane", "region_supported": ["ka"] },
+  "Sugarcane___healthy":              { "id": null, "crop": "sugarcane", "healthy": true },
+
+  "Apple___Apple_scab":               { "id": null, "crop": "apple" },
+  "Apple___Black_rot":                { "id": null, "crop": "apple" },
+  "Apple___Cedar_apple_rust":         { "id": null, "crop": "apple" },
+  "Apple___healthy":                  { "id": null, "crop": "apple", "healthy": true },
+  "Blueberry___healthy":              { "id": null, "crop": "blueberry", "healthy": true },
+  "Cherry___Powdery_mildew":          { "id": null, "crop": "cherry" },
+  "Cherry___healthy":                 { "id": null, "crop": "cherry", "healthy": true },
+  "Corn___Cercospora_leaf_spot Gray_leaf_spot": { "id": null, "crop": "corn" },
+  "Corn___Common_rust":               { "id": null, "crop": "corn" },
+  "Corn___Northern_Leaf_Blight":      { "id": null, "crop": "corn" },
+  "Corn___healthy":                   { "id": null, "crop": "corn", "healthy": true },
+  "Orange___Haunglongbing_(Citrus_greening)": { "id": null, "crop": "orange" },
+  "Peach___Bacterial_spot":           { "id": null, "crop": "peach" },
+  "Peach___healthy":                  { "id": null, "crop": "peach", "healthy": true },
+  "Raspberry___healthy":              { "id": null, "crop": "raspberry", "healthy": true },
+  "Soybean___healthy":                { "id": null, "crop": "soybean", "healthy": true },
+  "Squash___Powdery_mildew":          { "id": null, "crop": "squash" },
+  "Strawberry___Leaf_scorch":         { "id": null, "crop": "strawberry" },
+  "Strawberry___healthy":             { "id": null, "crop": "strawberry", "healthy": true }
+}
