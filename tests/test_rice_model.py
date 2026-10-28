@@ -9,6 +9,7 @@ from PIL import Image
 
 import main
 import synth
+from conftest import analyze
 
 pytestmark = pytest.mark.filterwarnings("ignore")
 
@@ -149,6 +150,82 @@ def test_the_rice_model_is_asked_only_for_rice(client, monkeypatch):
     r = client.post("/api/analyze", data={"crop": "rice", "language": "en", "region": "ka"},
                     files={"image": ("l.jpg", synth.to_jpeg(synth.make_leaf(spots=4)), "image/jpeg")})
     assert r.status_code == 200 and len(calls) == 1
+
+
+# ------------------------------------------------------------ the model only advises
+
+def _says(monkeypatch, cls, conf=1.0):
+    """Make the server's rice model answer `cls` with `conf` for every photo."""
+    others = [c for c in main.RICE_CLASS_NAMES if c != cls][:2]
+    monkeypatch.setattr(main, "_run_rice_model", lambda im: (
+        [{"class": cls, "confidence": conf}] + [{"class": o, "confidence": (1 - conf) / 2} for o in others]))
+
+
+def _run(client, im):
+    r = analyze(client, im)
+    assert r.status_code == 200, r.text
+    return r.json()
+
+
+def _ranking(body):
+    return [(c["diagnosis"]["id"], round(c["score"], 4)) if "score" in c else c["diagnosis"]["id"]
+            for c in body["candidates"]]
+
+
+def test_the_default_role_is_advisory():
+    assert main.RICE_MODEL_ROLE == "advisory"
+
+
+def test_a_confident_wrong_model_answer_cannot_change_the_result_in_advisory_mode(client, monkeypatch):
+    """This happened on a real photo of bacterial leaf blight: 'leaf smut, 100 %', and smut came out first."""
+    im = synth.make_leaf(size=(1200, 900), spots=10)
+    monkeypatch.setattr(main, "_run_rice_model", lambda i: [])
+    without = _run(client, im)
+    _says(monkeypatch, "Leaf smut", 1.0)
+    with_model = _run(client, im)
+    assert _ranking(with_model) == _ranking(without)
+    assert with_model["confidence"] == without["confidence"]
+    assert with_model["confidence_reason"] == without["confidence_reason"]
+    assert with_model["spray_withheld"] == without["spray_withheld"]
+
+
+def test_advisory_answer_is_returned_for_the_operator_but_not_shown_as_evidence(client, monkeypatch):
+    _says(monkeypatch, "Leaf smut", 1.0)
+    ev = _run(client, synth.make_leaf(size=(1200, 900), spots=10))["evidence_sources"]
+    assert ev["rice_model_role"] == "advisory" and ev["rice_model_used"] is False
+    assert ev["tflite"] == [], "the page lists these as evidence for the result"
+    assert ev["rice_model_advisory"] == {"class": "Leaf smut", "confidence": 1.0}
+
+
+def test_no_model_answer_means_no_advisory_entry(client, monkeypatch):
+    monkeypatch.setattr(main, "_run_rice_model", lambda i: [])
+    ev = _run(client, synth.make_leaf(size=(1200, 900), spots=10))["evidence_sources"]
+    assert ev["rice_model_advisory"] is None and ev["tflite"] == []
+
+
+def test_score_role_gives_the_model_a_vote_again(client, monkeypatch):
+    im = synth.make_leaf(size=(1200, 900), spots=10)
+    monkeypatch.setattr(main, "_run_rice_model", lambda i: [])
+    baseline = {c["diagnosis"]["id"]: c for c in _run(client, im)["candidates"]}
+    monkeypatch.setattr(main, "RICE_MODEL_ROLE", "score")
+    _says(monkeypatch, "Leaf smut", 1.0)
+    body = _run(client, im)
+    ev = body["evidence_sources"]
+    assert ev["rice_model_used"] is True and ev["tflite"][0]["class"] == "Leaf smut"
+    assert ev["rice_model_advisory"] is None
+    assert body["candidates"][0]["diagnosis"]["id"] == "rice_leaf_smut"
+    assert body["confidence"] == "high", "model_agrees raises the confidence in score mode (the original rule)"
+    assert baseline, "sanity: the run without a model returned candidates"
+
+
+def test_advisory_mode_does_not_touch_the_client_prediction_path(client, monkeypatch):
+    """A browser-sent prediction is only read when the operator turns ALLOW_CLIENT_ML on; that is a deliberate choice."""
+    monkeypatch.setattr(main, "ALLOW_CLIENT_ML", True)
+    monkeypatch.setattr(main, "_run_rice_model", lambda i: pytest.fail("the server model must not run"))
+    r = analyze(client, synth.make_leaf(size=(1200, 900), spots=10),
+                tflite_top3='[{"class": "Brown spot", "confidence": 0.9}]')
+    ev = r.json()["evidence_sources"]
+    assert ev["rice_model_used"] is True and ev["tflite"][0]["class"] == "Brown spot"
 
 
 # ------------------------------------------------------------ the real model (skipped when it is not there)

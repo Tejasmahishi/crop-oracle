@@ -150,6 +150,94 @@ def test_a_leaf_that_fills_the_frame_keeps_its_spots_at_the_frame_edge():
     assert main._drop_edge_fringe(spots, leaf)[0:4, 20:24].all()
 
 
+# ------------------------------------------------------------ a hand holding the leaf is not leaf
+
+SKIN = (224, 172, 140)           # a light hand
+SHADED_SKIN = (170, 120, 92)     # fingers in shadow
+DARK_SKIN = (150, 100, 75)       # a medium-brown hand: saturation about 0.5
+
+
+def with_hand(im, colour=SKIN):
+    """Three fingers lying across the leaf and a palm beside it."""
+    im = im.copy()
+    d = ImageDraw.Draw(im)
+    d.rectangle((0, 0, 330, H), fill=colour)                                   # palm, left of the leaf
+    for y in (250, 420, 590):
+        d.rectangle((200, y, 760, y + 70), fill=colour)                        # fingers across it
+    return im
+
+
+@pytest.mark.parametrize("colour", [SKIN, SHADED_SKIN, DARK_SKIN])
+def test_a_hand_is_not_counted_as_leaf_or_damage(colour):
+    f = main.analyze_leaf(with_hand(healthy(), colour))
+    assert f["lesion_ratio"] < 0.03 and f["damage_ratio"] < 0.05, (f["lesion_ratio"], f["damage_ratio"])
+    assert f["_mask_stats"]["skin_share"] > 0.08, "the hand should have been found"
+
+
+def test_no_skin_is_found_on_a_leaf_without_a_hand():
+    assert main.analyze_leaf(healthy())["_mask_stats"]["skin_share"] == 0.0
+    assert main.analyze_leaf(synth.make_spotted_leaf(size=(W, H), n=30, rx=12, ry=7)[0])["_mask_stats"]["skin_share"] == 0.0
+
+
+def test_small_lesions_in_a_skin_like_colour_are_still_lesions():
+    """Colour alone cannot tell skin from a brown lesion; size does. These spots are far smaller than a hand."""
+    im = healthy().copy()
+    d = ImageDraw.Draw(im)
+    for i in range(20):
+        x, y = 330 + (i % 5) * 90, 280 + (i // 5) * 90
+        d.ellipse((x, y, x + 26, y + 16), fill=(170, 112, 70))                  # hue ~24, saturation ~0.59
+    f = main.analyze_leaf(im)
+    assert f["spot_count"] >= 14 and f["lesion_ratio"] > 0.01 and f["_mask_stats"]["skin_share"] == 0.0
+
+
+def test_skin_like_unit_rules():
+    h = np.full((200, 200), 100.0)                  # green everywhere
+    s = np.full((200, 200), 0.6)
+    v = np.full((200, 200), 0.6)
+    assert not main._skin_like(h, s, v).any()
+    h2, s2, v2 = h.copy(), s.copy(), v.copy()
+    h2[20:100, 20:100], s2[20:100, 20:100], v2[20:100, 20:100] = 22.0, 0.38, 0.8     # a big skin-coloured patch
+    assert main._skin_like(h2, s2, v2)[50, 50] and not main._skin_like(h2, s2, v2)[150, 150]
+    h3, s3, v3 = h.copy(), s.copy(), v.copy()
+    h3[20:35, 20:35], s3[20:35, 20:35], v3[20:35, 20:35] = 22.0, 0.38, 0.8           # 0.6 % of the frame: a lesion
+    assert not main._skin_like(h3, s3, v3).any()
+    s4 = s2.copy()
+    s4[20:100, 20:100] = 0.62                                                         # strongly coloured brown
+    assert not main._skin_like(h2, s4, v2).any()
+
+
+# ------------------------------------------------------------ "nothing fits" is not "healthy" when the leaf is damaged
+
+def _nothing_fits(monkeypatch):
+    original = main.rank_candidates
+
+    def wrapped(*a, **k):
+        scored = original(*a, **k)
+        scored[0] = {**scored[0], "vision_score": 0.05, "score": 0.10}
+        return scored
+    monkeypatch.setattr(main, "rank_candidates", wrapped)
+
+
+def test_a_badly_damaged_leaf_that_matches_nothing_is_not_called_healthy(client, monkeypatch):
+    """A blast photo with a hand in it used to come out as 'healthy, high' because no profile fitted its 63 % 'damage'."""
+    _nothing_fits(monkeypatch)
+    streak = paint(healthy(), (700, 250, 820, 650), PEACH)
+    body = analyze(client, streak).json()
+    assert body["is_healthy"] is False and body["inconclusive"] is False
+    assert body["confidence"] == "low" and body["spray_withheld"] is True
+    assert body["candidates"], "the best guesses are still shown, with advice to ask an expert"
+
+
+def test_an_undamaged_leaf_that_matches_nothing_is_still_healthy(client, monkeypatch):
+    _nothing_fits(monkeypatch)
+    body = analyze(client, healthy()).json()
+    assert body["is_healthy"] is True and body["spray_withheld"] is False
+
+
+def test_the_healthy_damage_limit_is_the_damage_cards_lowest_band():
+    assert main.HEALTHY_MAX_DAMAGE == 0.05
+
+
 # ------------------------------------------------------------ the damage estimate
 
 def damage(im):

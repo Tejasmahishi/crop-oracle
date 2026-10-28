@@ -28,9 +28,10 @@ pip install -r requirements-dev.txt
 pytest
 ```
 
-About 230 tests (the two scripts in `scripts/` are tested too). They never use the internet: weather, place search,
+About 310 tests (the two scripts in `scripts/` are tested too). They never use the internet: weather, place search,
 PubMed and Kindwise are replaced with fixed answers. `tests/test_browser.py` drives the real page in headless Chromium and skips itself if Chromium is not
-installed (`playwright install chromium`).
+installed (`playwright install chromium`). The tests switch the rice model off, so they give the same result whether or not
+`rice_model.tflite` is next to `main.py`; `tests/test_rice_model.py` uses the real file when it is there.
 
 The tests use synthetic leaf photos. They show that the code does what it says. They say **nothing** about how
 well the app recognises diseases on real photos (see "Measuring accuracy").
@@ -47,8 +48,10 @@ well the app recognises diseases on real photos (see "Measuring accuracy").
 | `kvk_contacts.json` | District KVK phone numbers shown when the app is unsure. **Not yet verified.** |
 | `kvk_call_sheet.csv` | One row per centre, with every number from both lists, for the person who phones them. |
 | `privacy.html` | Privacy page, served at `/privacy`. |
+| `rice_model.tflite`, `rice_class_indices.json`, `class_indices.json`, `class_indices_mapping.json` | The trained rice model and the files that say what its answers mean. Optional, and advisory only for now (see "The rice model"). |
 | `scripts/calibrate_quality.py` | Check the photo-check thresholds against real photos. |
 | `scripts/feedback_report.py` | Farmer agreement, export for experts, accuracy against expert labels. |
+| `scripts/evaluate_photos.py` | Run the app on a folder of photos with known answers: right, wrong-but-sure, and what the rice model says. |
 | `requirements.txt`, `requirements-dev.txt` | What to install to run the app, and to run the tests. |
 | `Dockerfile`, `.dockerignore`, `.env.example` | Deployment. |
 
@@ -87,17 +90,114 @@ It is the app being honest: it cannot tell those diseases apart from colour alon
 
 **What will make "low" less common:**
 
-1. **Run the trained rice model.** Look at the start-up log. `[tflite] rice model loaded` means it is running.
-   `rice model not found` means `rice_model.tflite` (and its class-name files) are not in the folder.
-   `none of tflite-runtime, ai-edge-litert or tensorflow is installed` means the file is there but nothing can run it:
-   `pip install ai-edge-litert` (or `tflite-runtime` on Python 3.12 or older). When the model agrees with the colour
-   check, the result is "high". Only rice has such a model; ragi, arecanut and the other crops never will until one
-   is trained.
+1. **Photos with a clear difference.** Two diseases that look alike on colour and shape stay "low" until something
+   separates them. The trained rice model does not help for now: it is advisory (see "The rice model"), and
+   on the one real photo it was tried on it was confidently wrong.
 2. **Better photos.** One leaf, daylight, in focus, with the spots clearly visible.
 3. **Measure, then tune.** The cut-offs (`HIGH_MIN_SCORE`, `HIGH_MIN_GAP`, `MODERATE_MIN_SCORE`, `MODERATE_MIN_GAP`
    at the top of `decide_confidence()`) are hand-set and unmeasured. Do not lower them just to see fewer "low"
    results: that only makes the label claim more than the evidence supports. Collect expert-labelled answers (see
    "Measuring accuracy") and move them only when the numbers say a lower cut-off is still right most of the time.
+
+## The rice model
+
+`rice_model.tflite` is a small image model (Keras MobileNetV3Small, 224 x 224 input, four answers: *Bacterial leaf
+blight*, *Brown spot*, *Health*, *Leaf smut*). It has no rice-blast class at all.
+
+**What it is allowed to do: `RICE_MODEL_ROLE`.** The default is `advisory`: the app runs the model, writes its answer
+in the log (`[tflite] auto-run top: ... [advisory]`) and returns it as `evidence_sources.rice_model_advisory`, but
+it does **not** change the ranking, the confidence or the advice, and the page does not show it. With `score` the
+model adds to that disease's score, agrees with the colour check ("high"), or, at 85 % or more for a different
+disease, makes the result "low" ("model" in the table above). `Health` is never added to a score.
+
+It is advisory because of what happened on the first real photo it was tried on, a leaf with bacterial leaf blight
+(a pale pink dead streak with a yellow-orange edge, rice panicles behind it). The model said **"leaf smut, 100 %"**,
+and it said the same when the photo was flipped, had its colours swapped, was cropped square or resized another way,
+so it is not a scaling mistake. The colour measurements alone ranked blast and bacterial blight first (0.47 each)
+and leaf smut third (0.38); the model's vote alone put leaf smut first, with "high" confidence. On made-up leaves it
+also said "leaf smut" for a spotless leaf (99 %) and for any leaf with many small spots. A model trained on a small
+set of pictures taken on a plain background tends to be like that: very sure, and wrong, on a field photo.
+
+To turn it back on, compare its answers with experts' labels on real photos first (see "Measuring accuracy"), then set
+`RICE_MODEL_ROLE=score`.
+
+| File | What it is |
+|---|---|
+| `rice_model.tflite` | The model. |
+| `rice_class_indices.json` | The order of its four answers (`0` Bacterial leaf blight, `1` Brown spot, `2` Health, `3` Leaf smut). |
+| `class_indices_mapping.json` | Which of the app's diseases each class name means (`Brown spot` is `rice_brown_spot`, and so on). |
+| `class_indices.json` | The 38 PlantVillage class names. The rice model does not use it; the app only reads it in and reports how many it found (`/api/health`, with the admin token). |
+
+**Running it.** The file needs a TFLite runtime. On Python 3.13 use `pip install ai-edge-litert` (there are builds
+for Windows x64 and Linux x64; on a system with none, `pip install tensorflow` also works). On Python 3.12 or older
+`tflite-runtime` works too. The start-up log says what it found: `[tflite] rice model loaded (... input scale: raw)`.
+
+**Pixels must be given as they are (0 to 255).** This model rescales its input itself, as the first two steps of its
+own graph. Rescaling in the app as well, which an earlier version did, gave the model a nearly flat grey picture
+whatever the photo was, and it answered about "68 % leaf smut, 30 % brown spot" for everything. That wrong answer
+was then added to the leaf-smut score, so brown spots came out as something else. If you swap in another model that
+does not rescale by itself, set `RICE_INPUT_SCALE` to `unit` (0 to 1) or `signed` (-1 to 1). At start-up the app
+feeds the model a black, a white, a noise and a green picture; if it gives nearly the same answer to all four
+(spread under 0.10, against 0.73 for the supplied model) the log says `WARNING: ... almost the same answer ...`.
+
+**What this does not tell you.** Nobody has measured how often the model is right on field photos, so treat even
+a correct-looking answer as a guess. In `score` mode a model answer that matches the colour check gives "high" even
+when the colour evidence is weak; if you turn that on and see confident wrong results, `decide_confidence()` is the
+place to change it (for example, to require some colour evidence as well).
+
+## What the app measures on the leaf (and its blind spots)
+
+`analyze_leaf()` in `main.py` cuts the leaf out of the photo and counts spots, dead patches and yellowing.
+Two things it used to get wrong, found on a real photo of bacterial leaf blight:
+
+- **Black gaps between leaves were counted as spots.** Filling holes in the leaf outline also swallowed dark
+  gaps between overlapping leaves. A black area bigger than 1.5 % of the leaf is now treated as a gap
+  (`GAP_MIN_SHARE`). A thin brown rim that lies along the leaf outline is not a spot either
+  (`_drop_edge_fringe()`: a piece is dropped only when at least 80 % of it is within 3 px of the outline, so a spot
+  inside the leaf is never touched).
+- **Pale dead tissue was cut out of the leaf and never counted.** Dried, pink, peach or straw-coloured tissue is
+  exactly what bacterial leaf blight looks like, but the leaf outline only took green-ish pixels.
+  `_pale_dead_tissue()` now counts such tissue when all of it lies close to green tissue (`PALE_REACH`). Near-white
+  (glare, paper) is never taken, and the glare check ignores pixels with a tint, so one pixel is never both
+  "glare" and "damage".
+
+**How small a spot can be.** The photo is shrunk to 288 x 288 px before it is measured (`ANALYSIS_SIZE`), and a
+spot needs about 15 pixels of area there. On made-up leaves with 30 spots, spots about 24 px wide in a 1200 px
+photo (2 % of the long side) were found 23 to 28 times out of 30 and their area came out within 10 % of the truth.
+Spots about 16 px wide were mostly missed, and 10 px spots were not found at all. Anything this small needs a
+closer photo: fill the frame with part of one leaf. `ANALYSIS_SIZE=512` finds the 16 px spots too, but each photo
+takes about 3 times as long (about 140 ms instead of 50 ms) and the blur check in `quality.py`, which was tuned at 288,
+becomes stricter (in an earlier check on made-up photos, 3 of 42 changed from "minor" to "severe" at 384). Change it only after running
+`scripts/calibrate_quality.py` on real photos.
+
+An earlier version cleaned the spot mask with a 3 x 3 morphological opening to drop edge fringe. That also erased
+every real spot under about 4 px across once the photo was shrunk (4 found of 30 spots, 0.2 of the real area), so
+it was replaced by the edge-only rule above.
+
+**A hand holding the leaf is not leaf.** Farmers hold the leaf, and skin has the same hue as a brown lesion, so a
+hand used to be read as leaf covered in lesions (22 to 63 % "damage" on three of the 14 photos above; they now read 16
+to 20 %, which is mostly shadow and the edge of the hand), and one hand photo came out "healthy, high" because
+nothing fitted its huge damage. `_skin_like()` now treats a large patch of
+skin colour as not-leaf. Colour alone cannot tell skin from a lesion, so the size decides: in the 12 hand-free photos
+no skin-coloured piece was bigger than 0.4 % of the frame, and every hand had pieces of 2 % or more
+(`SKIN_MIN_SHARE` is 1 %). Strongly coloured brown (median saturation above `SKIN_MAX_MEDIAN_SAT`) and very bright
+pale pink (dried blight tissue) are left alone. The thresholds were chosen with those photos in view, so they are
+not a fair test of this rule; gloves, a very large lesion or a dark-skinned hand in strong shadow can still get
+through or be missed.
+
+**"Nothing fits" is not "healthy".** A leaf is called healthy only when no disease fits well **and** no more than
+5 % of the leaf is damaged (`HEALTHY_MAX_DAMAGE`, the same 5 % as the lowest band of the damage card). A leaf with
+more damage than that and no good match is "not sure", with the best guesses shown and spray advice withheld. The
+cost: a healthy but pale or yellowish leaf with more than 5 % yellowing now also comes out "not sure". No real
+healthy photos have been tried yet, so send some.
+
+Known blind spots: a finger on the leaf and cream paper that fills the frame's corners can still add a little
+damage; pure white dead tissue is read as background; soil-coloured backgrounds are not handled at all. These were
+checked on made-up leaves and one rebuilt field photo, **not** on a set of real photos with known answers.
+
+The "Leaf damage" number on the result screen is `damage_ratio`: spots, dead patches and yellowing as a share of the
+leaf in the photo. It comes from the picture alone (no weather, no diagnosis), ignores shadows, and is a rough
+estimate. The bands (under 5 % low, under 25 % moderate, above that high) are rules of thumb, not calibrated.
 
 ## Before you put it on the internet
 
@@ -167,6 +267,9 @@ All settings are environment variables (or lines in `.env`). Defaults are shown.
 | `RATE_GENERAL_PER_MIN` | `240` | Everything else. |
 | `MAX_BODY_BYTES` | `11534336` | Largest request accepted (about 11 MB; the photo limit is 10 MB). |
 | `MAX_CONCURRENT_ANALYSES` | `4` | Photos analysed at the same time. Others wait up to `ANALYSIS_QUEUE_SECONDS` (default 20), then get a "busy, try again" answer. |
+| `ANALYSIS_SIZE` | `288` | Pixels (square) a photo is shrunk to before it is measured. Larger finds smaller spots but is slower and changes the blur check; see "What the app measures". |
+| `RICE_MODEL_ROLE` | `advisory` | `advisory`: the rice model is run and logged but does not change the result. `score`: it adds to the score and the confidence (see "The rice model"). |
+| `RICE_INPUT_SCALE` | `raw` | How pixels are given to the rice model: `raw` (0 to 255, for the supplied model), `unit` (0 to 1) or `signed` (-1 to 1). |
 | `ENABLE_DOCS` | `false` | Turns on `/docs` and `/openapi.json`. |
 | `ALLOW_CLIENT_ML` | `false` | Let the browser send its own model predictions. Leave off: anyone could forge them to get a "high confidence" result. |
 | `CSP` | `default` | Content-Security-Policy header: `default`, `off`, or your own policy. The default allows the page's inline script; tighten it if you move the script to its own file. |
@@ -222,6 +325,36 @@ right". Until it has been measured, it should not be called that.
 Also note: only rice has a trained image model, and only if you supply `rice_model.tflite`. For ragi, arecanut
 and the other crops the answer comes from colour and shape measurements, weather and a symptom match. That can be
 useful, but its accuracy on field photos is unknown and may be much lower than the screen suggests.
+
+### A quick first look on photos you already have
+
+`scripts/evaluate_photos.py` runs the real app on a folder of photos whose answer you know and says how many it got
+right, how many wrongly but with "high" or "moderate" confidence, and what the rice model alone says. Put the photos
+in one folder per answer (`photos/rice_blast/`, `photos/rice_blb/`, `photos/healthy/`, ... use the disease ids from
+`main.py`), then:
+
+```bash
+python scripts/evaluate_photos.py photos/ --csv results.csv
+```
+
+The CSV also holds what the app measured on each photo (spots, lesion share, yellowing, ...), which is what the disease
+profiles in `main.py` would be fitted to once there are enough photos. It is the right tool for "I changed
+something, did it help?", but it is not a substitute for the field test below.
+
+**First look, October 2026: 14 photos from the internet** (7 rice blast, 7 bacterial leaf blight; several held in a
+hand, one a collage, one a wide shot of a field). This is a hint, not an accuracy figure.
+
+| | right, sure | right, unsure | wrong, sure | wrong, unsure |
+|---|---|---|---|---|
+| App as shipped (rice model advisory) | 0 | 3 | **0** | 11 |
+| Rice model counted (`RICE_MODEL_ROLE=score`) | 0 | 1 | **9** | 4 |
+
+The rice model alone was right on 0 of 14: it said "leaf smut" at 89 to 100 % on 13 of them and "brown spot 100 %" on
+the other. The colour check alone put the right disease first on 3 of 14 and in the top two on 10 of 14, but it
+cannot tell rice blast from bacterial leaf blight (the two swap places almost at random), and on photos with many
+small lesions leaf smut and brown spot score above them. So the app mostly says "not sure", and does not give spray
+advice for it. That is the honest answer for now; getting more of them right needs many more real photos (see below),
+and probably a model trained on field photos that includes rice blast.
 
 ### What to measure
 
@@ -287,6 +420,7 @@ starts small; tapping it makes it larger.
 
 ## Known limits
 
+- The rice model's accuracy on field photos is unmeasured and it was confidently wrong on the one real photo it was tried on, so it only advises (see "The rice model"). Bacterial leaf blight and rice blast still look alike to the colour check (a tie on that photo, so the app says it is not sure). Spots under about 2 % of the photo's long side are mostly missed at the default analysis size.
 - Photo-check thresholds are uncalibrated (see above). The "several leaves" check misses leaves that touch.
 - KVK numbers are unverified (see the checklist); Kannada and Hindi for the new features need native review.
 - Rate limits are per process. The security-header policy allows the page's inline script.

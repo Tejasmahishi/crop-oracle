@@ -15,7 +15,7 @@ os.environ["DATA_DIR"] = _TMP
 os.environ["ADMIN_TOKEN"] = "test-admin-token"
 for _name in ("KINDWISE_API_KEY", "KINDWISE_KEY", "SARVAM_API_KEY", "SARVAM_KEY",
               "PRIVACY_CONTACT", "PRIVACY_OPERATOR", "ALLOW_CLIENT_ML", "CORS_ALLOWED_ORIGINS",
-              "ENABLE_DOCS", "SLM_ENABLED", "DEBUG_MASKS"):
+              "ENABLE_DOCS", "SLM_ENABLED", "DEBUG_MASKS", "RICE_MODEL_ROLE", "RICE_INPUT_SCALE", "ANALYSIS_SIZE"):
     os.environ.pop(_name, None)
 
 import pytest  # noqa: E402

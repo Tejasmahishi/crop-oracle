@@ -282,6 +282,17 @@ if RICE_INPUT_SCALE not in _RICE_SCALERS:
     print(f"[tflite] RICE_INPUT_SCALE={RICE_INPUT_SCALE!r} is not one of {sorted(_RICE_SCALERS)}; using 'raw'")
     RICE_INPUT_SCALE = "raw"
 
+# What the rice model is allowed to do. "advisory" (the default): it is run and its answer is logged and returned as
+# `evidence_sources.rice_model_advisory`, but it does not change the ranking or the confidence. "score": its
+# answer adds to that disease's score, can raise the confidence to "high", or lower it (the original behaviour).
+# It is advisory because on the first real photo it was tried on, a bacterial leaf blight leaf, it said
+# "leaf smut, 100%" however the photo was prepared, and that wrong vote alone put leaf smut first. Turn it to
+# "score" only after its answers have been compared with experts' labels on real photos (README, "The rice model").
+RICE_MODEL_ROLE = (os.getenv("RICE_MODEL_ROLE") or "advisory").strip().lower()
+if RICE_MODEL_ROLE not in ("advisory", "score"):
+    print(f"[tflite] RICE_MODEL_ROLE={RICE_MODEL_ROLE!r} is not 'advisory' or 'score'; using 'advisory'")
+    RICE_MODEL_ROLE = "advisory"
+
 
 def _load_rice_model():
     global RICE_INTERPRETER, RICE_INPUT_INDEX, RICE_OUTPUT_INDEX
@@ -377,8 +388,12 @@ def _run_rice_model(image: Image.Image) -> list:
 
 _load_rice_model()
 if RICE_INTERPRETER is None:
-    print("[tflite] WARNING: no trained model is running. The app is judging by colour, shape and weather only, "
-          "and most rice, ragi and arecanut photos will come out with LOW confidence. See README: 'Why is it often low?'")
+    print("[tflite] no trained rice model is running. The app is judging by colour, shape and weather only. "
+          "That is also how it behaves while the model is advisory (RICE_MODEL_ROLE), so nothing changes. "
+          "See README: 'The rice model'.")
+elif RICE_MODEL_ROLE == "advisory":
+    print("[tflite] the rice model is advisory: its answer is logged but does not change the result "
+          "(RICE_MODEL_ROLE=score changes that; see README: 'The rice model').")
 
 
 def find_remedy(crop: str, disease_id: str, tflite_class: Optional[str] = None) -> Optional[dict]:
@@ -1658,14 +1673,42 @@ def _resize_padded(image: Image.Image, target: int = IMAGE_SIZE) -> Image.Image:
     return canvas
 
 
+# A skin-coloured patch bigger than this share of the frame is a hand, not a lesion (see _skin_like).
+SKIN_MIN_SHARE = 0.01
+SKIN_MAX_MEDIAN_SAT = 0.55   # medium-brown skin is about 0.5; strongly coloured brown tissue is above this
+
+
+def _skin_like(h: np.ndarray, s: np.ndarray, v: np.ndarray) -> np.ndarray:
+    """A hand or finger holding the leaf: a large, smooth patch of skin colour.
+
+    Farmers hold the leaf, and skin sits in the same hue range as brown lesions, so the hand used to be taken for
+    leaf and marked as tens of percent of damage. Colour alone cannot tell skin from a lesion (they overlap), so a
+    patch counts as skin only when it is also large: in the 12 hand-free field photos this was checked on, no
+    skin-coloured piece was bigger than 0.4% of the frame, while every hand had pieces of 2% or more. Very bright pale pink is left
+    alone because dried blight tissue looks like that, and strongly coloured brown is not skin either."""
+    cand = (h >= 3) & (h < 35) & (s >= 0.14) & (s <= 0.65) & (v >= 0.30) & (v <= 0.92)
+    cand = ndimage.binary_opening(cand, structure=np.ones((3, 3), bool))
+    lab, n = ndimage.label(cand)
+    if n == 0:
+        return cand
+    ids = np.arange(1, n + 1)
+    sizes = np.asarray(ndimage.sum(cand, lab, ids))
+    # Strongly coloured brown (median saturation above SKIN_MAX_MEDIAN_SAT) is a lesion or dead tissue, not skin.
+    median_sat = np.asarray(ndimage.median(s, lab, ids))
+    big = ids[(sizes >= SKIN_MIN_SHARE * cand.size) & (median_sat <= SKIN_MAX_MEDIAN_SAT)]
+    return np.isin(lab, big)
+
+
 def _segment_leaf_from_hsv(
-    h: np.ndarray, s: np.ndarray, v: np.ndarray
+    h: np.ndarray, s: np.ndarray, v: np.ndarray, skin: Optional[np.ndarray] = None
 ) -> tuple[np.ndarray, dict]:
+    if skin is None:
+        skin = _skin_like(h, s, v)
     not_white = ~((s < 0.10) & (v > 0.85))
     not_black = v > 0.22
     foliar_hue = ((h >= 10) & (h <= 185))
     has_sat = s >= 0.12
-    mask = not_white & not_black & foliar_hue & has_sat
+    mask = not_white & not_black & foliar_hue & has_sat & ~skin
     mask = ndimage.binary_closing(mask, structure=np.ones((5, 5), bool))
 
     _labeled, _n = ndimage.label(mask)
@@ -1675,7 +1718,7 @@ def _segment_leaf_from_hsv(
         mask = np.isin(_labeled, _keep)
 
     labeled, n = ndimage.label(mask)
-    stats = {"component_count": int(n), "component_sizes": []}
+    stats = {"component_count": int(n), "component_sizes": [], "skin_share": float(skin.mean())}
     if n >= 1:
         sizes = np.asarray(ndimage.sum(mask, labeled, range(1, n + 1)), dtype=float)
         order = np.argsort(sizes)[::-1]
@@ -1688,7 +1731,7 @@ def _segment_leaf_from_hsv(
     else:
         stats["fallback"] = "no_leaf_found"
 
-    filled = ndimage.binary_fill_holes(mask)
+    filled = ndimage.binary_fill_holes(mask) & ~skin
     # Filling holes is meant to close up pale spots inside a leaf. It also swallows the black gaps between
     # overlapping leaves, which were then counted as dead patches. A black area bigger than a spot is a gap.
     gaps = filled & ~mask
@@ -1819,8 +1862,9 @@ def analyze_leaf(image: Image.Image, with_extras: bool = False) -> dict:
     rgb = np.asarray(img, dtype=np.float32) / 255.0
 
     h, s, v = _rgb_to_hsv(rgb)
-    leaf_mask, mask_stats = _segment_leaf_from_hsv(h, s, v)
-    pale_dead = _pale_dead_tissue(h, s, v, leaf_mask)
+    skin = _skin_like(h, s, v)
+    leaf_mask, mask_stats = _segment_leaf_from_hsv(h, s, v, skin)
+    pale_dead = _pale_dead_tissue(h, s, v, leaf_mask) & ~skin
     leaf_mask = leaf_mask | pale_dead
     leaf_px = max(int(leaf_mask.sum()), 1)
     inside = leaf_mask
@@ -2981,6 +3025,7 @@ async def health(request: Request):
         "rice_model_loaded": RICE_INTERPRETER is not None,
         "rice_model_classes": RICE_CLASS_NAMES if RICE_INTERPRETER else [],
         "rice_input_scale": RICE_INPUT_SCALE,
+        "rice_model_role": RICE_MODEL_ROLE,
         "plantvillage": PLANTVILLAGE.stats() if PLANTVILLAGE.available else {"available": False},
         "plantvillage_stats_loaded": len(PV_STATS),
         "debug_masks_enabled": DEBUG_MASKS,
@@ -3168,6 +3213,9 @@ def _st(key: str, lang: str) -> str:
 # look alike in those measures. These cut-offs were set by hand and have not been checked against expert
 # labels (see README, "Measuring accuracy"). Do not loosen them to see fewer "low" results: that would
 # only make the label say more than the evidence does.
+# A leaf is only called healthy when no more than this share of it (spots, dead patches, yellowing) is damaged. It
+# is the same 5 % that the "Leaf damage" card uses for its lowest band.
+HEALTHY_MAX_DAMAGE = 0.05
 HIGH_MIN_SCORE, HIGH_MIN_GAP = 0.60, 0.15
 MODERATE_MIN_SCORE, MODERATE_MIN_GAP = 0.40, 0.08
 
@@ -3268,6 +3316,7 @@ async def analyze(
         tflite_preds = []
     tflite_id, tflite_conf, tflite_evidence = tflite_hint_to_internal(tflite_preds)
     tflite_class_name = tflite_evidence[0]["class"] if tflite_evidence else None
+    rice_model_advisory = None          # the server's own rice model, when it is only advising (RICE_MODEL_ROLE)
 
     raw = await _read_upload(image)
     if not raw:
@@ -3290,11 +3339,15 @@ async def analyze(
             if not tflite_preds and crop == "rice":
                 auto_preds = await asyncio.to_thread(_run_rice_model, pil)
                 if auto_preds:
-                    tflite_preds = auto_preds
-                    tflite_id, tflite_conf, tflite_evidence = tflite_hint_to_internal(tflite_preds)
-                    tflite_class_name = tflite_evidence[0]["class"] if tflite_evidence else None
                     print(f"[tflite] auto-run top: {auto_preds[0]['class']} "
-                          f"({auto_preds[0]['confidence']*100:.1f}%)")
+                          f"({auto_preds[0]['confidence']*100:.1f}%) [{RICE_MODEL_ROLE}]")
+                    if RICE_MODEL_ROLE == "score":
+                        tflite_preds = auto_preds
+                        tflite_id, tflite_conf, tflite_evidence = tflite_hint_to_internal(tflite_preds)
+                        tflite_class_name = tflite_evidence[0]["class"] if tflite_evidence else None
+                    else:
+                        rice_model_advisory = {"class": auto_preds[0]["class"],
+                                               "confidence": round(float(auto_preds[0]["confidence"]), 3)}
         except Exception as e:
             print("[vision] failed:", repr(e))
             raise HTTPException(500, "Image analysis failed.")
@@ -3353,9 +3406,12 @@ async def analyze(
     top = scored[0]
     second = scored[1] if len(scored) > 1 else None
 
+    # "Nothing fits well" is only "healthy" when the leaf also looks undamaged. A leaf with a lot of damage that
+    # matches no profile (a hand in the frame, an unusual lesion) is "not sure", never "healthy".
     looks_healthy = (
         top["vision_score"] < 0.35
         and top["score"] < 0.38
+        and features.get("damage_ratio", 0.0) < HEALTHY_MAX_DAMAGE
         and not (kindwise_id and kindwise_conf >= 0.70)
     )
     # "No disease found" in a photo that is too poor to see disease in is not a result.
@@ -3544,6 +3600,8 @@ async def analyze(
         "evidence_sources": {
             "tflite": tflite_evidence,
             "rice_model_used": bool(tflite_preds),
+            "rice_model_role": RICE_MODEL_ROLE,
+            "rice_model_advisory": rice_model_advisory,
             "kindwise": ({"id": kindwise_id, "name": kindwise.get("disease_name"),
                           "confidence": kindwise_conf} if kindwise_id else None),
             "csv_remedy_found": remedy is not None,

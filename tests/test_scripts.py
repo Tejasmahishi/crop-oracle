@@ -157,3 +157,49 @@ def test_calibration_script_measures_good_and_bad_photos(photo_folder, tmp_path)
 def test_calibration_script_with_an_empty_folder_stops_politely(tmp_path):
     r = run("calibrate_quality.py", tmp_path)
     assert r.returncode != 0
+
+
+# ------------------------------------------------------------------ evaluate_photos.py
+
+def make_photo_folder(tmp_path):
+    root = tmp_path / "photos"
+    (root / "rice_brown_spot").mkdir(parents=True)
+    (root / "healthy").mkdir()
+    (root / "not_a_disease").mkdir()
+    synth.make_leaf(size=(900, 700), spots=12).save(root / "rice_brown_spot" / "a.jpg")
+    synth.make_leaf(size=(900, 700), spots=0).save(root / "healthy" / "b.jpg")
+    synth.make_leaf(size=(900, 700), spots=3).save(root / "not_a_disease" / "c.jpg")
+    return root
+
+
+def test_evaluate_photos_reports_every_labelled_photo(tmp_path):
+    root = make_photo_folder(tmp_path)
+    out_csv = tmp_path / "results.csv"
+    r = run("evaluate_photos.py", root, "--csv", out_csv)
+    assert r.returncode == 0, r.stdout + r.stderr
+    assert "2 photos" in r.stdout and "Skipped folders" in r.stdout and "not_a_disease" in r.stdout
+    assert "Per mode" in r.stdout and "wrong, sure" in r.stdout and "advisory" in r.stdout and "score" in r.stdout
+    rows = list(csv.DictReader(out_csv.open(encoding="utf-8")))
+    assert {r["truth"] for r in rows} == {"rice_brown_spot", "healthy"}
+    assert {"advisory_top", "advisory_conf", "score_top", "model", "m_lesion_ratio", "m_spot_count"} <= set(rows[0])
+    assert all(float(r["m_leaf_fraction"]) > 0.1 for r in rows)
+
+
+def test_evaluate_photos_agrees_with_the_app_on_a_photo(tmp_path, client):
+    """The script drives the real endpoint, so its answer for a photo is the app's answer."""
+    root = make_photo_folder(tmp_path)
+    out_csv = tmp_path / "results.csv"
+    assert run("evaluate_photos.py", root, "--csv", out_csv).returncode == 0
+    row = next(r for r in csv.DictReader(out_csv.open(encoding="utf-8")) if r["truth"] == "rice_brown_spot")
+    body = analyze(client, synth.make_leaf(size=(900, 700), spots=12)).json()
+    # the test fixtures switch the rice model off and the script runs the real one, which is advisory, so they match
+    assert row["advisory_top"] == body["candidates"][0]["diagnosis"]["id"]
+    assert row["advisory_conf"] == body["confidence"]
+
+
+def test_evaluate_photos_handles_an_empty_folder_and_a_missing_one(tmp_path):
+    empty = tmp_path / "empty"
+    empty.mkdir()
+    r = run("evaluate_photos.py", empty)
+    assert r.returncode == 1 and "No photos found" in r.stdout
+    assert run("evaluate_photos.py", tmp_path / "nope").returncode == 2
