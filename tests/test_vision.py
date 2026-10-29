@@ -238,6 +238,49 @@ def test_the_healthy_damage_limit_is_the_damage_cards_lowest_band():
     assert main.HEALTHY_MAX_DAMAGE == 0.05
 
 
+# ------------------------------------------------------------ disease profiles: progression, and what a deficiency is not
+
+def _vision_scores(im, crop="rice"):
+    f = main.analyze_leaf(im)
+    scored = main.rank_candidates(f, crop, dict(main.WEATHER_FALLBACK), "", None, 0.0, None, None, 0.0)
+    return f, {d["id"]: d["vision_score"] for d in scored}
+
+
+def test_progression_features_fit_fully_once_the_profile_mean_is_reached():
+    items = (("lesion_ratio", (0.10, 0.05, 0.5)), ("spot_count", (5, 2, 0.5)))
+    exact = main._score_profile({"lesion_ratio": 0.10, "spot_count": 5}, items, ("lesion_ratio",))
+    assert exact == pytest.approx(1.0)
+    more = main._score_profile({"lesion_ratio": 0.60, "spot_count": 5}, items, ("lesion_ratio",))
+    assert more == pytest.approx(1.0), "a more advanced infection of the same disease is not a worse match"
+    plain = main._score_profile({"lesion_ratio": 0.60, "spot_count": 5}, items)
+    assert plain < 0.6, "without the flag, far too much damage is a mismatch"
+    less = main._score_profile({"lesion_ratio": 0.0, "spot_count": 5}, items, ("lesion_ratio",))
+    assert less < 0.6, "too little damage is still a mismatch"
+
+
+def test_only_rice_blast_and_bacterial_blight_are_marked_as_progressing():
+    marked = {d["id"]: d["at_least"] for d in main.DISEASES if d.get("at_least")}
+    assert set(marked) == {"rice_blast", "rice_blb"}
+    for did, keys in marked.items():
+        assert set(keys) <= set(main.DISEASES_BY_ID[did]["profile"]), (did, keys)
+
+
+def test_a_mostly_dead_leaf_is_blight_or_blast_not_a_nutrient_deficiency():
+    """A photo of dried rice leaves used to come out 'Nitrogen Deficiency' because the yellowing alone carried it."""
+    dead = paint(healthy(), (600, 150, 860, 750), PEACH)
+    f, v = _vision_scores(dead)
+    assert f["lesion_ratio"] > 0.2
+    assert v["nitrogen_deficiency"] < min(v["rice_blb"], v["rice_blast"]), v
+
+
+@pytest.mark.parametrize("crop", ["rice", "tomato", "ragi"])
+def test_an_evenly_yellow_leaf_is_still_a_nutrient_deficiency(crop):
+    yellow = paint(healthy(), (300, 200, 900, 500), (205, 195, 70))
+    f, v = _vision_scores(yellow, crop)
+    assert f["lesion_ratio"] < 0.01 and f["chlorosis_ratio"] > 0.15
+    assert max(v, key=v.get) == "nitrogen_deficiency", v
+
+
 # ------------------------------------------------------------ the damage estimate
 
 def damage(im):

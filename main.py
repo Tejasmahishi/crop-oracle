@@ -496,6 +496,9 @@ DISEASES = [
         "pubmed": "Magnaporthe oryzae rice blast India Karnataka",
         "refs": ["uas_bangalore", "icar_rice", "ksda"],
         "envelope": {"temp_opt": 26, "temp_sig": 6, "rh_min": 85, "wet": True},
+        # Both diseases go on to cover much of the leaf (merged lesions, whole leaves drying from the tip), so how
+        # much of the leaf is affected is "at least", not "about" (see _score_profile).
+        "at_least": ("lesion_ratio", "brown_ratio", "mean_spot_pct"),
         "profile": {
             "lesion_ratio":    (0.10,  0.05,  0.15),
             "chlorosis_ratio": (0.03,  0.03,  0.08),
@@ -522,6 +525,9 @@ DISEASES = [
         "pubmed": "Xanthomonas oryzae rice bacterial leaf blight India",
         "refs": ["uas_bangalore", "icar_rice", "dppqs"],
         "envelope": {"temp_opt": 28, "temp_sig": 6, "rh_min": 80, "wet": True},
+        # Both diseases go on to cover much of the leaf (merged lesions, whole leaves drying from the tip), so how
+        # much of the leaf is affected is "at least", not "about" (see _score_profile).
+        "at_least": ("lesion_ratio", "brown_ratio", "mean_spot_pct"),
         "profile": {
             "lesion_ratio":    (0.10,  0.06,  0.20),
             "chlorosis_ratio": (0.08,  0.05,  0.15),
@@ -1162,9 +1168,11 @@ DISEASES = [
         "refs": ["uas_bangalore", "icar_nutrients"],
         "envelope": {"temp_opt": 25, "temp_sig": 10, "rh_min": 0, "wet": False},
         "profile": {
-            "lesion_ratio":    (0.005, 0.008, 0.10),
+            # A deficiency shows as even yellowing, not as lesions, so lesions and brown tissue weigh heavily
+            # against it. At 0.10 and 0.05 a leaf that was 40 % dead still scored 0.44 for it on the yellowing alone.
+            "lesion_ratio":    (0.005, 0.008, 0.30),
             "chlorosis_ratio": (0.22,  0.08,  0.45),
-            "brown_ratio":     (0.003, 0.005, 0.05),
+            "brown_ratio":     (0.003, 0.005, 0.15),
             "spot_count":      (1,     2,     0.10),
             "white_ratio":     (0.003, 0.005, 0.05),
             "mean_spot_pct":   (0.15,  0.10,  0.05),
@@ -2381,11 +2389,16 @@ def _gauss(x: float, mu: float, sig: float) -> float:
     return math.exp(-((x - mu) ** 2) / (2 * sig * sig))
 
 
-def _score_profile(feat: dict, profile_items: tuple) -> float:
+def _score_profile(feat: dict, profile_items: tuple, at_least: tuple = ()) -> float:
+    """How well the measurements fit a disease's profile (0 to 1): a weighted average of one Gaussian per feature.
+
+    Features named in `at_least` are about how far the disease has progressed, not what it is: once the value
+    reaches the profile's mean it fits fully, because the same disease later covers more of the leaf, not less."""
     num = den = 0.0
     for key, (mu, sig, weight) in profile_items:
         value = feat.get(key, 0.0)
-        num += weight * _gauss(value, mu, sig)
+        fit = 1.0 if (key in at_least and value >= mu) else _gauss(value, mu, sig)
+        num += weight * fit
         den += weight
     return num / den if den else 0.0
 
@@ -2520,7 +2533,7 @@ def rank_candidates(
     pool = DISEASES_BY_CROP.get(crop, [])
     output = []
     for d in pool:
-        vision = _score_profile(feat, d["_profile_items"])
+        vision = _score_profile(feat, d["_profile_items"], d.get("at_least", ()))
         weather = weather_suitability(d["envelope"], wx)
         symptom = _symptom_match(d, symptoms)
         ml_boost = 0.0

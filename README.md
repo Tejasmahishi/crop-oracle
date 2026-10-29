@@ -28,7 +28,7 @@ pip install -r requirements-dev.txt
 pytest
 ```
 
-About 310 tests (the two scripts in `scripts/` are tested too). They never use the internet: weather, place search,
+About 320 tests (the two scripts in `scripts/` are tested too). They never use the internet: weather, place search,
 PubMed and Kindwise are replaced with fixed answers. `tests/test_browser.py` drives the real page in headless Chromium and skips itself if Chromium is not
 installed (`playwright install chromium`). The tests switch the rice model off, so they give the same result whether or not
 `rice_model.tflite` is next to `main.py`; `tests/test_rice_model.py` uses the real file when it is there.
@@ -184,6 +184,25 @@ no skin-coloured piece was bigger than 0.4 % of the frame, and every hand had pi
 pale pink (dried blight tissue) are left alone. The thresholds were chosen with those photos in view, so they are
 not a fair test of this rule; gloves, a very large lesion or a dark-skinned hand in strong shadow can still get
 through or be missed.
+
+**How the profiles score a photo, and two changes found on real photos.** Each disease has a profile (a mean, a spread
+and a weight per measurement in `DISEASES` in `main.py`); the "leaf image" score is the weighted average of how close
+each measurement is to the profile. Two problems showed up on the labelled photos:
+
+- *A leaf that is nearly all dead matched no blight at all.* Rice blast and bacterial leaf blight profiles were
+  written for early lesions (about 10 % of the leaf), so a leaf dried out by the disease was 5 to 12 spreads away on
+  lesion area, brown area and patch size and scored 0 on all three. These three measurements are now marked
+  `at_least` for those two diseases only: once the value reaches the profile mean it fits fully, because a worse
+  infection of the same disease covers more of the leaf, not less. (`_score_profile`.) Patch size also counts as
+  "at least" for them, since merged lesions and whole dried leaves are one big patch.
+- *Nitrogen deficiency won on yellowing alone.* Its profile expects almost no lesions, but the weights on lesions and
+  brown tissue (0.10 and 0.05) were so small that a leaf 40 % dead still scored 0.44 for it from the yellowing (weight
+  0.45), and the app suggested a soil test. Those weights are now 0.30 and 0.15. An evenly yellow leaf still comes out
+  as a deficiency (tests cover rice, tomato and ragi).
+
+Both were chosen with the 14 labelled photos in view, so they are not a fair test of themselves. The first look on
+those photos went from 3 to 4 of 14 right at the top, still with no confident wrong answers. Blast and bacterial blight
+still tie on most photos, so the answer is usually "not sure, these two look alike".
 
 **"Nothing fits" is not "healthy".** A leaf is called healthy only when no disease fits well **and** no more than
 5 % of the leaf is damaged (`HEALTHY_MAX_DAMAGE`, the same 5 % as the lowest band of the damage card). A leaf with

@@ -10,10 +10,10 @@ scipy>=1.18,<2
 scikit-image>=0.26,<1
 pillow>=12.3,<13
 python-multipart>=0.0.32,<1
-python-dotenv>=1.2,<2
+python-dotenv>=1.2,<2  
+ai-edge-litert
 
 # Optional. Install only if you use them:
-#   ai-edge-litert      runs rice_model.tflite (the trained rice model) on Python 3.13; without a runtime the app
-#                       uses the colour/shape measurements, weather and symptoms only. Use tflite-runtime on
-#                       Python 3.12 or older, or tensorflow if there is no build for your system.
+   tflite-runtime      runs rice_model.tflite (the trained rice model); without it the app uses the
+#                       colour/shape measurements, weather and symptoms only
 #   sarvamai            Sarvam text services (reserved; the app does not call it yet)
